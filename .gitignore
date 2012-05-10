@@ -6,6 +6,11 @@
 *.exe
 *.o
 *.so
+*.aux
+*.lof
+*.lot
+*.out
+*.toc
 
 # Packages #
 ############
@@ -32,9 +37,3 @@
 ehthumbs.db
 Icon?
 Thumbs.db
-
-# Ignorar la compilacion de memoria
-memoria.*
-# Excepto el tex y el pdf
-!memoria.pdf
-!memoria.tex
