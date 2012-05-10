@@ -4,9 +4,9 @@ Version=4
 
 [ProjectInfo]
 MainFile=memoria.tex
-UseBibTeX=0
+UseBibTeX=1
 UseMakeIndex=0
 ActiveProfile=LaTeX ⇨ PDF
-ProjectLanguage=en
-ProjectDialect=GB
+ProjectLanguage=es
+ProjectDialect=ES
 
