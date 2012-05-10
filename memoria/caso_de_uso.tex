@@ -1,0 +1,87 @@
+% -*-caso_de_uso.tex-*-
+% Este fichero es parte de la plantilla LaTeX para
+% la realización de Proyectos Final de Carrera, protejido
+% bajo los términos de la licencia GFDL.
+% Para más información, la licencia completa viene incluida en el
+% fichero fdl-1.3.tex
+
+Con todo el sistema, preparado para empezar a trabajar con Asterisk, a continuación presento un ejemplo como caso de uso para una empresa ficticia, la cual tiene un enorme interés en implementar un sistema Asterisk, dadas las características que este le aportara para su negocio.
+
+\section{Introducción}
+
+\textbf{Don Zutano Doe, gerente, y propietario de un nuevo concesionario de automóviles llamado UCA Autos, basado en una prestigiosa marca a nivel nacional, es un gran aficionado a todos los adelantos tecnológicos y piensa que estos influirán en gran medida en el amplio desarrollo de su negocio. A través de un compañero de su club de tenis, que trabaja en una empresa de telefonía, le ha dado a conocer un nuevo sistema de comunicaciones que le podría aportar una serie de funcionalidades que le resultaron bastante interesantes para implementar en su nuevo negocio. Gracias a este contacto, tuvo la oportunidad de establecer relaciones con una modesta empresa local, con cierta experiencia en este ámbito.}\\
+
+\textbf{En la primera reunión con el responsable de proyectos, el Sr. Doe pudo trasmitir sus pretensiones iniciales. Dada que la estructura de la empresa aun estaba por ser determinada, de momento solo necesitaba funcionalidades básicas para cubrir los aspectos fundamentales de servicios primarios a nivel de comunicaciones para el negocio.}\\
+
+\textbf{A priori la estructura departamental estaba definida, y había un listado de personal para poder definir una primera instantánea de cómo debería funcionar todo.}\\
+
+\textbf{El responsable de proyecto pudo describirlo de la siguiente forma.}\\
+
+\textbf{Existían 6 departamentos:}
+
+\begin{enumerate}
+
+\item \textbf{Departamento Administración}
+\item \textbf{Departamento Comercial}
+\item \textbf{Departamento de Almacén y Logística}
+\item \textbf{Departamento de Postventa y Servicio}
+\item \textbf{Departamento de Marketing y Calidad}
+
+\end{enumerate}
+
+\textbf{Cada departamento tenía un responsable, y todos ellos dependían directamente, del Sr. Doe. Dentro de cada departamento existía un número variable de operarios, administrativos, comercial y personal en general que dependían de cada responsable.}\\
+
+\textbf{Cada departamento debía tener un número de teléfono de contacto, y además, existía un teléfono general cara al publico. En total 6 números de teléfono directos.}\\
+
+\textbf{La empresa todavía no era muy grande, y disponía de un número limitado de personal de los cuales los que realmente necesitaban acceso telefónico, se distribuían de la siguiente forma:}\\
+
+\textbf{Departamento de Administración: Responsable + 3 administrativos}\\
+\textbf{Departamento Comercial: Responsable + 4 comerciales}\\
+\textbf{Departamento de Almacén: Responsable + 3 operarios}\\
+\textbf{Departamento de Posventa: Responsable + 2 recepcionistas}\\
+\textbf{Departamento de Marketing: Responsable + 2 operadores.} \\
+\textbf{Más el Gerente}\\
+
+\textbf{En total 20 usuarios.}\\
+
+\textbf{De momento, el Sr. Doe no tenía demasiado clara una posible estructura jerárquica con restricciones de llamadas, y relaciones entre departamentos, así que la primera idea, era tener un sistema de telefonía simple, en el que todos pudieran llamar y recibir llamadas abiertamente, pero no descartaba en un futuro, implementar esas restricciones, e incluso tener algún sistema de control.}
+
+\section{Instalación del sistema Asterisk}
+
+Dado que el nivel Hardware es algo excesivamente cambiante, voy a obviar las características técnicas del entorno y del servidor, haciendo referencia al apartado de elección de servidor para los aspectos determinantes a la hora de elegir una u otra preferencia.//
+
+La instalación del sistema Asterisk, se realizara sobre la versión actual mas estable, la versión 1.8, momento en que escribo esta información. He de determinar, que en la actualidad aun existen múltiples ramas dentro de la elección de versionado para el sistema Asterisk. Principalmente existen 5 fundamentales:
+
+\begin{enumerate}
+
+\item Rama extremadamente conservadora, y un Fork de Asterisk del sistema base llamado Asterisk-RSP (Real Solid Patchset), que se basa en la teoría de conservarse en un sistema Asterisk totalmente obsoleto a nivel de funcionalidades emergentes (siempre considerando que Asterisk es una solución de comunicaciones, y no te telefonía exclusivamente). Esta fundamentada en la versión 1.4, versión que decidieron era el momento de parar la vorágine de avances, y centrarse en la resolución de deficiencias de seguridad del sistema
+\item Rama por necesidad o moderadamente conservadora, basada en la anterior versión de Asterisk, 1.6.2. Realmente en esta situación se encuentran instalaciones de Asterisk con desarrollos a medida que no pueden actualizarse porque el sistema se volvería inestable. Realmente todo sistema Asterisk puro, es recomendable actualizarlo dado que la versión 1.6.2 tiene un soporte limitado.
+\item Basada el progreso de Asterisk, en este caso todas las instalaciones basadas en la versión 1.8 la cual trae bastantes mejoras, y simplificaciones a nivel de configuración. Se considera por Digium, la versión estable del sistema
+\item Basada en el progreso extremado, instalaciones basadas en Asterisk 1.10 (o como le llaman ahora, Asterisk 10). Realmente son versiones de prueba, y jamás recomendadas para instalaciones en entornos de producción como viene siendo habitual en la mayoría de los entornos de administración de sistemas.
+\item Liberada recientemente a la comunidad, una rama similiar a Asterisk-RSP pero mantenida por Digium, y basada en las versiones mas recientes del sistema que se encuentran en fase estable. Podría considerarse una versión de Soporte a Largo Plazo, y es denominada Asterisk-Certified. En estos momentos esta empezando a imponerse entre la mayoría de los usuarios profesionales que venían siguiendo por sistema la opción número 3.
+
+\end{enumerate}
+
+Para nuestro cliente, en este caso, vamos a seguir la opción número 5, ya que se trata de un servidor de producción y queremos ofrecerle un nivel 2 de servicio según el acuerdo en la capa de servicio estandarizado \footnote{Wikipedia, Soporte Técnico. http://es.wikipedia.org/wiki/Soporte\_t\%C3\%A9cnico}\\
+
+Para el momento, la versión Certificada mas reciente es la versión 1.8.11-cert1 asi que descargaremos las fuentes de la siguiente URL:\\
+
+http://downloads.asterisk.org/pub/telephony/certified-asterisk/releases/certified-asterisk-1.8.11-cert1.tar.gz\\
+
+Y seguiremos el método de instalación descrito en el articulo Wiki asociado correspondiente.\\
+
+Una vez con todo el sistema Asterisk desplegado, nos detenemos a comprobar el consumo de recursos en ese momento determinado para comprobar que podremos realizar el resto del despliegue sin mayor inconveniencia.\\
+
+\figura{capacidad_tras_instalacion.png}{scale=1}{Capacidad del disco duro tras la instalación completa de Asterisk}{capacidad_tras_instalacion}{H}
+
+Todavía tenemos suficiente espacio para añadir componentes de menor magnitud. Existen dos componentes adicionales que cumplirán funciones locales específicas y se relacionarán con nuestra máquina Asterisk prácticamente desde los inicios de su configuración. \\
+
+Se trata del paquete LAMP (Linux + Apache como servidor Web + MySQL como SGBD de nuestra BD + PHP como lenguaje de programación en entorno web que se conjugará con nuestro servidor web para poder ofrecer aplicaciones combinables con Asterisk como veremos mas adelante) y por otro lado algún servidor de Correo como Postfix. Para ello nos valemos de la herramienta \negrita{tasksel} de Ubuntu que realiza la instalación completa de la forma más ágil para nuestro propósito. Con estas instalaciones apenas consumimos poco más de 100MB así que seguimos teniendo suficiente espacio para continuar el proceso tranquilamente.\\
+
+Ahora daríamos paso a la configuración en primera instancia de los requerimientos solicitados por el Sr. Doe en función de la estructura departamental.\\
+
+Vamos a considerar, que todavía el presupuesto es demasiado ajustado para la empresa del Sr. Doe como para andar comprando teléfonos que operen con el protocolo SIP (conocidos popularmente como Teléfonos VoIP). Pero hemos comprado una remesa de Auriculares con micrófono integrado para cada una de las extensiones a configurar, que serán adaptados al cada PC de cada usuario y funcionales, utilizando un software capaz de trasmitir audio e inicializar sesión en nuestra máquina Asterisk utilizando el protocolo SIP.\\
+
+Creamos en primer lugar el fichero de configuración dentro de /etc/asterisk/ llamado sip.conf donde añadiremos la configuración especifica de cada una de las 20 extensiones solicitadas por el gerente:\\
+
+\codigo{/etc/asterisk/sip.conf}{../conf/sip.conf}
