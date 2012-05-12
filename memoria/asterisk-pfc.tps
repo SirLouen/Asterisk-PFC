@@ -14,11 +14,11 @@ NormalPos.top=26
 NormalPos.right=876
 NormalPos.bottom=357
 Class=LaTeXView
-Document=memoria.tex
+Document=estilos\comandos.sty
 
 [Frame0_View0,0]
-TopLine=47
-Cursor=1630
+TopLine=0
+Cursor=3534
 
 [Frame1]
 Flags=0
@@ -32,11 +32,11 @@ NormalPos.top=26
 NormalPos.right=876
 NormalPos.bottom=357
 Class=LaTeXView
-Document=programas.tex
+Document=previo.tex
 
 [Frame1_View0,0]
-TopLine=53
-Cursor=3124
+TopLine=0
+Cursor=1334
 
 [Frame2]
 Flags=0
@@ -50,49 +50,13 @@ NormalPos.top=26
 NormalPos.right=876
 NormalPos.bottom=357
 Class=LaTeXView
-Document=previo.tex
-
-[Frame2_View0,0]
-TopLine=0
-Cursor=1334
-
-[Frame3]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=26
-NormalPos.right=876
-NormalPos.bottom=357
-Class=LaTeXView
-Document=primerahoja.tex
-
-[Frame3_View0,0]
-TopLine=0
-Cursor=473
-
-[Frame4]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=26
-NormalPos.right=876
-NormalPos.bottom=357
-Class=LaTeXView
 Document=caso_de_uso.tex
 
-[Frame4_View0,0]
-TopLine=71
-Cursor=3966
+[Frame2_View0,0]
+TopLine=121
+Cursor=9104
 
-[Frame5]
+[Frame3]
 Flags=0
 ShowCmd=1
 MinPos.x=-1
@@ -106,11 +70,11 @@ NormalPos.bottom=357
 Class=BibTeXView
 Document=bibliografia.bib
 
-[Frame5_View0,0]
+[Frame3_View0,0]
 TopLine=0
 Cursor=274
 
-[Frame6]
+[Frame4]
 Flags=0
 ShowCmd=1
 MinPos.x=-1
@@ -124,9 +88,45 @@ NormalPos.bottom=357
 Class=LaTeXView
 Document=fdl-1.3.tex
 
+[Frame4_View0,0]
+TopLine=544
+Cursor=540
+
+[Frame5]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=876
+NormalPos.bottom=357
+Class=LaTeXView
+Document=memoria.tex
+
+[Frame5_View0,0]
+TopLine=47
+Cursor=1687
+
+[Frame6]
+Flags=0
+ShowCmd=1
+MinPos.x=-1
+MinPos.y=-1
+MaxPos.x=-1
+MaxPos.y=-1
+NormalPos.left=4
+NormalPos.top=26
+NormalPos.right=876
+NormalPos.bottom=357
+Class=LaTeXView
+Document=programas.tex
+
 [Frame6_View0,0]
-TopLine=0
-Cursor=0
+TopLine=53
+Cursor=3124
 
 [Frame7]
 Flags=0
@@ -140,11 +140,11 @@ NormalPos.top=26
 NormalPos.right=876
 NormalPos.bottom=357
 Class=LaTeXView
-Document=desarrollo.tex
+Document=primerahoja.tex
 
 [Frame7_View0,0]
 TopLine=0
-Cursor=15
+Cursor=473
 
 [Frame8]
 Flags=0
@@ -158,11 +158,11 @@ NormalPos.top=26
 NormalPos.right=876
 NormalPos.bottom=357
 Class=LaTeXView
-Document=portada.tex
+Document=desarrollo.tex
 
 [Frame8_View0,0]
 TopLine=0
-Cursor=576
+Cursor=15
 
 [Frame9]
 Flags=0
@@ -176,11 +176,11 @@ NormalPos.top=26
 NormalPos.right=876
 NormalPos.bottom=357
 Class=LaTeXView
-Document=estilos\comandos.sty
+Document=portada.tex
 
 [Frame9_View0,0]
 TopLine=0
-Cursor=847
+Cursor=576
 
 [Frame10]
 Flags=0

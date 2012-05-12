@@ -17,21 +17,7 @@
 \newcommand{\subrayado}[1]{\underline{#1}}
 %-------------------------------------------------
 
-%---------------------------------------------------------
-%                    Código (pygments)
-%---------------------------------------------------------
-\newcommand{\codigo}[2]{
-    \setlength\parskip{0px}
-    \vspace*{0.5cm}
-    \textsc{#1}
-    \normalsize
-    \vspace*{0.2cm}
-    \hrule
-    \lsinputlisting{#2}
-    \hrule
-    \vspace*{0.5cm}
-    \setlength\parskip{10px}
-}
+
 %---------------------------------------------------------
 
 %---------Definicion------------------------------
@@ -155,6 +141,21 @@
     \hrule
     \vspace*{0.5cm}
 }
+
+\newcommand{\codigo}[2]{
+	  \obeylines
+    \setlength\parskip{0px}
+    \vspace*{0.5cm}
+    \textsc{#1}
+    \normalsize
+    \vspace*{0.2cm}
+    \hrule
+    \input{#2}
+    \hrule
+    \vspace*{0.5cm}
+    \setlength\parskip{10px}
+}
+
 %----------------------------------------------------------------
 
 % ----------- Una linea de tablas mas ancha ---------------------
