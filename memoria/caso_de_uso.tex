@@ -46,7 +46,7 @@ Con todo el sistema, preparado para empezar a trabajar con Asterisk, a continuac
 
 \textbf{De momento, el Sr. Doe no tenía demasiado clara una posible estructura jerárquica con restricciones de llamadas, y relaciones entre departamentos, así que la primera idea, era tener un sistema de telefonía simple, en el que todos pudieran llamar y recibir llamadas abiertamente, pero no descartaba en un futuro, implementar esas restricciones, e incluso tener algún sistema de control.}
 
-\section{Instalación del sistema Asterisk}
+\subsection{Instalación del sistema Asterisk}
 
 Dado que el nivel Hardware es algo excesivamente cambiante, voy a obviar las características técnicas del entorno y del servidor, haciendo referencia al apartado de elección de servidor para los aspectos determinantes a la hora de elegir una u otra preferencia.\\
 
@@ -78,10 +78,112 @@ Todavía tenemos suficiente espacio para añadir componentes de menor magnitud. 
 
 Se trata del paquete LAMP (Linux + Apache como servidor Web + MySQL como SGBD de nuestra BD + PHP como lenguaje de programación en entorno web que se conjugará con nuestro servidor web para poder ofrecer aplicaciones combinables con Asterisk como veremos mas adelante) y por otro lado algún servidor de Correo como Postfix. Para ello nos valemos de la herramienta \negrita{tasksel} de Ubuntu que realiza la instalación completa de la forma más ágil para nuestro propósito. Con estas instalaciones apenas consumimos poco más de 100MB así que seguimos teniendo suficiente espacio para continuar el proceso tranquilamente.\\
 
+\subsection{Configurando equipos y el entorno SIP}
+
 Ahora daríamos paso a la configuración en primera instancia de los requerimientos solicitados por el Sr. Doe en función de la estructura departamental.\\
 
 Vamos a considerar, que todavía el presupuesto es demasiado ajustado para la empresa del Sr. Doe como para andar comprando teléfonos que operen con el protocolo SIP (conocidos popularmente como Teléfonos VoIP). Pero hemos comprado una remesa de Auriculares con micrófono integrado para cada una de las extensiones a configurar, que serán adaptados al cada PC de cada usuario y funcionales, utilizando un software capaz de trasmitir audio e inicializar sesión en nuestra máquina Asterisk utilizando el protocolo SIP.\\
 
 Creamos en primer lugar el fichero de configuración dentro de /etc/asterisk/ llamado sip.conf donde añadiremos la configuración especifica de cada una de las 20 extensiones solicitadas por el gerente:\\
 
-\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf}
+\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf.1}
+
+Para la creación de este fichero, hemos seguido las reglas básicas de configuración para el protocolo SIP como podemos ver en el correspondiente articulo de la Wiki. \footnote{SIP. http://wikiasterisk.com/index.php?title=SIP}. Significativamente podemos observar que la estructura que hemos seguido para denominar las extensiones, aun no siendo demasiado recomendada, es la siguiente:\\
+
+Las extensiones constarán de dos dígitos. El primero se encarga de definir el departamento, y el segundo, el puesto. La extensión 10, como extensión especial para definir concrétamente la del Sr. Doe, el resto, si el número para designar el puesto es el número 1, correspondería al Responsable de Sección, y los sucesivos dígitos, corresponden al resto de los empleados. Además hemos creado cuatro plantillas para un cometido concreto: \\
+
+La primera, teléfonos, es una plantilla que engloba todos los parámetros comunes a las extensiones de la centralita. En este caso, nos interesa trabajar en exclusiva con el códec Alaw (G.711 EU), dado que tenemos una conexión bastante buena, pero nuestra máquina no es demasiado potente, además no queremos invertir en códecs licenciados.\\
+
+Las tres siguientes plantillas, hacen referencia al "nivel" de los usuarios, y en función de este, los mandaremos a un contexto u otro del Dialplan que construiremos a continuación. A priori, el señor Zutano no nos hizo referencia concreta, sobre la posibilidad de que unos usuarios pudiera hacer cosas que otros no, pero anticipándonos por nuestra experiencia, empezamos a "habilitar" esta funcionalidad.\\
+
+El sistema de contraseñas, teniendo a lo más básico, aun siendo una mala práctica, hemos utilizado la contraseña por defecto 1234 para todas las extensiones, pero al menos encubierto bajo contraseñas de algo mas de seguridad con un patrón MD5, para mostrar algo más de compromiso.
+
+Finalmente y volviéndonos a adelantar a una probable futura necesidad, hemos asociado a cada extensión su correspondiente buzón de voz, que configuraremos a voluntad si surge el caso más adelante.\\
+
+Ahora pasamos a comprobar que todo ha ido bien. Accedemos a la CLI de Asterisk y con el comando:
+
+\begin{lstlisting}[language=sh]
+CLI> sip reload
+\end{lstlisting}
+
+Vemos como nuestra configuración carga adecuadamente. Ahora vamos a comprobar que los pares han sido configurados correctamente. Observando el despliegue de sistemas de la empresa UCA Autos, comprobamos que todos los puestos trabajan en un sistema operativo de Microsoft. En este caso decidimos que vamos a utilizar un teléfono por software, dado que el Sr. Doe de momento no se ha decidido en el modelo de teléfono físico que quiere comprar. El Softphone que hemos elegido por su reconocida estabilidad y calidad es uno gratuito, pero no libre, llamado X-Lite. Tenemos constancia de múltiples Softphone Open Source, pero bajo este sistema operativo, no tienen demasiada estabilidad y pueden complicarnos la vida.\\
+
+Configurando la extensión del Sr.Doe de ejemplo como podemos ver en la siguiente Figura, captura de pantalla de X-Lite.\\
+
+\figura{config_xlite.png}{scale=1}{Configuración de una Extensión con el Programa X-Lite v4.1}{config_xlite}{h!}
+
+Comprobamos que se registra correctamente:
+
+\begin{lstlisting}[style=consola]
+-- Registered SIP '10' at 192.168.1.200:16992
+CLI> sip show peers
+Name/username Host           Dyn Forcerport ACL Port   Status
+10/10         192.168.1.200  D              N   16992  OK (3 ms)
+\end{lstlisting}
+
+Así que ya podemos proceder a registrar las 20 extensiones, en los 20 equipos de nuestros usuarios y ya estarían listos para empezar a operar con nuestra primera instancia de sistema Asterisk.
+
+\subsection{Configuración del Primer Plan de Marcación}
+
+Ahora los teléfonos no pueden hacer casi nada, excepto llamar a una extensión si saber la ruta exacta, y sin pasar por nuestro sistema Asterisk. Nos interesa que por lo menos puedan realizar llamadas entre ellos marcando el número de extensión según la estructura que definimos anteriormente. Para ello vamos a crear el fichero de configuración del Dial Plan según veremos a continuación:
+
+\lstinputlisting[title={/etc/asterisk/extensions.conf}]{../conf/extensions.conf.1}
+
+Es importante considerar, que no hemos creado extensiones de marcación dentro del plan para cada una de los dispositivos SIP ya que como veremos adelante, este proceso se simplifica bastante utilizando Macros, como un sistema algo más avanzado del Dialplan de Asterisk.\\
+
+Para recargar el Plan de Marcación y poder hacer uso de este desde la CLI de Asterisk:
+
+\begin{lstlisting}[language=sh]
+CLI> dialplan reload
+\end{lstlisting}
+
+Ahora utilizando nuestro Softphone X-Lite podríamos marcar la extensión 11 y el teléfono empezaría a sonar. Al descolgar se establecería la conexión. En este fichero vemos algunas cosas peculiares:\\
+
+La aplicación NoOp sirve para hacer debug en consola. Si pusiéramos mensajes dentro del paréntesis, se verían en el log del CLI. Se pueden poner incluso variables del sistema, la cuestión es que esto viene más explicando en el apartado correspondiente de la documentación.\\
+
+Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos contextos hacen referencia a los contextos a donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para "incluir" todas las extensiones de los contextos a los que apunta el mismo. En este caso, incluiría por completo el contexto [manager], que este a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene "visibilidad" total sobre todo el plan de marcacion del sistema, en cambio un dispositivo de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto, pero no del contexto del gerente.\\
+
+Cuando se lo expliquemos al gerente, seguro que se le ocurren aplicaciones prácticas como el hecho de evitar que sus empleados llamen a números internacionales, o de tarificación especial.
+
+\subsection{Introduciendo al proveedor de Telefonía}
+
+El último requisito que puso el gerente, es la posibilidad de tener 6 números de marcación directa, uno para cada departamento, y otro para él. Para poder conseguir esto, necesitamos contactar con un proveedor que nos ofrezca esto.\\
+
+Como siempre, tenemos múltiples alternativas, pero si queremos evitar tener que comprar dispositivos, la más obvia es contactar con proveedores de Telefonía IP. Así que nos pusimos en contacto con una empresa muy conocida de la provincia, llamada \textbf{UCA Telecom}. Comparando los planes de precios que nos ofrecía '''FonicaTele''', el proveedor más conocido a nivel nacional, teníamos una oferta mucho más competitiva y encima, no teníamos la necesidad de andar contratando planes mensuales, ni comprando esos dispositivos que comentaba antes, para interconectar con la Red de Telefonía Conmutada clásica.
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+[general]
+register => ucaautos:12345678@home-asterisk.local:35060
+
+[proveedorip]
+defaultuser = ucaautos
+fromuser = ucaautos
+secret = 12345678
+host = home-asterisk.local
+port = 35060
+type = friend
+insecure = invite
+qualify = yes
+context = entrantes
+\end{lstlisting}
+
+Un dato muy relevante en la configuración de nuestro proveedor, es el hecho que el tipo es \textbf{friend} y no peer. Si nuestra intención fuera emitir llamadas a través de mismo, lo correcto sería esto. Pero como ademas, vamos a recibir llamadas entrantes dado que nos va a ofrecer un servicio de números Direct Dial-In (DDI), lo correcto es considerarlo, bidireccional con este tipo en concreto.\\
+
+Pero de hecho, hay un parámetro que puede resultar aun más curioso de observar, que es el \textbf{insecure=invite}. Tenemos un problema si trabajamos con un dispositivo tipo friend: la autentificación bidireccional. Observamos que en la primera linea hay un mensaje register, para registrarnos en el proveedor ip. El tema es que el proveedor IP supuestamente, ha de autentificarse luego con nosotros cuando intenta enviarnos la llamada directa al DDI, pero nosotros al solo tener un dispositivo configurado, no podemos ofrecerle unas credenciales especificas (que probablemente sean las mismas que que las de llamadas salientes aunque no tiene porque ser así). Al habernos autentificado primero con el mensaje register, al poner el parámetro insecure de esta forma, como la conexión ya esta hecha (el primer mensaje REGISTER ya se envío), los sucesivos INVITE, no tendrían la necesidad de volver a autentificarse. Si quitamos el insecure, y activamos el debug de SIP, veremos como hay un error en la autentificación entrante, cuando tratamos de llamar a un número DDI.\\
+
+Lo correcto en este caso, sería convertir este par friend, en un par tipo peer. Y por otro lado, crear un par tipo user, con el usuario de autentificación de entrada del proveedor, en caso que sea otro diferente (como es este caso). Con esto, ya no haría falta tener el parámetro insecure=invite activado, dado que todos los mensajes INVITE se autentificarían con el nuevo dispositivo tipo user, correctamente. Como este caso es relativamente raro (que los parámetros de autentificación de entrada y de salida sean diferentes para nuestro proveedor IP), entonces voy a dejarlo así, dando un voto de confianza a nuestro operador que a final de cuentas, es quien nos va a facturar a final de mes.\\
+
+Por otro lado, hemos creado un contexto nuevo en el Dialplan, llamado [entrantes] haciendo referencia al lugar donde apunta nuestro nuevo proveedor SIP. Ahí vamos a definir todos los números DDI que nos ha solicitado el gerente, y reenviarlos con la función GoTo al contexto, extensión y prioridad correspondientes de cada departamento.\\
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+[entrantes]
+
+exten => 956001101,1,Goto(extensiones,10,1)
+exten => 956001111,1,Goto(extensiones,11,1)
+exten => 956001121,1,Goto(extensiones,21,1)
+exten => 956001131,1,Goto(extensiones,31,1)
+exten => 956001141,1,Goto(extensiones,41,1)
+exten => 956001151,1,Goto(extensiones,51,1)
+\end{lstlisting}
+
+Y con esto, ya estarían satisfechas las necesidades del gerente, por lo que concertamos una nueva cita con el Sr. Zutano para mostrarle que todo esta correctamente funcionando.
