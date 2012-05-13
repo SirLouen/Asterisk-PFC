@@ -173,6 +173,31 @@ Pero de hecho, hay un parámetro que puede resultar aun más curioso de observar
 
 Lo correcto en este caso, sería convertir este par friend, en un par tipo peer. Y por otro lado, crear un par tipo user, con el usuario de autentificación de entrada del proveedor, en caso que sea otro diferente (como es este caso). Con esto, ya no haría falta tener el parámetro insecure=invite activado, dado que todos los mensajes INVITE se autentificarían con el nuevo dispositivo tipo user, correctamente. Como este caso es relativamente raro (que los parámetros de autentificación de entrada y de salida sean diferentes para nuestro proveedor IP), entonces voy a dejarlo así, dando un voto de confianza a nuestro operador que a final de cuentas, es quien nos va a facturar a final de mes.\\
 
+Introduciendo los siguientes cambios, obtenemos el resultado correcto de autentificación sin tener que exponer la máquina con el inseguridad de permitir mensajes INVITE sin autentificación:\\
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+[proveedorip]
+defaultuser = ucaautos
+fromuser = ucaautos
+secret = 12345678
+host = home-asterisk.local
+port = 35060
+++type = peer
+--type = friend
+--insecure = invite
+qualify = yes
+--context = entrantes
+
+++[ucatelecom]
+++secret = 12345678
+++host = home-asterisk.local
+++port = 35060
+++type = user
+++context = entrantes
+\end{lstlisting}
+
+Considerar que \textbf{ucatelecom}, es el usuario al que conecta, la empresa UCAtelecom, y la contraseña casualmente es la misma que usamos para conectarnos a ellos casualmente, pero tampoco tendría porque ser así.\\
+
 Por otro lado, hemos creado un contexto nuevo en el Dialplan, llamado [entrantes] haciendo referencia al lugar donde apunta nuestro nuevo proveedor SIP. Ahí vamos a definir todos los números DDI que nos ha solicitado el gerente, y reenviarlos con la función GoTo al contexto, extensión y prioridad correspondientes de cada departamento.\\
 
 \begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
