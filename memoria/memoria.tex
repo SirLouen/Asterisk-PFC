@@ -16,18 +16,16 @@
                                 % los algunos estilos más avanzados.
 \usepackage{./estilos/comandos} % Algunos comandos personalizados
 
-\graphicspath{{./imagenes/}} % Indicamos la ruta donde se encuentran
-                             % las imagenes, para ahorrarnos la ruta
-                             % completa, y solo modificar aquí si en
-                             % un momento dado lo movemos
+\graphicspath{{./imagenes/}}
 
 \begin{document}
 
-% Renombramos las figuras y las tablas
-\renewcommand{\figurename}{Figura}
+% Renombramos las figuras y las tablas\renewcommand{\figurename}{Figura}
 \renewcommand{\listfigurename}{Indice de figuras}
 \renewcommand{\tablename}{Tabla}
 \renewcommand{\listtablename}{Indice de tablas}
+
+\pagenumbering{alph} 
 
 \pagestyle{empty}
 \input{portada.tex}
@@ -64,14 +62,13 @@
 \bibliographystyle{plain}
 \bibliography{bibliografia}
 
-
 \addcontentsline{toc}{chapter}{Software usado}
 \chapter*{Software utilizado}
 \input{programas.tex}
 
-\addcontentsline{toc}{chapter}{Instalación de \LaTeX}
-\chapter*{Instalación de \LaTeX}
-\input{instalacion.tex}
+\addcontentsline{toc}{chapter}{Difusión de WIKIAsterisk}
+\chapter*{Difusión de WIKIAsterisk}
+\input{difusion.tex}
 
 \input{fdl-1.3.tex}
 

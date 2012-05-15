@@ -5,6 +5,13 @@
 \parindent = 0mm
 %-------------------------------------------------
 
+%\setlength{\parskip}{5mm}
+
+\setlength\parskip{.5\baselineskip
+	plus .1\baselineskip
+	minus .4\baselineskip
+}
+
 %---------Lineas----------------------------------
 \newcommand{\Hrule}{\rule{\linewidth}{0.5mm}}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
@@ -18,6 +25,10 @@
 %-------------------------------------------------
 
 
+% ------------ Estilos Default --------------
+\renewenvironment{itemize}[1]{\begin{compactitem}#1}{\end{compactitem}}
+\renewenvironment{enumerate}[1]{\begin{compactenum}#1}{\end{compactenum}}
+\renewenvironment{description}[0]{\begin{compactdesc}}{\end{compactdesc}}
 %---------------------------------------------------------
 
 %---------Definicion------------------------------
