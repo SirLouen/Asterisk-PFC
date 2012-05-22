@@ -32,3 +32,27 @@
 
 \subsection{Preparando las Llamadas Salientes}
 
+Vamos a mejorar el anterior Plan de Marcación existente. A continuación muestro el nuevo código modificado sobre el anterior.
+
+\lstinputlisting[title={/etc/asterisk/extensions.conf}]{../conf/extensions.conf.2}
+
+Diseccionándolo en primer lugar podemos ver el nuevo contexto \[exterior\]. Con este contexto especificamos siguiendo los patrones específicos del Plan de Marcación definimos las posibilidades de marcación que podemos hacer para realizar llamadas a números Nacionales (tanto aquellos que empiezan por 8 como por 9), Móviles y números de información (restringiendo exclusivamente a 900, 901 y 902). 
+
+Por otro lado, dentro de los contextos de Mánager y gerencia, podemos ver también los requisitos específicos a los que solo podrán acceder los mismo como vimos en el primer DialPlan, por el sistema jerárquico creado gracias a la utilización de los "include". Con estos específicamente, definimos marcaciones para números de información (Aquellos que empiezan por 118), y para el gerente llamadas a números internacionales de destino Alemania, que tienen como peculiaridad, que aunque tienen una marcación común de inicio, a partir del 5 dígito, la numeración es variable considerando a continuación el prefijo regional + el número local (de 3 a 9 dígitos).
+
+En siguiente lugar, dentro del contexto \[entrantes\], hemos añadido un nuevo número Direct Dial-In que redirige a la extensión \textbf{start} considerando que sea la genérica para este contexto. En esta extensión vamos a crear nuestra Operadora Automática, tal y como esta definida en el caso de uso. Para ello vamos utilizando una combinación de Aplicaciones según su conveniencia. La idea subyacente es la siguiente:
+
+\begin{enumerate}
+
+\item Ponemos un contador a 0, la idea es que cuando hayamos pasado dos veces por la operadora sin resultado, desviemos la llamada según especificado en el paso número 4
+\item Lanzamos el mensaje de bienvenida.
+\item Comprobamos si el horario actual coincide con el horario de apertura o no. 
+\item En caso que no coincida, lanzamos los mensajes de "Cerrado" y a continuación el Buzón de Voz del responsable de Marketing
+\item En caso que si coincida, nos vamos a la etiqueta "bienvenida" y a partir de ahí lanzamos el menú contextual para dar la opción a marcar una u otra opción. 
+\item Si no pulsa nada pasado el mensaje + 1 segundo, desviamos a la extensión "relative timeout" 
+\item Desde aquí comprobamos cuantas veces hemos pasado por aquí, si solo fue una vez, entonces volvemos al principio del algoritmo
+\item En cambio si fueron ya dos veces, mandamos la extensión a Marketing.
+
+\end{enumerate}
+
+Finalmente, hemos modificado todas las extensiones especificas de los Mánager, para adaptarlas al uso de Buzón de Voz. Nótese, que hemos añadido una restriccion temporal en la aplicación de llamada Dila a 30 segundos, pasados los cuales, se ejecutaría la aplicación de grabación de mensajes de Buzones de Voz. . Por último hemos añadido extensiones especificas para el acceso a los buzones de sus respectivos usuarios, marcando primero el 9 y a continuación el número de la extensión.
