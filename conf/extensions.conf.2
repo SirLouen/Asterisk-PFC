@@ -88,7 +88,8 @@ exten => _0049.,1,NoOp()
 same => n,Dial(SIP/proveedorip/${EXTEN})
 same => n,Hangup()
 
-; --- Otros Sistemas Adicionales de Prueba, solo puede acceder el Gerente.
+; --- Otros Sistemas Adicionales de Prueba, 
+; --- solo puede acceder el Gerente.
 
 exten => 1111,1,NoOp()
 same => n,Progress()
