@@ -4,14 +4,16 @@
 include => exterior
 
 exten => 10,1,NoOp()
-same => n,Dial(SIP/10)
+same => n,Dial(SIP/10,30)
+same => n,VoiceMail(0@admin)
 ; Acceso al menu de Buzon de Voz
 exten => 910,1,VoicemailMain(0@admin)
 
 exten => 11,1,NoOp()
 same => n,Answer()
 same => n,Set(CHANNEL(tonezone)=starwars)
-same => n,Dial(SIP/11)
+same => n,Dial(SIP/11,30)
+same => n,VoiceMail(1@admin)
 same => n,Hangup()
 ; Acceso al menu de Buzon de Voz
 exten => 911,1,VoicemailMain(1@admin)
@@ -20,25 +22,32 @@ exten => 12,1,NoOp()
 same => n,Dial(SIP/12)
 
 exten => 21,1,NoOp()
-same => n,Dial(SIP/21)
+same => n,Dial(SIP/21,30)
+same => n,VoiceMail(1@ventas)
+same => n,Hangup()
 ; Acceso al menu de Buzon de Voz
 exten => 921,1,VoicemailMain(1@ventas)
 
 exten => 31,1,NoOp()
-same => n,Dial(SIP/31)
+same => n,Dial(SIP/31,30)
+same => n,VoiceMail(1@almacen)
+same => n,Hangup()
 ; Acceso al menu de Buzon de Voz
 exten => 931,1,VoicemailMain(1@almacen)
 
 exten => 41,1,NoOp()
-same => n,Dial(SIP/41)
+same => n,Dial(SIP/41,30)
+same => n,VoiceMail(1@posventa)
+same => n,Hangup()
 ; Acceso al menu de Buzon de Voz
 exten => 941,1,VoicemailMain(1@posventa)
 
 exten => 51,1,NoOp()
-same => n,Dial(SIP/51)
+same => n,Dial(SIP/51,30)
+same => n,VoiceMail(1@market)
+same => n,Hangup()
 ; Acceso al menu de Buzon de Voz
 exten => 951,1,VoicemailMain(1@market)
-
 
 [exterior]
 ; --- Contexto Especifico para Llamadas al exterior
@@ -100,7 +109,7 @@ exten => s,1,NoOp()
 same => n,Set(ivrcont=0)
 same => n,Answer()
 same => n(bienvenida),Playback(bienvenida)
-same => n,GotoIfTime(14:00-20:00,mon-fri,*,*?abierto)
+same => n,GotoIfTime(09:00-20:00,mon-fri,*,*?abierto)
 same => n,Playback(cerrado&horario)
 same => n,VoiceMail(1@market)
 same => n,Hangup()
