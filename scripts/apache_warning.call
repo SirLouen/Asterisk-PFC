@@ -1,3 +1,7 @@
-Channel:SIP/10
-Application:Queue
-Data:almacen
+Channel:SIP/54
+Application:Playback
+Data:alerta-web
+CallerID:Emergencias CRM <111>
+MaxRetries:3
+WaitTime:90
+RetryTime:10
