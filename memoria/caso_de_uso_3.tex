@@ -5,8 +5,58 @@
 % Para más información, la licencia completa viene incluida en el
 % fichero fdl-1.3.tex
 
-\section{Mejorando lo presente}
+\section{Nuevas Incorporaciones}
 
+\textbf{Poco tiempo después de incorporar el Centro de Llamadas para Almacén dentro de la empresa, el gerente Sr. Doe, vuelve a contactar con nosotros. Nos indica que el sistema ha prosperado y que el Mánager de Almacén ha conseguido controlar la situación sin mucha dificultad, próximamente contratarán a una persona más, y así modifiquemos un poco el sistema, porque se ven un poco desbordados dado que se les acumula el trabajo que ya previamente hacían con la nueva encomendación, aunque sus ventas estaban aumentando de forma bastante fuerte. Pero la llamada fue realmente para informarnos, que había contratado a una nueva persona, dentro del departamento de Marketing, ya que tenían intención de mejorar algunos aspectos a nivel tecnológicos dentro de la empresa, y montar un CRM para la gestión de la fuerza comercial dado que también estaba aumentando y tenía programado contratar dos vendedores más en los próximos días. Concertamos una cita con el nuevo empleado, llamado Pedro de los Palotes, unos días después de incorporarse.}
 
-\subsection{Preparando las Llamadas Salientes}
+\textbf{La nueva figura, tenía conocimientos aceptables sobre el mundo del marketing, pero su principal manejo era las tecnologías de la información, y unos buenos conocimientos de informática en general. Durante la reunión que mantuvimos con el, nos comentó por encima alguna de las funciones que tenía que cumplir, y que tenían mucho que ver con nosotros, dado que necesitaba que introdujéramos algunas modificaciones en la central si fueran posibles. Además el Sr. Doe le dio carta blanca para ello, dado que tenía muy buenas referencias de él, y sabía bien lo que hacía. Lo que pudimos sacar fue:}
 
+\begin{enumerate}
+
+\item \textbf{Le habían ofrecido la oportunidad de montar en un servidor independiente para incorporar un sistema de CRM}
+\item \textbf{Querían que controlara los gastos y la facturación de los conceptos de telefonía dado que habían observado ciertos usos indebidos, pero no sabían a quien achacar esta responsabilidad}
+\item \textbf{Necesitaban que el Sr. de los Palotes, tuviera más autocontrol sobre Asterisk, aunque no tenía conocimientos de como funcionaba internamente, el sistema, para poder ser algo más autónomos dado los cambios que se avecinaban.}
+\item \textbf{Finalmente, también el Mánager Comercial, el cual tenía dificultades a veces para establecer la comunicación con sus proveedores cuando necesitaban tener conversaciones entre más de dos usuarios simultáneamente, le había encomendado ver si era posible alguna pequeña mejora para poder solucionar esto.}
+
+\end{enumerate}
+
+Tras poner cada una de las tareas encima de la mesa, hicimos un primer planteamiento para dividir las nuevas encomendaciones en diferentes secuencias que iríamos incorporando en nuestra máquina Asterisk progresivamente para ir probando su funcionalidad con Pedro. Le pareció bien, y nos pusimos manos a la obra.
+
+\subsection{Generación Automática de Eventos}
+
+Antes de nada, creamos una nueva extensión para el Sr. Pedro de los Palotes, dentro del grupo de Marketing, la número 54, en el fichero sip.conf, y por otro lado, le habilitamos dicha extensión en el Plan de Marcación extensions.conf.
+
+En primera instancia, hicimos un breve análisis de sus pretensiones de montar un servidor CRM propio, dado el mantenimiento y dedicación que esto llevaba, queríamos averiguar un poco su planteamiento y de que forma quería que nuestro sistema Asterisk trabajara con su sistema CRM. En primer lugar, no observamos que tuviera ningún conocimiento acerca de sistemas de motorización de sistemas informáticos, dado que en realidad aun sus buenos conocimientos del tema, realmente su función no era la mantener el sistema. 
+
+Hasta la fecha según nos comento, en su anterior empresa, había estado trabajando con un CRM llamado vTiger CRM, lo cual nos agradó bastante dado que conocíamos su buena integración con Asterisk a traves del Asterisk Manager Interface. Pero en su caso, solo había utilizado vTiger en un servidor externalizado online, y todas las tareas de mantenimiento se las llevaba una empresa de hosting web, y el solo se encargaba de administrar y gestionar el sistema CRM. Según había oído, era posible con los CTI \footnote{CTI en Wikipedia, http://es.wikipedia.org/wiki/Computer_Telephony_Integration} de algunas PBX, era posible que directamente desde la interfaz web de vTiger, los usuarios pudieran cursar llamadas, y otras tantas funcionalidades.
+
+Le informamos que esto era posible, siempre y cuando el servidor para su servicio, estuviera dentro de la misma red local, dado que "abrir" a Internet el CTI de Asterisk suponía serias implicaciones en la seguridad del sistema de las cuales no podíamos hacernos totalmente responsables. Le pusimos en contacto con una empresa colaboradora nuestra, "Cadiz Computers" para que le facilitarán el trabajo de montaje, mantenimiento y administración del servidor CRM, pero de momento para que pudieran empezar a trabajar, le informamos de una funcionalidad de Asterisk que le serviría para poder establecer un mínimo de motorización sobre el estado de su servidor web, donde se contenía la aplicación vTiger, que realmente estaba basada en el lenguaje de programación PHP.
+
+Para ello en primer lugar, considerando que el servidor web ya esta funcionando con su aplicación CRM en marcha, instalamos telnet en nuestro servidor Asterisk:
+
+\begin{lstlisting}[language=sh]
+sudo aptitude install telnet
+\end{lstlisting}
+
+Y creamos un script bash que va a cumplir las función de motorización en un nivel muy básico, pero haciendo uso de nuestro sistema Asterisk como estaba previsto:
+
+\lstinputlisting[title={./apache_monitor.sh}]{../scripts/apache_monitor.sh}
+
+Debemos darle privilegios de escritura:
+
+\begin{lstlisting}[language=sh]
+chmod +x apache_monitor.sh
+\end{lstlisting}
+
+Y ahora tenemos que crear el fichero que generara un Llamada Automatica \footnote{WikiAsterisk Generación Automática de Llamadas, http://wikiasterisk.com/index.php?title=GeneraciC3B3n\_Autom\%C3A1tica\_\de\_llamadas}, que llamaremos \textbf{apache_warning.call}:
+
+\lstinputlisting[title={./apache_warning.call}]{../scripts/apache_warning.call}
+
+Finalmente añadimos una linea en el fichero del proceso Cron, crontab, para que comprueba cada minuto, el estado de nuestro servidor gracias al script recién creado:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+*/1 * * * * sh /home/asterisk/repositorio/scripts/apache_monitor.sh
+\end{lstlisting}
+
+En el momento que el servidor web deje de atender a las peticiones entrantes por el puerto 80, el Sr. de los Palotes recibirá una llamada de emergencia en su extensión personal, cuyo CallerID será Emergencias CRM <111>, hasta que se resuelva el problema.
+ 
