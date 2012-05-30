@@ -151,10 +151,10 @@ function asterisk_handleResponse2($mainresponse, $adb, $asterisk, $state) {
 
 	//	$splits = explode('=', $appdata);
 	//	$extension = $splits[1];
-		$splits = explode('/', $appdata); // $splits = explode('=', $appdata); its / no = , because : AppData: SIP/4002,20
+		$splits = explode('/', $appdata); 
 
                 $longextension = $splits[1];
-                $splits = explode(',',$longextension); // if you used timeout like dial( sip/4002,20 ) we need juste 4002
+                $splits = explode(',',$longextension);
                 $extension = $splits[0];
 		
 		$parseSuccess = true;
