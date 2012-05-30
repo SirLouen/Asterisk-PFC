@@ -20,7 +20,7 @@
 
 \end{enumerate}
 
-Tras poner cada una de las tareas encima de la mesa, hicimos un primer planteamiento para dividir las nuevas encomendaciones en diferentes secuencias que iríamos incorporando en nuestra máquina Asterisk progresivamente para ir probando su funcionalidad con Pedro. Le pareció bien, y nos pusimos manos a la obra.
+\textbf{Tras poner cada una de las tareas encima de la mesa, hicimos un primer planteamiento para dividir las nuevas encomendaciones en diferentes secuencias que iríamos incorporando en nuestra máquina Asterisk progresivamente para ir probando su funcionalidad con Pedro. Le pareció bien, y nos pusimos manos a la obra.}
 
 \subsection{Generación Automática de Eventos}
 
@@ -28,7 +28,7 @@ Antes de nada, creamos una nueva extensión para el Sr. Pedro de los Palotes, de
 
 En primera instancia, hicimos un breve análisis de sus pretensiones de montar un servidor CRM propio, dado el mantenimiento y dedicación que esto llevaba, queríamos averiguar un poco su planteamiento y de que forma quería que nuestro sistema Asterisk trabajara con su sistema CRM. En primer lugar, no observamos que tuviera ningún conocimiento acerca de sistemas de motorización de sistemas informáticos, dado que en realidad aun sus buenos conocimientos del tema, realmente su función no era la mantener el sistema. 
 
-Hasta la fecha según nos comento, en su anterior empresa, había estado trabajando con un CRM llamado vTiger CRM, lo cual nos agradó bastante dado que conocíamos su buena integración con Asterisk a traves del Asterisk Manager Interface. Pero en su caso, solo había utilizado vTiger en un servidor externalizado online, y todas las tareas de mantenimiento se las llevaba una empresa de hosting web, y el solo se encargaba de administrar y gestionar el sistema CRM. Según había oído, era posible con los CTI \footnote{CTI en Wikipedia, http://es.wikipedia.org/wiki/Computer_Telephony_Integration} de algunas PBX, era posible que directamente desde la interfaz web de vTiger, los usuarios pudieran cursar llamadas, y otras tantas funcionalidades.
+Hasta la fecha según nos comento, en su anterior empresa, había estado trabajando con un CRM llamado vTiger CRM \cite{website:vtiger}, lo cual nos agradó bastante dado que conocíamos su buena integración con Asterisk a traves del Asterisk Manager Interface. Pero en su caso, solo había utilizado vTiger en un servidor externalizado online, y todas las tareas de mantenimiento se las llevaba una empresa de hosting web, y el solo se encargaba de administrar y gestionar el sistema CRM. Según había oído, era posible con los CTI \footnote{CTI en Wikipedia, http://es.wikipedia.org/wiki/Computer\_Telephony\_Integration} de algunas PBX, era posible que directamente desde la interfaz web de vTiger, los usuarios pudieran cursar llamadas, y otras tantas funcionalidades.
 
 Le informamos que esto era posible, siempre y cuando el servidor para su servicio, estuviera dentro de la misma red local, dado que "abrir" a Internet el CTI de Asterisk suponía serias implicaciones en la seguridad del sistema de las cuales no podíamos hacernos totalmente responsables. Le pusimos en contacto con una empresa colaboradora nuestra, "Cadiz Computers" para que le facilitarán el trabajo de montaje, mantenimiento y administración del servidor CRM, pero de momento para que pudieran empezar a trabajar, le informamos de una funcionalidad de Asterisk que le serviría para poder establecer un mínimo de motorización sobre el estado de su servidor web, donde se contenía la aplicación vTiger, que realmente estaba basada en el lenguaje de programación PHP.
 
@@ -40,7 +40,7 @@ sudo aptitude install telnet
 
 Y creamos un script bash que va a cumplir las función de motorización en un nivel muy básico, pero haciendo uso de nuestro sistema Asterisk como estaba previsto:
 
-\lstinputlisting[title={./apache_monitor.sh}]{../scripts/apache_monitor.sh}
+\lstinputlisting[title={./apache\_monitor.sh}]{../scripts/apache_monitor.sh}
 
 Debemos darle privilegios de escritura:
 
@@ -48,15 +48,98 @@ Debemos darle privilegios de escritura:
 chmod +x apache_monitor.sh
 \end{lstlisting}
 
-Y ahora tenemos que crear el fichero que generara un Llamada Automatica \footnote{WikiAsterisk Generación Automática de Llamadas, http://wikiasterisk.com/index.php?title=GeneraciC3B3n\_Autom\%C3A1tica\_\de\_llamadas}, que llamaremos \textbf{apache_warning.call}:
+Y ahora tenemos que crear el fichero que generara un Llamada Automatica \footnote{WikiAsterisk Generación Automática de Llamadas, \\ http://wikiasterisk.com/index.php?title=GeneraciC3B3n\_Autom\%C3A1tica\_de\_llamadas}, que llamaremos \textbf{apache\_warning.call}:
 
-\lstinputlisting[title={./apache_warning.call}]{../scripts/apache_warning.call}
+\lstinputlisting[title={./apache\_warning.call}]{../scripts/apache_warning.call}
 
 Finalmente añadimos una linea en el fichero del proceso Cron, crontab, para que comprueba cada minuto, el estado de nuestro servidor gracias al script recién creado:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[language=bash,title={/etc/crontab}]
 */1 * * * * sh /home/asterisk/repositorio/scripts/apache_monitor.sh
 \end{lstlisting}
 
 En el momento que el servidor web deje de atender a las peticiones entrantes por el puerto 80, el Sr. de los Palotes recibirá una llamada de emergencia en su extensión personal, cuyo CallerID será Emergencias CRM <111>, hasta que se resuelva el problema.
- 
+
+\subsection{Probando nuestro CTI, Asterisk Manager Interface}
+
+Ahora vamos a montar el sistema para que el CRM vTiger pueda integrarse con nuestra máquina Asterisk. Tan pronto este preparado le daremos las credenciales al nuevo responsable IT para que pudiera poner en marcha lo necesario.
+
+Cuando hicimos la primera instalación de Asternic Stats para la gestión de Colas ya tuvimos una pequeña aproximación al Manager de Asterisk, pero ahora se vería un poco más en detalle dados algunos problemas que surgieron durante la integración del sistema vTiger con nuestra máquina.
+
+En primer lugar, necesitábamos definir el fichero manager.conf, encargado de toda la gestión de AMI y adaptarlo un poco más para diferenciar el proceso específico de Asternic, de la integración de vTiger, especialmente por si tenemos la necesidad de tener controlados los eventuales problemas posibles a nivel de depuración.
+
+Para ello editamos el ficheros con la siguiente información:
+
+\lstinputlisting[title={/etc/asterisk/manager.conf}]{../conf/manager.conf}
+
+Viendo este fichero en detalle podemos observar por un lado, que hemos especificado un usuario concreto para Asternic Stats, y le hemos retirado todos los privilegios de escritura, dado que al ser solo una aplicación de monitoreo no le va a hacer falta. Podríamos entender por el contexto de la aplicación que tipo de permisos de lectura le harían falta (seguramente los parámetros \textbf{agent} y \textbf{call} serían suficientes).
+
+Y por otro lado, ya hemos definido un usuario especifico para hacer la integración con vTiger, tampoco tenemos muy claro que permisos le harían falta, en este caso hemos definido la dirección IP local del servidor al que va a hacer referencia, para al menos establecer un punto más de seguridad y control al respecto.
+
+El resto de los parámetros son los necesarios para el buen funcionamiento como podemos ver en detalle en el aparto de configuración del AMI \footnote{Configuración AMI, http://wikiasterisk.com/index.php?title=AMI} dentro de la WikiAsterisk.
+
+A partir de aquí nos ponemos en contacto con Pedro para intentar coordinar el funcionamiento del sistema y ver si realiza la operación de manera adecuada. Ya hicimos otras integraciones de vTiger con nuestro sistema Asterisk en el pasado, pero dadas las constantes actualizaciones del CRM queríamos asegurarnos que todo iba bien.
+
+En primer lugar, hicimos la parte de configuración más clásica del sistema para el usuario del Mánager Comercial que sería uno de los principales actores dentro de esta aplicación, el Sr. Douglas, segun vemos en la siguiente figura \ref{vtiger_config}
+
+\figura{vtiger_config.png}{scale=1}{Configuración de la extensión en Vtiger}{vtiger_config}{!ht}
+
+Por otro lado era necesario cubrir los aspectos concretos de configuración del sistema Vtiger para interconectar con nuestra interfaz AMI con las credenciales recien configuradas, reflejado en la Figura \ref{vtiger_config_ami}.
+
+\figura{vtiger_config_ami.png}{scale=1}{Configuración de los parámetros AMI en Vtiger}{vtiger_config_ami}{!ht}
+
+Con esto supuestamente le indicamos al Sr. de los Palotes que probara a realizar las operaciones que conocía para trabajar con el sistema vTiger, pero comprobamos que no funcionaba nada. Buscando en la web, pudimos observar que vTiger requería de algunas modificaciones a nivel interno para su correcta integración con nuestro Plan de Marcación, así que revisando la página oficial de configuración \footnote{PBXManager Wiki de Vtiger, https://wiki.vtiger.com/index.php/PBX\_Manager\_Module} nos dímos cuenta que era fundamental modificar un archivo propio del PBXManager (al parecer un módulo encargado de realizar toda esta gestión de interpretación de Mánager de Asterisk), y las modificaciones pertinentes las hicimos según podemos ver a continuación:
+
+\begin{lstlisting}[language=bash,title={./www/vtigercrm/modules/PBXManager/utils/AsteriskClass.php}]
+switch($typeCalled){
+ case "SIP":
+  $context = "extensiones";
+  break;
+ case "PSTN":
+  $context = "extensiones";//"outbound-dialing";
+  break;
+ default:
+  $context = "extensiones";
+}
+\end{lstlisting}
+
+Con esto pudimos hacer que todas las llamadas salientes desde vTiger, se encaminaran a nuestro contexto de "Extensiones" principal, con suponía observar. Al parecer era posible realizar personalizaciones dentro de vTiger en función del tipo de teléfono al que deseáramos llamar (si fuera un teléfono tipo SIP, o por la linea de teléfono convencional (PSTN), pero como en nuestro caso, no hacemos esta diferenciación dentro de nuestro DialPlan, preferimos optar por utilizar el mismo contexto del DialPlan por defecto.
+
+Y por último estuvimos comprobando, si llamando a la extensión 21 que acabábamos de configurar para el Sr. Douglas, se recibía dentro del sistema vTiger un mensaje pop-up indicando información referente al llamante, para comprobar que no era así. Al parecer las últimas versiones de vTiger provocaban serios fallos en la integración con instalaciones de Asterisk versiones 1.8 o superiores, de hecho como vimos en la Figura \ref{vtiger_config_ami} en la versión solo podíamos indicar 1.6 como máximo. 
+
+Así que tuvimos que realizar ya algunas modificaciones más intensas de codigo, dentro del fichero que manejaba esta habilidad de gestionar las llamadas entrantes.
+
+Las dos incidencias más significativas que encontramos fueron, dentro de la función \textbf{asterisk\_handleResponse1}, tuvimos que cambiar el condicial dado que Asterisk 1.8 ya no registraba los eventos de la misma manera que las versiones anteriores:
+
+\begin{lstlisting}[language=bash,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
+
+// if((($mainresponse['Event'] == 'Newstate' || 
+// $mainresponse['Event'] == 'Newchannel') && ($mainrespons$
+// || ($mainresponse['Event'] == 'Newstate' && 
+// $mainresponse[$state] == 'Ringing')))
+if($mainresponse['Event'] == 'Newstate' && 
+$mainresponse['ChannelStateDesc'] == 'Ring')
+
+\end{lstlisting}
+
+Por otro lado en la función \textbf{asterisk\_handleResponse2} nos dimos cuenta, que no solo el condicional tampoco valía, la sintaxis de uno de los parámetros llamado AppData del comando NewExten, habia cambiado significativamente, por esto adaptamos un poco el código PHP para que sirviera para esta nueva aplicación:
+
+\begin{lstlisting}[language=bash,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
+
+// if($mainresponse['Event'] == 'Newexten' && 
+//(strstr($appdata, "__DIALED_NUMBER") || 
+//strstr($appdata, "EXTTOCALL")))
+if($mainresponse['Event'] == 'Newexten')
+
+// $splits = explode('=', $appdata);
+// $extension = $splits[1];
+$splits = explode('/', $appdata); 
+$longextension = $splits[1];
+$splits = explode(',',$longextension);
+$extension = $splits[0];
+
+\end{lstlisting}
+
+Y con estos dos cambios el sistema ya funcionaba a la perfección, y dimos por integrado vTiger con nuestra versión de Asterisk.
+
+- Poner algunas capturas del sistema funcionando -
