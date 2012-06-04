@@ -105,12 +105,10 @@ function asterisk_handleEvents($asterisk, $adb, $version="1.4") {
 }
 
 function asterisk_handleResponse1($mainresponse, $state, $adb) {
-//	if((($mainresponse['Event'] == 'Newstate' || $mainresponse['Event'] == 'Newchannel') && ($mainresponse[$state] == 'Ring') 
-//		|| ($mainresponse['Event'] == 'Newstate' && $mainresponse[$state] == 'Ringing')))
-	if($mainresponse['Event'] == 'Newstate' && $mainresponse['ChannelStateDesc'] == 'Ring')
-
+	if((($mainresponse['Event'] == 'Newstate' || $mainresponse['Event'] == 'Newchannel') && ($mainresponse[$state] == 'Ring') 
+		|| ($mainresponse['Event'] == 'Newstate' && $mainresponse[$state] == 'Ringing')))
  {
-
+		$identrante = $mainresponse['Exten'];
 		$uniqueid = $mainresponse['Uniqueid'];
 
 		if(!empty($mainresponse['CallerID'])) {
@@ -138,23 +136,19 @@ function asterisk_handleResponse2($mainresponse, $adb, $asterisk, $state) {
 	$uniqueid = $channel = $callerType = $extension = null;
 	$parseSuccess = false;
 	
-	// if($mainresponse['Event'] == 'Newexten' && (strstr($appdata, "__DIALED_NUMBER") || strstr($appdata, "EXTTOCALL"))) 
-	if($mainresponse['Event'] == 'Newexten')
+	if($mainresponse['Event'] == 'Newexten' && $mainresponse['Application'] == 'Dial')
 
 	{
-
 		$uniqueid = $mainresponse['Uniqueid'];
 
 		$channel = $mainresponse['Channel'];
 		$splits = explode('/', $channel);
 		$callerType = $splits[0];
 
-	//	$splits = explode('=', $appdata);
-	//	$extension = $splits[1];
 		$splits = explode('/', $appdata); 
 
                 $longextension = $splits[1];
-                $splits = explode(',',$longextension);
+                $splits = explode(',',$longextension); 
                 $extension = $splits[0];
 		
 		$parseSuccess = true;
