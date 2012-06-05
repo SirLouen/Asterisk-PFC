@@ -109,27 +109,15 @@ Y por último estuvimos comprobando, si llamando a la extensión 21 que acabába
 
 Así que tuvimos que realizar ya algunas modificaciones más intensas de codigo, dentro del fichero que manejaba esta habilidad de gestionar las llamadas entrantes.
 
-Las dos incidencias más significativas que encontramos fueron, dentro de la función \textbf{asterisk\_handleResponse1}, tuvimos que cambiar el condicial dado que Asterisk 1.8 ya no registraba los eventos de la misma manera que las versiones anteriores:
-
-\begin{lstlisting}[language=bash,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
-
-// if((($mainresponse['Event'] == 'Newstate' || 
-// $mainresponse['Event'] == 'Newchannel') && ($mainrespons$
-// || ($mainresponse['Event'] == 'Newstate' && 
-// $mainresponse[$state] == 'Ringing')))
-if($mainresponse['Event'] == 'Newstate' && 
-$mainresponse['ChannelStateDesc'] == 'Ring')
-
-\end{lstlisting}
-
-Por otro lado en la función \textbf{asterisk\_handleResponse2} nos dimos cuenta, que no solo el condicional tampoco valía, la sintaxis de uno de los parámetros llamado AppData del comando NewExten, habia cambiado significativamente, por esto adaptamos un poco el código PHP para que sirviera para esta nueva aplicación:
+La incidencia más significativa que encontramos fue, dentro de la función \textbf{asterisk\_handleResponse2} nos dimos cuenta, que no solo el condicional tampoco valía, la sintaxis de uno de los parámetros llamado AppData del comando NewExten, habia cambiado significativamente, por esto adaptamos un poco el código PHP para que sirviera para esta nueva aplicación:
 
 \begin{lstlisting}[language=bash,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
 
 // if($mainresponse['Event'] == 'Newexten' && 
 //(strstr($appdata, "__DIALED_NUMBER") || 
 //strstr($appdata, "EXTTOCALL")))
-if($mainresponse['Event'] == 'Newexten')
+if($mainresponse['Event'] == 'Newexten' && 
+\$mainresponse['Application'] == 'Dial')
 
 // $splits = explode('=', $appdata);
 // $extension = $splits[1];
@@ -140,6 +128,288 @@ $extension = $splits[0];
 
 \end{lstlisting}
 
+Esto ocurría porque concretamente, utilizando la función PHP "explode" para segmentar una cadena de texto, la cadena dentro Event Newexten, correspondiente al parámetro AppData, tenía una estructura del tipo, SIP/10,30, siendo SIP/10 el dispositivo SIP al que apuntaría la aplicación para mostrar el mensaje emergiente, y 30, los segundos antes del "timeout". Con esto, retiraría todos estos argumentos y nos quedaríamos exclusivamente con el "10" para este ejemplo que podría corresponderse con la extensión asignada a un usuario en el sistema vTiger.
+
 Y con estos dos cambios el sistema ya funcionaba a la perfección, y dimos por integrado vTiger con nuestra versión de Asterisk.
 
-- Poner algunas capturas del sistema funcionando -
+A continuación en la Figura \ref{llamandaentrante} y la Figura \ref{llamandasaliente} podemos comprobar los mensajes emergientes, y visualizar la correcta puesta en marcha.
+
+\figura{vtiger_incoming.png}{scale=1}{Llamada Entrante en Vtiger}{llamandaentrante}{!ht}
+
+\figura{vtiger_outgoing.png}{scale=1}{Llamada Saliente en Vtiger}{llamandasaliente}{!ht}
+
+\subsection{Devolviendo el Control al Cliente}
+
+Atendiendo a la petición de nuestro cliente para poder ofrecerle la posibilidad de ser más autónomo en la gestión de sus propias extensiones, con la voluntad de darlas de alta y baja por cuenta propia, era fundamental incorporar en nuestro sistema Asterisk un nuevo elemento, el sistema Asterisk RealTime, equivalente a "trasvasar" todo el sistema de configuración interno de los ficheros de texto plano, estáticos por naturaleza, a un sistema más dinámico, basado en Bases de Datos, cuya interpretación de las mismas cara a la configuración del sistema, se haría en tiempo real. Esta funcionalidad que ofrece Asterisk, es muy práctica, si tenemos la intención de querer brindar algún tipo de interfaz, por ejemplo, en entorno web, para modificar los parámetros de una manera mucho más cómoda y confiable.
+
+Aunque es cierto que existen interfaces web ya creadas a medida para Asterisk, que no requieren de Bases de datos, ya que también permiten interpretar los ficheros de texto plano directamente, y estos adaptarlos a la misma, para mostrar su contenido y poder a su vez ser editado y reintroducido en los ficheros de configuración, el nivel de control que brindan al usuario que las utiliza es prácticamente total, y esto significa que un usuario inexperto podría provocar un problema en el sistema de forma casi involuntaria. 
+
+Además, por la propia definición de estas interfaces, su sistema radica, primero, en una lectura linea por linea del fichero de configuración, para interpretar su contenido, plasmarlo en la interfaz cara al usuario, y luego en caso de edición por parte de este, volver a reescribir literalmente ese fichero de texto de forma automáticamente, en el formato más conveniente por el sistema interfaz. Esto supone que la introducción y configuración de nuevos parámetros por un usuario más avanzado puede suponer una interferencia e incluso una inconveniencia, aunque dado el caso, existe la posibilidad de adaptar ficheros de configuración a medida en comunión a los "automáticos" generados por estas interfaces, que en un peor de los casos, incluso podrían provocar una redundancia en la funcionalidad (y poder derivar en errores de difícil detección)
+
+En general este tipo de interfaces, solo son utilizadas por usuarios noveles del sistema Asterisk y el nivel de personificación de la máquina esta limitada realmente al número de posibilidades que ofrezcan estas interfaces por defecto independientemente de las posibilidades de "personalización" que puedan llegar a aportar. Algunos de los contras que he comentado, suelen ser las críticas que alegan, la mayor parte de los usuarios más experimentados en la comunidad Asterisk.
+
+En consecuencia a esto, la idea para poder ofrecer autonomía sería la siguiente:
+
+\begin{enumerate}
+
+\item {Vamos a ofrecer la posibilidad de configurar pares SIP a voluntad del usuario, como extensiones posibles dentro del rango 10 al 59}
+\item {Tendremos que pasar la configuración del sistema SIP a Asterisk RealTime realizando las configuraciones en el sistema oportunas}
+\item {Tendremos que modificar el plan de marcación para ofrecer el número máximo de opciones que contemplen el rango limitado de creación de extensiones que vamos a ofrecer}
+\item {Finalmente crearemos una aplicación en PHP para la creación y eliminación de extensiones SIP de forma dinámica}
+
+\end{enumerate}
+
+Considerando esto, en primer lugar, tocaría realizar la configuración de los ficheros correspondientes, para poder establecer un puente entre Asterisk, y nuestra base de datos SQL donde alojaremos la configuración de los pares SIP (sippeers). Para ello utilizaremos el driver ODBC de nuestro sistema Linux que asociaremos con el recurso ODBC que ofrece Asterisk.
+
+El primer fichero de configuración sería extconfig.conf como vemos a continuación:
+
+\lstinputlisting[title={/etc/asterisk/extconfig.conf}]{../conf/extconfig.conf}
+
+Un fichero muy sencillo, indicamos que el módulo que vamos a convertir es el encargado de gestionar los pares del canal SIP, utilizando el driver ODBC, para enlazarlo con el recurso ODBC de Asterisk en el contexto \textbf{asterisk\_odbc}, y que la tabla se llamará \textbf{pares\_sip}.
+
+Ahora el segundo fichero, sería res\_odbc.conf:
+
+\lstinputlisting[title={/etc/asterisk/res\_odbc.conf}]{../conf/res_odbc.conf}
+
+En este caso también una estructura muy sencilla. Especificamos que el DSN del Driver ODBC será llamado asterisk, y queremos que conecte utilizando unas credenciales específicas que vamos a añadir en nuestra base de datos MySQL del paquete LAMP que instalamos al principio
+
+Ahora vamos a modificar el fichero sip.conf donde se encuentran los pares en formato "estático", para que se adapte a la nueva configuración en formato Asterisk Realtime "dinámico". Nos quedaría tan simple de la siguiente forma:
+
+\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf.2}
+
+Con estos pasos tan sencillos, ya tenemos la parte Asterisk funcionando.
+
+Ahora nos toca preparar el Driver ODBC a nivel Linux. Considerando que estamos trabajando con Ubuntu, es importante, dado que las librerías ODBC para MySQL se ubican en directorios diferentes que en otras distribuciones como RedHat o CentOS. Por ello necesitamos especificar la ruta exacta utilizando el fichero de configuración ubicado en el directorio /etc/, llamado \textbf{odbcinst.ini}:
+
+\lstinputlisting[title={/etc/odbcinst.ini}]{../conf/odbcinst.ini}
+
+Es importante considerar que tenemos los paquetes unixodbc y libmyodbc, para el correcto funcionamiento:
+
+\begin{lstlisting}[language=sh]
+sudo aptitude install unixodbc libmyodbc
+\end{lstlisting}
+
+Y finalmente configuramos el DSN en el fichero odbc.ini:
+
+\lstinputlisting[title={/etc/odbc.ini}]{../conf/odbc.ini}
+
+En este caso, dado que las credenciales las especificamos en el recurso ODBC, vamos a realizar la conexión utilizando un socket específico para mysql que en Ubuntu server se encuentra en el directorio especificado dentro de la configuración de este fichero.
+
+Ahora, necesitamos prepara la Base de Datos SQL, utilizando mySQL, concretamente la interfaz grafica phpMySQL basada en el lenguaje de programación PHP. Pero eventualmente para las primeras tareas básicas de configuración vamos a utilizar la interfaz por linea de comandos que incorpora MySQL en su instalación.
+
+En primer lugar vamos a crear la base de datos \textbf{asterisk}, especifica para el cometido que estamos buscando:
+
+\begin{lstlisting}[language=sh]
+mysqladmin -u root -p create asterisk
+\end{lstlisting}
+
+Ahora vamos a crear un usuario llamado asterisk, para que pueda operar exclusivamente en esta base de datos:
+
+\lstinputlisting[title={usuarioasterisk.sql}]{../scripts/usuarioasterisk.sql}
+
+Y lo introducimos en nuestro sistema:
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p < usuarioasterisk.sql
+\end{lstlisting}
+
+Ahora finalmente vamos a crear la tabla pares\_sip dentro de la base de datos llamada asterisk, para ello creamos un fichero y lo cargamos:
+
+\lstinputlisting[title={pares\_sip.sql}]{../scripts/pares_sip.sql}
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p asterisk < pares_sip.sql
+\end{lstlisting}
+
+Notese que existe un campo, que no es creado por defecto en este tipo de tabla de sippeers. Estamos hablando del campo \textbf{useradmin}, que nos va a servir a posteriori, cuando diseñemos una pequeña aplicación para poder ofrecer un entorno visual de edición de usuarios de esta tabla, para configurar el sistema de pares al completo. Así que le damos este privilegio (1) a la extensión 10 y 54 que serán en principio mientras no se diga lo contrario, los dos "administradores" del sistema.
+
+Con toda la estructura creada, solo nos queda empezar a insertar los pares con los que veniamos trabajando anteriormente dentro de la tabla y comprobar que todo funciona correctamente. Para ello creamos otro fichero sql donde insertamos toda la información al respecto, en este caso vamos a utilizar 3 pares de ejemplo, el resto los haremos utilizando la herramienta phpMyAdmin:
+
+\lstinputlisting[title={ejemplo\_pares\_sip.sql}]{../scripts/ejemplo_pares_sip.sql}
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p asterisk < ejemplo_pares_sip.sql
+\end{lstlisting}
+
+Ahora es el momento de diseñar una aplicación en PHP muy sencillo para poder llevar una pequeña gestión de los pares SIP de forma descentralizada por parte de nuestro usuario. La idea sería, basandonos en la tabla recién creada "pares\_sip", poder considerarla como un sistema de acceso de usuarios para ciertos usuarios, y ademas, será la tabla que realmente pretendemos que nuestros usuarios de UCA Autos puedan editar a voluntad. Este script de momento es una primera instancia para poder ofrecer lo que nuestros usuarios necesitan, pero quizá en un futuro sería mejorable, optimizando la seguridad de acceso al mismo, ya que con técnicas poco ortodoxas como la Inyección de código SQL podrían acceder al mismo sin grandes dificultades.
+
+El script se irá describiendo a continuación \footnote{Montando un Sistema Asterisk Autonomo I, \\ http://10000horas.com/asterisk/2011/12/08/montando-un-sistema-asterisk-autonomo-i}, primero conectamos a la base de datos \textbf{asterisk}:
+
+\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+
+ <?php
+
+// Conexion a la base de Datos
+
+$base = "asterisk";
+$host = "localhost";
+$user = "asterisk";
+$password = "asterisk";
+$conexion = mysql\_connect($host,$user,$password);
+\$result = mysql\_select\_db($base,$conexion) 
+or die ("Error en la Conexion a BD");
+
+\end{lstlisting}
+
+A continuación, registramos una sesión con una Cookie, y hacemos una consulta condicional, a la base de datos en caso que no estenmos logeados (es decir, en nuestra Cookie, no aparezca la variable de sesión \textbf{login} que indica que estamos registrados), y con esta consulta, comprobamos si el usuario esta registrado o no, en caso que lo este, registramos las variables de sesión incluyendo la variable \textbf{login}, para que no nos vuelva a solicitar inicio de sesión en adelante.
+
+Como vemos, en caso que no hubiesemos accedido al sistema, nos aparecería un pequeño formulario pidiendo las credenciales, que al rellenarlo, lanzaría las credenciales como variables para una consulta SQL contra nuestra Base de Datos:
+
+\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+
+session_start();
+
+// Si no estamos logeados
+
+if (!$_SESSION['login'])
+{
+ if(isset($_POST['loginsubmit']))
+ {
+ $usuario = $_POST['usuario'];
+ $password = $_POST['password'];
+
+ if((!$usuario) || (!$password))
+ {
+ echo "Error 1<br>";
+ exit();
+ }
+ $password = $usuario.":asterisk:".$password;
+ $password = md5($password);
+ $query = mysql_query("SELECT * FROM pares_sip WHERE 
+ name='$usuario' AND md5secret = '$password' AND useradmin = '1'");
+ if (mysql_num_rows($query) > 0)
+ {
+ session_register('login');
+ $_SESSION['login'] = '1';
+ }
+ else
+ echo "Error 2<br><br>";
+
+ echo "<a href='usuarios.php'>Home</a>";
+ }
+ else
+ {
+ echo "<form method='post' action='?'>";
+ echo "Usuario: <input name='usuario' type='text'><br>";
+ echo "Contrase&ntilde;a: <input name='password' type='password'><br>";
+ echo "<input type='submit' name='loginsubmit'>";
+ echo "</form>";
+ }
+
+}
+
+\end{lstlisting}
+
+En caso que ya estemos logeados, nos ofrece un pequeño menu por si queremos avanzar hacia el formulario para insertar o destruir registros SIP o si queremos salir, en el segundo caso, destruiría la Cookie con la sesión y nos daría la opción a volver a la pantalla de inicio de la aplicación donde nos vuelve a solicitar las credenciales de acceso.
+
+A partir de aquí, considerando, que hayamos lanzado el formulario que veremos al final de la descripción de esta aplicación, en caso que hayamos rellenado el formulario de insertar un registro, recibiríamos los parámetros, y crearíamos una consulta SQL con los mismos a medida, para insertarla en nuestra base de datos. Con esto quedaría registrado nuestro usuario y podríamos volver a nuestro panel principal.
+
+\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+
+// Si ya estamos logeados
+
+else
+{
+ // Salida del Sistema
+ if(isset($_REQUEST['exit']))
+ {
+ session_destroy();
+
+ if(!session_is_registered('login'))
+ echo "<a href='usuarios.php'>Home</a>";
+
+ }
+ // Insercion de un nuevo Registro
+ elseif(isset($_POST['insertsubmit']))
+ {
+ $sipuser = $_POST['sipuser'];
+ $sippass = $_POST['sippass'];
+ $contexto = $_POST['contexto'];
+ $sippass = $sipuser.":asterisk:".$sippass;
+ $sippass = md5($sippass);
+ $buzon = $sipuser."@default";
+ $query = mysql_query("INSERT INTO pares_sip 
+ (`name`, `host`, `nat`, `type`, `context`, `md5secret`, 
+ `qualify`, `disallow`, `allow`, `port`, `regseconds`, 
+ `lastms`, `username`, `defaultuser`, `mailbox`)
+ VALUES ('$sipuser', 'dynamic', 'no', 'friend', '$contexto', 
+ '$sippass', 'yes', 'all', 'alaw;gsm;ulaw',
+ '0','0', '0', '', '', '$buzon')");
+
+ echo "<a href='usuarios.php'>Home</a><br>";
+ echo "<a href='usuarios.php?exit'>Exit</a>";
+ }
+
+\end{lstlisting}
+
+La segunda posibilidad, es que hayamos optado por pulsar el botón del formulario principal para borrar un registro SIP. En este caso, haría el borrado lanzando la consulta SQL correspondiente, asociándolo al identificador concreto del Par SIP que hayamos decidido eliminar:
+
+\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+
+ // Borrado de un Registro
+ elseif(isset($_POST['deletesubmit']))
+ {
+ $sipid = $_POST['sipid'];
+ $query = mysql_query("DELETE FROM pares_sip WHERE id = '\$sipid'");
+
+ echo "<a href='usuarios.php'>Home</a><br>";
+ echo "<a href='usuarios.php?exit'>Exit</a>";
+ }
+
+\end{lstlisting}
+
+Finalmente, están los dos posibles formularios, tanto el de inserción como el de borrado, los cuales recogen las variables para pasárselas a las consultas anteriormente explicadas:
+
+\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+
+ // Formularios de Insercion y Borrado
+ else
+ {
+ echo "Insertar Registro:<br>";
+ echo "<p><form method='post' action='?'>";
+
+ echo "Usuario: <input name='sipuser' type='text'><br>";
+ echo "Contrase&ntilde;a: <input name='sippass' type='password'><br>";
+ echo "Tipo: <select name='contexto'>";
+ echo "<option value='extensiones'>Resto</option>";
+ echo "<option value='manager'>Manager</option>";
+ echo "<option value='gerencia'>Gerencia</option>";
+ echo "</select><br>";
+ echo "<input type='submit' name='insertsubmit' value='Insertar'>";
+ echo "</form></p>";
+
+ echo "<table border='1'>";
+ echo "<tr><td colspan ='2' align='center'>SIP Peers Activos</td></tr>";
+ echo "<tr><td>Usuario</td><td>Borrar</td></tr>";
+
+ $query = mysql_query("SELECT * FROM pares_sip WHERE type = 'friend'");
+ $rows = mysql_num_rows($query);
+ for ($i=0;$i<$rows;$i++)
+ {
+ $sippeersarray = mysql_fetch_array($query);
+ $sipuser = $sippeersarray['name'];
+ $sipid = $sippeersarray['id'];
+
+ echo "<tr>";
+ echo "<td>".$sipuser."</td>";
+ echo "<td>";
+ echo "<form method='post' action='?'>";
+ echo "<input type=hidden name='sipid' value='\$sipid'>";
+ echo "<input type=submit name='deletesubmit' value='Borrar'>";
+ echo "</form>";
+ echo "</td>";
+ echo "</tr>";
+
+ }
+ echo "</table>";
+ echo "<a href='usuarios.php?exit'>Exit</a>";
+
+ }
+}
+?>
+
+\end{lstlisting}
+
+Con esta aplicación somos capaces de crear todas las extensiones que creamos antes, exactamente con la misma configuración, en una cuestión de 1 minuto, siendo un ejemplo de escalabilidad y flexibilidad.
+
+

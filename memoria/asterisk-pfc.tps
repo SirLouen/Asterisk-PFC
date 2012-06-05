@@ -11,14 +11,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=caso_de_uso_2.tex
+Document=caso_de_uso_3.tex
 
 [Frame0_View0,0]
-TopLine=353
-Cursor=16570
+TopLine=141
+Cursor=14170
 
 [Frame1]
 Flags=0
@@ -29,13 +29,13 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
 Document=caso_de_uso_1.tex
 
 [Frame1_View0,0]
-TopLine=94
+TopLine=55
 Cursor=7127
 
 [Frame2]
@@ -47,14 +47,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=previo.tex
+Document=caso_de_uso_2.tex
 
 [Frame2_View0,0]
-TopLine=13
-Cursor=644
+TopLine=156
+Cursor=16009
 
 [Frame3]
 Flags=0
@@ -65,14 +65,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=portada.tex
+Document=previo.tex
 
 [Frame3_View0,0]
-TopLine=0
-Cursor=299
+TopLine=6
+Cursor=422
 
 [Frame4]
 Flags=0
@@ -83,14 +83,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=primerahoja.tex
+Document=memoria.tex
 
 [Frame4_View0,0]
-TopLine=0
-Cursor=597
+TopLine=40
+Cursor=1610
 
 [Frame5]
 Flags=0
@@ -101,14 +101,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=estilos\comandos.sty
+Document=desarrollo.tex
 
 [Frame5_View0,0]
-TopLine=0
-Cursor=210
+TopLine=260
+Cursor=27168
 
 [Frame6]
 Flags=0
@@ -119,14 +119,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
-Class=LaTeXView
-Document=wiki.tex
+NormalPos.right=1562
+NormalPos.bottom=700
+Class=BibTeXView
+Document=bibliografia.bib
 
 [Frame6_View0,0]
-TopLine=0
-Cursor=773
+TopLine=11
+Cursor=1412
 
 [Frame7]
 Flags=0
@@ -137,14 +137,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=memoria.tex
+Document=estilos\comandos.sty
 
 [Frame7_View0,0]
-TopLine=47
-Cursor=2084
+TopLine=0
+Cursor=210
 
 [Frame8]
 Flags=0
@@ -155,14 +155,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
-Document=programas.tex
+Document=wiki.tex
 
 [Frame8_View0,0]
 TopLine=0
-Cursor=1339
+Cursor=773
 
 [Frame9]
 Flags=0
@@ -173,14 +173,14 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
-Class=BibTeXView
-Document=bibliografia.bib
+NormalPos.right=1562
+NormalPos.bottom=700
+Class=LaTeXView
+Document=programas.tex
 
 [Frame9_View0,0]
-TopLine=8
-Cursor=1059
+TopLine=0
+Cursor=1339
 
 [Frame10]
 Flags=0
@@ -191,52 +191,16 @@ MaxPos.x=-1
 MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
-Class=LaTeXView
-Document=difusion.tex
-
-[Frame10_View0,0]
-TopLine=0
-Cursor=264
-
-[Frame11]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
-Class=LaTeXView
-Document=desarrollo.tex
-
-[Frame11_View0,0]
-TopLine=553
-Cursor=25775
-
-[Frame12]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=26
-NormalPos.right=509
-NormalPos.bottom=379
+NormalPos.right=1562
+NormalPos.bottom=700
 Class=LaTeXView
 Document=fdl-1.3.tex
 
-[Frame12_View0,0]
-TopLine=455
+[Frame10_View0,0]
+TopLine=340
 Cursor=13768
 
 [SessionInfo]
-FrameCount=13
+FrameCount=11
 ActiveFrame=0
 
