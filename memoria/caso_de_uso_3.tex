@@ -203,6 +203,9 @@ En primer lugar vamos a crear la base de datos \textbf{asterisk}, especifica par
 mysqladmin -u root -p create asterisk
 \end{lstlisting}
 
+GRANT ALL PRIVILEGES ON `asterisk` . * TO 'asterisk'@'localhost';
+
+
 Ahora vamos a crear un usuario llamado asterisk, para que pueda operar exclusivamente en esta base de datos:
 
 \lstinputlisting[title={usuarioasterisk.sql}]{../scripts/usuarioasterisk.sql}
@@ -412,4 +415,51 @@ Finalmente, están los dos posibles formularios, tanto el de inserción como el 
 
 Con esta aplicación somos capaces de crear todas las extensiones que creamos antes, exactamente con la misma configuración, en una cuestión de 1 minuto, siendo un ejemplo de escalabilidad y flexibilidad.
 
+Finalmente hemos de modificar el Plan de Marcación para que acepte todo tipo de extensiones dentro del rango que establecimos (de la extensión 10 a la extensión 59 hasta nuevo aviso). Para ello realizamos la siguiente pequeña modificación:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+; Todas las Extensiones para Asterisk RealTime
+exten => _[1-5]X,1,Macro(telefonos)
+exten => _9[1-5]X,1,Macro(buzon)
+
+\end{lstlisting}
+
+Y con esto ya quedaría terminada por completo esta parte del trabajo.
+
+\subsection{Análisis de Asterisk con Lupa}
+
+Continuando con la serie de trabajos encomendados por el señor Pedro, era el momento de hacer frente a la gestión y el control del registro de llamadas, dado que según nos comento nuestro cliente, había observado en la factura de teléfono que se estaban haciendo usos desmedidos del mismo, pero no podía controlar bien, quien y porque, estaba incurriendo en este gasto desmesurado. Quiza fuese simplemente porque se sabía que hasta el momento no existía un mecanismo de control eficiente, y era raro tener este tipo de controles para las PYME del sector, en las PBX convencionales dado que suponían unos sistemas de licenciamiento bastante costosos.
+
+En este caso, sabemos que Asterisk ofrece un registro de llamadas que podemos extraer desde diversas fuentes, pasando por ficheros de texto hasta las bases de datos de diferentes tipos, siguiendo un estilo muy parecido de almacenamiento, al que describimos anteriormente cuando hicimos el trasvase de configuración del módulo SIP al modelo de Tiempo Real (Asterisk Realtime).
+
+En primer lugar vamos a configurar el sistema de almacenamiento del Registro de Llamadas (CDR), en la base de Datos que creamos anteriormente para nuestro sistema RealTime, solo que vamos a tener que crear una tabla nueva específica para almacenar todos los registros CDR.
+
+Por ello, la primera parte sería la de configurar el fichero cdr\_adaptive\_odbc.conf y dotarlo de una estructura genérica para que conecte a nuestro anterior "conector" para el registro DSN del Driver ODBC que especificamos en la anterior sección (el llamado "asterisk\_odbc" de res\_odbc.conf). Con esto configuramos el fichero cdr\_adaptive\_odbc.conf de la siguiente forma:
+
+\lstinputlisting[title={/etc/asterisk(cdr\_adaptive\_odbc.conf}]{../conf/cdr_adaptive_odbc.conf}
+
+En segundo lugar, vamos a crear la tabla dentro de nuestra anteriormente creada base de datos Asterisk, con la siguiente estructura:
+
+\lstinputlisting[title={sistemacdr.sql}]{../scripts/sistemacdr.sql}
+
+Y cargamos la tabla dentro de nuestra base de datos "asterisk":
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p asterisk < sistemacdr.sql
+\end{lstlisting}
+
+Con esto ya tendríamos el sistema CDR mandando registros autómaticamente.
+
+Por otro lado, necesitaríamos proveer de algún tipo de interfaz, para que nuestro cliente, pudiera observar fácilmente lo que tiene intención (en este caso, controlar el mal uso de las lineas telefónicas y detectar los abusos por parte del personal). Para ello realizariamos la instalación de CDR-Stats como entorno web \footnote{CDR-Stats en WikiAsterisk, http://wikiasterisk.com/index.php?title=CDR-Stats}, según viene perfectamente descrito en la WikiAsterisk.
+
+La instalación de este sistema, habria que considerar que ha ido bastante rápido, debido a que la preparación del sistema Asterisk Realtime, dio lugar a que las bases ya estuvieran sentadas, para la implementación de todos tipo de servicios que involucrarán la interrelación entre nuestra máquina Asterisk, y un sistema de Bases de Datos.
+
+En la Figura \ref{cdrstats_grafico} y la Figura \ref{cdrstats_barras} mostramos las posibilidades que ofrecerá para el Sr. De los Palotes la Interfaz que acabamos de preparar para el manejo de todo el Detalle de Llamadas según hubiera pretendido. Dado que la instalación todavía es muy prematura sin uso ninguno, solo se ve como quedarían los ejemplos, pero sin suficiente información para que resulten lo suficientemente esclarecedores:
+
+\figura{cdrstats_grafico.png}{scale=1}{Gráfico Circular de Llamadas Totales}{cdrstats_grafico}{!ht}
+
+\figura{cdrstats_barras.png}{scale=1}{Histograma de Llamadas por días}{cdrstats_barras}{!ht}
+
+\subsection{Conferencias Corporativas}
 
