@@ -17,7 +17,6 @@ uniqueid varchar(32) NOT NULL default '',
 userfield varchar(255) NOT NULL default ''
 );
 
-ALTER TABLE `cdr` ADD `uniqueid` VARCHAR(32) NOT NULL default .;
 ALTER TABLE `cdr` ADD INDEX ( `calldate` );
 ALTER TABLE `cdr` ADD INDEX ( `dst` );
 ALTER TABLE `cdr` ADD INDEX ( `accountcode` );
