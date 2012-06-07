@@ -163,7 +163,7 @@ Considerando esto, en primer lugar, tocaría realizar la configuración de los f
 
 El primer fichero de configuración sería extconfig.conf como vemos a continuación:
 
-\lstinputlisting[title={/etc/asterisk/extconfig.conf}]{../conf/extconfig.conf}
+\lstinputlisting[title={/etc/asterisk/extconfig.conf}]{../conf/extconfig.conf.1}
 
 Un fichero muy sencillo, indicamos que el módulo que vamos a convertir es el encargado de gestionar los pares del canal SIP, utilizando el driver ODBC, para enlazarlo con el recurso ODBC de Asterisk en el contexto \textbf{asterisk\_odbc}, y que la tabla se llamará \textbf{pares\_sip}.
 
@@ -462,4 +462,164 @@ En la Figura \ref{cdrstats_grafico} y la Figura \ref{cdrstats_barras} mostramos 
 \figura{cdrstats_barras.png}{scale=1}{Histograma de Llamadas por días}{cdrstats_barras}{!ht}
 
 \subsection{Conferencias Corporativas}
+
+Como último trabajo, nos tocaría introducir el sistema de Conferencing que incorpora Asterisk entre sus módulos generales, llamado MeetMe. También existe la opción de utilizar ConfBridge que es la nueva evolución del sistema, pero para este caso resulta suficiente el primero, y además integraremos una nueva interfaz web muy práctica, que seguirá en la linea de las anteriores configuraciones, aprovechando además la posibilidad de ofrecer configuraciones del sistema MeetMe en tiempo real (con Asterisk RealTime).
+
+Nuestra intención dado el potencial que nos ofrece el sistema, es crear por un lado, una sala de conferencias estática, para uso del Jefe de Ventas, y luego un sistema general de salas de conferencia dínamico que ofreceremos al Sr. Pedro, para que pudiera crear futuras salas de conferencia a voluntad y ofrecerselas al resto de los empleados.
+
+Para ello, vamos a asociar cada uno de los sistemas, a un número Direct Dial-In (DDI) cada una, y así podrán accederse a las mismas en cualquier momento. Solicitamos los respectivos números a nuestro operador UCA Telecom, y los asociamos al Plan de Marcación:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+exten => 956001171,1,Goto(especiales,102,1)
+exten => 956001172,1,Goto(especiales,103,1)
+
+\end{lstlisting}
+
+En este caso, el 956001171, sería para el sistema general de salas de conferencia, y el 956001172, para la sala de conferencias especifica para el Jefe de Ventas.
+
+Ahora, en primer lugar vamos a crear la sala de Conferencias sencilla, basándonos en la Aplicación Meetme, y la asociaremos a un número Direct Dial-In (DDI) para su correspondiente acceso desde el exterior, para los posibles proveedores, o clientes, según nos comentaba nuestro cliente.
+
+Para ello, vamos a configurar por un lado el fichero meetme.conf, con los parámetros suficientes para conseguir este resultado, según podemos ver a continuación:
+
+\lstinputlisting[title={/etc/asterisk/meetme.conf}]{../conf/meetme.conf}
+
+En este caso, hemos definido, una única sala, la número 100, con dos códigos de acceso, uno para administrador, y otro para el resto de los usuarios, además de algunos parámetros específicos del sistema MeetMe.
+
+Para poder acceder a la misma, simplemente definimos en nuestro plan de marcación la parte correspondiente:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+exten => 103,1,NoOp()
+same => n,MeetMe(100)
+same => n,Hangup()
+\end{lstlisting}
+
+Por otro lado vamos a configurar el sistema MeetMe en formato Realtime, para poder utilizarlo con una interfaz web especifica, llamada Web-Meetme \footnote{Instalación Web-Meetme en WIKIAsterisk, http://wikiasterisk.com/index.php?title=Web-MeetMe}.
+
+Así que debemos crear una base de datos específica para este contexto, que llamaremos meetme:
+
+\begin{lstlisting}[language=sh]
+mysqladmin -u root -p create meetme
+\end{lstlisting}
+
+Y crearemos la estructura de tablas utilizando el siguiente script, extraído y adaptado, del fichero del paquete de instalación de Web-Meetme:
+
+\lstinputlisting[title={./tablasmeetme.sql}]{../scripts/tablasmeetme.sql}
+
+Y procedemos a insertarla dentro de nuestra base de datos "asterisk":
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p meetme < tablasmeetme.sql
+\end{lstlisting}
+
+Y añadimos un usuario administrador a la tabla "user" para nuestro cliente Don Pedro:
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p meetme -e "INSERT INTO meetme.user (first_name, last_name, 
+email, telephone, password, admin) VALUES ('Pedro', 'de los Palotes', 
+'ppalotes@wikiasterisk.com', '956001154', 'asterisk', 'Admin');"
+\end{lstlisting}
+
+Y también permitir en la base de datos \textbf{meetme} acceso total al usuario asterisk:
+
+\begin{lstlisting}[language=sh]
+mysql -u root -p meetme -e "mysql -u root -p -e 
+"GRANT ALL PRIVILEGES ON meetme.* TO 'asterisk'@'localhost';"
+\end{lstlisting}
+
+Por otro lado añadimos la siguiente linea en el fichero \textbf{extconfig.php} donde se definen los módulos convertibles a Asterisk Realtime y las tablas que lo asocian en las bases de datos:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extconfig.conf}]
+meetme => odbc,meetme_odbc,booking
+\end{lstlisting}
+
+También tenemos que incorporar algunas modificaciones en nuestro fichero res\_odbc.conf para incorporar una nueva configuración, para que conecte al Driver ODBC con el DSN meetme, para la nueva base de datos con el mismo nombre:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/res\_odbc.conf}]
+
+[meetme_odbc]
+enabled => yes
+dsn => meetme
+username => asterisk
+password => asterisk
+pre-connect => yes
+
+\end{lstlisting}
+
+Ya por último, terminar de configurar el driver ODBC, y especificar el DSN específico meetme con el que se realizará toda la trasmisión de información entre MySQL y Asterisk:
+
+\begin{lstlisting}[language=bash,title={/etc/odbc.ini}]
+
+[meetme]
+Description = MeetMe para MySQL
+Driver = MySQL
+Server = localhost
+Database = meetme
+Socket = /var/run/mysqld/mysqld.sock
+
+\end{lstlisting}
+
+Y ya culminando esta parte, solo queda la instalación propiamente dicha, del sistema Web-Meetme siguiendo los pasos de WikiAsterisk.com, considerar que modificaríamos el fichero manager.conf de la interfaz AMI para adaptarlo a la configuración especifica de esta interfaz añadiendo lo siguiente:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/manager.conf}]
+
+[meetme]
+secret = meetme 
+read = call
+write = command,originate
+permit = 127.0.0.1/255.255.255.0
+
+\end{lstlisting}
+
+Una vez permitido el acceso al Manager con un usuario y contraseña especifico es necesario que recurramos a un fichero concreto, que ofrece la instalación de Web-Meetme. 
+
+Considerando que Web-Meetme, incorpora una versión de PHP-AGI \footnote{Interfaz AGI, WIKIAsterisk, http://wikiasterisk.com/index.php?title=AGI}, solo necesitamos configurar el fichero phpagi.conf para dar la funcionalidad a la clase AGI\_AsteriskManager:
+
+\lstinputlisting[title={/etc/asterisk/phpagi.conf}]{../conf/phpagi.conf}
+
+Y tambien editar un fichero de configuración para la conexión a la base de datos de la aplicación MeetMe propia:
+
+\begin{lstlisting}[language=bash,title={/var/www/web-meetme/lib/database.php}]
+
+include_once 'DB.php';
+$database = 'meetme';
+$host = 'localhost';
+$username = 'asterisk';
+$password = 'asterisk';
+
+\end{lstlisting}
+
+Finalmente vamos a especificar algunos parámetros concretos, para que nuestro sistema Web-MeetMe funcione con plenitud \footnote{Configuración Adicional Web-MeetMe, WikiAsterisk.com, \\ http://wikiasterisk.com/index.php?title=Web-MeetMe\#Configuraci.C3.B3n\_Adicional}.
+
+\begin{lstlisting}[language=bash,title={/var/www/web-meetme/lib/defines.php}]
+
+define ("WEBROOT", "http://pfc-asterisk.local/web-meetme/");
+define ("FSROOT", "/var/www/web-meetme/");
+define ("LIBDIR", FSROOT."lib/");
+
+define ("OUT_CONTEXT", "extensiones");
+define ("OUT_CALL_CID", "Invitacion Meetme <102>");
+
+define ("AUTH_TYPE", "sqldb");
+define ("AUTH_TIMEOUT", "3");
+
+define("LOCAL_SUPPORT", "Departmento de Soporte");
+define("LOCAL_PHONE", "956001151");
+define("PHONENUM", "956001171");
+
+\end{lstlisting}
+
+Con todo esto, ya quedaría el sistema Web-Meetme completamente configurado, podemos ver una imagen con distintas conferencias creadas dínamicamente en la interfaz, en la Figura \ref{meetme_conf}. Ya solo quedaría realizar un pequeño ajuste en el Plan de Marcación, para incluir un nuevo número DDI especifico para conectar a nuestro sistema de salas dinámicas:
+
+\figura{meetme_conf.png}{scale=1}{Lista de Conferencias Dínamicas Web-MeetMe}{meetme_conf}{!ht}
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+exten => 102,1,NoOp()
+same => n,MeetMe(100)
+same => n,Hangup()
+
+\end{lstlisting}
+
+Con esto ya habríamos terminado todas las tareas que nos encomendó Pedro de los Palotes y podríamos proceder a la entrega según previsto.
 

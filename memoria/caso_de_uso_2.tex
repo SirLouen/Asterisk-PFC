@@ -170,7 +170,9 @@ Por otro lado y para terminar, en el fichero de configuración del Plan de Marca
 
 \textbf{Por otro lado, quería tener un teléfono directo especifico para el Call-Center, al entrar la llamada, diese un mensaje de bienvenida, y pusiera al cliente en la cola de espera hasta que pudiera ser atendido por un agente. Y si fuera posible también nos pidió que el sistema dijera eventualmente al cliente en espera, su posición en la cola. Le confirmamos que sus peticiones eran todas posibles, y que nos pondríamos manos a la obra de inmediato.}
 
-\textbf{Finalmente le preguntamos como quería distribuir sus llamadas entre los agentes disponibles. Le hicimos algunos comentarios sobre las estrategias disponibles, y eligió la estrategia más simple de momento, dado que todavía no conocía en profundidad como resultaría esta nueva operación, que sonase por igual el teléfono en todas las lineas disponibles a cada momento.}
+\textbf{Le preguntamos como quería distribuir sus llamadas entre los agentes disponibles. Hicimos algunos comentarios sobre las estrategias disponibles, y eligió la estrategia más simple de momento, dado que todavía no conocía en profundidad como resultaría esta nueva operación, que sonase por igual el teléfono en todas las lineas disponibles a cada momento.}
+
+\textbf{Finalmente, también le inquietaba, el hecho de poder controlar la calidad de las llamadas. En un principio le comentamos que existía la posibilidad tanto de escuchar las llamadas en tiempo real, como poder realizar grabaciones de llamadas en disco. Ambas opciones le parecían interesantes por igual, especialmente para el Responsable de Almacen y Marketing los cuales debían hacer un seguimiento intensivo por la forma en la que la que se realizaba la comunicación pudiera optimizarse en un futuro. En consecuencia, se planteo el hecho de tener los dos servicios disponibles}
 
 \subsection{Colas en Asterisk}
 
@@ -231,3 +233,5 @@ Con esto quedaría el sistema base de Colas completamente funcional. Ahora por o
 Para ello vamos a utilizar la herramienta Asternic Stats, en su formato Open Source. Siguiendo el esquema de instalación ofrecido en la Wiki \footnote{WIKIAsterisk, Asternic Stats, http://wikiasterisk.com/index.php?title=Asternic\_Stats} tenemos montado todo en un tiempo relativamente corto, podemos ver en la Figura \ref{asternic} una captura de la lista de los tres usuarios de Almacén y su respectiva disponibilidad. 
 
 \figura{estado_agentes.png}{scale=1}{Captura de la Pantalla de Disponibilidad de Agentes de Asternic}{asternic}{!ht}
+
+En última instancia, quería preparar el sistema de Grabación de llamadas, y de escucha. Era importante hacer saber al Sr. Zutano que existían aspectos legales que tenía que tener controlados, con respecto a la grabación de llamadas (previo consentimiento del cliente, mediante una locución al inicio de la llamada)
