@@ -1,0 +1,21 @@
+#!/usr/bin/php -q
+<?php
+require_once("phpagi/phpagi.php");
+$agi = new AGI();
+// $agi->answer();
+// Primero convertimos el fichero que generamos desde Asterisk a formato FLAC (que es el que admite Google)
+shell_exec("sox /var/lib/asterisk/sounds/grabacion-asr.wav /tmp/grabacion-asr.flac");
+
+// Despues lanzamos una peticion a Google para que nos convierta el fichero FLAC en texto, nos devuelve una cadena de texto formato JSON
+$linea = shell_exec("wget --post-file /tmp/grabacion-asr.flac --header='Content-Type: audio/x-flac; rate=8000' -O - 'http://www.google.com/speech-api/v1/recognize?lang=es_ES'");
+// Convertimos esa cadena JSON gracias a PHP en un objeto directamente
+// $obj = json_decode(utf8_encode($linea));
+$obj = json_decode($linea);
+// Sacamos el valor utterance
+$valorasr = $obj->{"hypotheses"}[0]->{"utterance"};
+
+$agi->verbose($valorasr);
+// Pasamos el texto a Asterisk en forma de variable de canal
+$agi->set_variable("TEXTOASR", $valorasr);
+$agi->verbose($retString);
+?>
