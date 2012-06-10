@@ -234,4 +234,37 @@ Para ello vamos a utilizar la herramienta Asternic Stats, en su formato Open Sou
 
 \figura{estado_agentes.png}{scale=1}{Captura de la Pantalla de Disponibilidad de Agentes de Asternic}{asternic}{!ht}
 
-En última instancia, quería preparar el sistema de Grabación de llamadas, y de escucha. Era importante hacer saber al Sr. Zutano que existían aspectos legales que tenía que tener controlados, con respecto a la grabación de llamadas (previo consentimiento del cliente, mediante una locución al inicio de la llamada)
+En última instancia, quería preparar el sistema de Grabación de llamadas, y de escucha. Era importante hacer saber al Sr. Zutano que existían aspectos legales que tenía que tener controlados, con respecto a la grabación de llamadas (previo consentimiento del cliente, mediante una locución al inicio de la llamada, informando al respecto), para ello hacemos una pequeña modificación en la extensión 101, introduciendo esta locución específica por un lado.
+
+Por otro lado, vamos a lanzar la aplicación de grabación Monitor, para que solo grabe cuando exista comunicación entre ambas partes de la comuniación. Aparte guardaremos los registros en ficheros individuales mezclados en formato wav, y tendran nombres distintos para poder identificarlos y que no se solapen unos con los otros:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+exten => 101,1,NoOp()
+same => n,Playback(bienvenida)
+same => n,Playback(grabacion)
+same => n,Set(GRABACION="grabacion-"${STRFTIME(${EPOCH},,%Y%m%d-%H%M%S)})
+same => n,Monitor(wav,\${GRABACION},mb)
+same => n,Queue(almacen)
+same => n,Hangup()
+
+\end{lstlisting}
+
+Vamos a crear un enlace simbolico a nuestro directorio web raíz, a la carpeta de grabaciones de Asterisk para que puedan acceder a las mismas de forma directa el responsable. Asi podría acceder directamente desde el servidor web http://pfc-asterisk.local/monitor y ver todas las grabaciones:
+
+\begin{lstlisting}[language=sh]
+cd /var/www/
+ln -s /var/spool/asterisk/monitor ./
+\end{lstlisting}
+
+Por otro lado, tenemos que informar por contrato a los empleados, que sus llamadas pueden ser escuchadas sin previa autorización, para ello remitimos al gerente a su responsable legal para que redacte el mismo. Con esto, habiendo allanado el terreno de lo legal, podemos proceder a realizar las modificaciones pertinentes
+
+En cuanto a la posibilidad de ofrecer escucha, simplemente tenemos que añadir una nueva extensión para realizarla, en este caso lo haremos dentro del contexto [manager]
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+exten => 201,1,NoOp()
+same => n,ChanSpy(SIP/3)
+same => n,Hangup()
+
+\end{lstlisting}
