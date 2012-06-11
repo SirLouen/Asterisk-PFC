@@ -7,44 +7,50 @@
 
 Con todo el sistema, preparado para empezar a trabajar con Asterisk, a continuación presento un ejemplo como caso de uso para una empresa ficticia, la cual tiene un enorme interés en implementar un sistema Asterisk, dadas las características que este le aportara para su negocio.
 
+\color[rgb]{0,0,1}
+
 \section{Introducción}
 
-\textbf{Don Zutano Doe, gerente, y propietario de un nuevo concesionario de automóviles llamado UCA Autos, basado en una prestigiosa marca a nivel nacional, es un gran aficionado a todos los adelantos tecnológicos y piensa que estos influirán en gran medida en el amplio desarrollo de su negocio. A través de un compañero de su club de tenis, que trabaja en una empresa de telefonía, le ha dado a conocer un nuevo sistema de comunicaciones que le podría aportar una serie de funcionalidades que le resultaron bastante interesantes para implementar en su nuevo negocio. Gracias a este contacto, tuvo la oportunidad de establecer relaciones con una modesta empresa local, con cierta experiencia en este ámbito.}
+Don Zutano Doe, gerente, y propietario de un nuevo concesionario de automóviles llamado UCA Autos, basado en una prestigiosa marca a nivel nacional, es un gran aficionado a todos los adelantos tecnológicos y piensa que estos influirán en gran medida en el amplio desarrollo de su negocio. A través de un compañero de su club de tenis, que trabaja en una empresa de telefonía, le ha dado a conocer un nuevo sistema de comunicaciones que le podría aportar una serie de funcionalidades que le resultaron bastante interesantes para implementar en su nuevo negocio. Gracias a este contacto, tuvo la oportunidad de establecer relaciones con una modesta empresa local, con cierta experiencia en este ámbito.
 
-\textbf{En la primera reunión con el responsable de proyectos, el Sr. Doe pudo trasmitir sus pretensiones iniciales. Dada que la estructura de la empresa aun estaba por ser determinada, de momento solo necesitaba funcionalidades básicas para cubrir los aspectos fundamentales de servicios primarios a nivel de comunicaciones para el negocio.}
+En la primera reunión con el responsable de proyectos, el Sr. Doe pudo trasmitir sus pretensiones iniciales. Dada que la estructura de la empresa aun estaba por ser determinada, de momento solo necesitaba funcionalidades básicas para cubrir los aspectos fundamentales de servicios primarios a nivel de comunicaciones para el negocio.
 
-\textbf{A priori la estructura departamental estaba definida, y había un listado de personal para poder definir una primera instantánea de cómo debería funcionar todo.}
+A priori la estructura departamental estaba definida, y había un listado de personal para poder definir una primera instantánea de cómo debería funcionar todo.
 
-\textbf{El responsable de proyecto pudo describirlo de la siguiente forma.}
+El responsable de proyecto pudo describirlo de la siguiente forma.
 
-\textbf{Existían 6 departamentos:}
+Existían 6 departamentos:
 
 \begin{enumerate}
 
-\item \textbf{Departamento Administración}
-\item \textbf{Departamento Comercial}
-\item \textbf{Departamento de Almacén y Logística}
-\item \textbf{Departamento de Postventa y Servicio}
-\item \textbf{Departamento de Marketing y Calidad}
+\item Departamento Administración
+\item Departamento Comercial
+\item Departamento de Almacén y Logística
+\item Departamento de Postventa y Servicio
+\item Departamento de Marketing y Calidad
 
 \end{enumerate}
 
-\textbf{Cada departamento tenía un responsable, y todos ellos dependían directamente, del Sr. Doe. Dentro de cada departamento existía un número variable de operarios, administrativos, comercial y personal en general que dependían de cada responsable.}
+Cada departamento tenía un responsable, y todos ellos dependían directamente, del Sr. Doe. Dentro de cada departamento existía un número variable de operarios, administrativos, comercial y personal en general que dependían de cada responsable.
 
-\textbf{Cada departamento debía tener un número de teléfono de contacto, y además, existía un teléfono general cara al publico. En total 6 números de teléfono directos.}
+Cada departamento debía tener un número de teléfono de contacto, y además, existía un teléfono general cara al publico. En total 6 números de teléfono directos.
 
-\textbf{La empresa todavía no era muy grande, y disponía de un número limitado de personal de los cuales los que realmente necesitaban acceso telefónico, se distribuían de la siguiente forma:}
+La empresa todavía no era muy grande, y disponía de un número limitado de personal de los cuales los que realmente necesitaban acceso telefónico, se distribuían de la siguiente forma:
 
-\textbf{Departamento de Administración: Responsable + 3 administrativos}
-\textbf{Departamento Comercial: Responsable + 4 comerciales}
-\textbf{Departamento de Almacén: Responsable + 3 operarios}
-\textbf{Departamento de Posventa: Responsable + 2 recepcionistas}
-\textbf{Departamento de Marketing: Responsable + 2 operadores.} 
-\textbf{Más el Gerente}
+Departamento de Administración: Responsable + 3 administrativos
+Departamento Comercial: Responsable + 4 comerciales
+Departamento de Almacén: Responsable + 3 operarios
+Departamento de Posventa: Responsable + 2 recepcionistas
+Departamento de Marketing: Responsable + 2 operadores.
+Más el Gerente
 
-\textbf{En total 20 usuarios.}
+En total 20 usuarios iniciálmente
 
-\textbf{De momento, el Sr. Doe no tenía demasiado clara una posible estructura jerárquica con restricciones de llamadas, y relaciones entre departamentos, así que la primera idea, era tener un sistema de telefonía simple, en el que todos pudieran llamar y recibir llamadas abiertamente, pero no descartaba en un futuro, implementar esas restricciones, e incluso tener algún sistema de control.}
+De momento, el Sr. Doe no tenía demasiado clara una posible estructura jerárquica con restricciones de llamadas, y relaciones entre departamentos, así que la primera idea, era tener un sistema de telefonía simple, en el que todos pudieran llamar y recibir llamadas abiertamente, pero no descartaba en un futuro, implementar esas restricciones, e incluso tener algún sistema de control.
+
+\newpage
+
+\color[rgb]{0,0,0}
 
 \subsection{Instalación del sistema Asterisk}
 
@@ -77,6 +83,8 @@ Una vez con todo el sistema Asterisk desplegado, nos detenemos a comprobar el co
 Todavía tenemos suficiente espacio para añadir componentes de menor magnitud. Existen dos componentes adicionales que cumplirán funciones locales específicas y se relacionarán con nuestra máquina Asterisk prácticamente desde los inicios de su configuración. 
 
 Se trata del paquete LAMP (Linux + Apache como servidor Web + MySQL como SGBD de nuestra BD + PHP como lenguaje de programación en entorno web que se conjugará con nuestro servidor web para poder ofrecer aplicaciones combinables con Asterisk como veremos mas adelante) y por otro lado algún servidor de Correo como Postfix. Para ello nos valemos de la herramienta \negrita{tasksel} de Ubuntu que realiza la instalación completa de la forma más ágil para nuestro propósito. Con estas instalaciones apenas consumimos poco más de 100MB así que seguimos teniendo suficiente espacio para continuar el proceso tranquilamente.
+
+\newpage
 
 \subsection{Configurando equipos y el entorno SIP}
 
@@ -123,6 +131,8 @@ Name/username Host           Dyn Forcerport ACL Port   Status
 
 Así que ya podemos proceder a registrar las 20 extensiones, en los 20 equipos de nuestros usuarios y ya estarían listos para empezar a operar con nuestra primera instancia de sistema Asterisk.
 
+\newpage
+
 \subsection{Configuración del Primer Plan de Marcación}
 
 Ahora los teléfonos no pueden hacer casi nada, excepto llamar a una extensión si saber la ruta exacta, y sin pasar por nuestro sistema Asterisk. Nos interesa que por lo menos puedan realizar llamadas entre ellos marcando el número de extensión según la estructura que definimos anteriormente. Para ello vamos a crear el fichero de configuración del Dial Plan según veremos a continuación:
@@ -144,6 +154,8 @@ La aplicación NoOp sirve para hacer debug en consola. Si pusiéramos mensajes d
 Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos contextos hacen referencia a los contextos a donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para "incluir" todas las extensiones de los contextos a los que apunta el mismo. En este caso, incluiría por completo el contexto [manager], que este a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene "visibilidad" total sobre todo el plan de marcacion del sistema, en cambio un dispositivo de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto, pero no del contexto del gerente.
 
 Cuando se lo expliquemos al gerente, seguro que se le ocurren aplicaciones prácticas como el hecho de evitar que sus empleados llamen a números internacionales, o de tarificación especial.
+
+\newpage
 
 \subsection{Introduciendo al proveedor de Telefonía}
 

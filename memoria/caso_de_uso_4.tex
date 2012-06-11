@@ -1,0 +1,255 @@
+% -*-caso_de_uso_4.tex-*-
+% Este fichero es parte de la plantilla LaTeX para
+% la realización de Proyectos Final de Carrera, protejido
+% bajo los términos de la licencia GFDL.
+% Para más información, la licencia completa viene incluida en el
+% fichero fdl-1.3.tex
+
+\newpage
+
+\color[rgb]{0,0,1}
+
+\section{Bienvenidos a la Telefonía 2.0}
+
+Varias semanas después de haber entregado los trabajos al Sr. de los Palotes, y habiendo comprobado que todo respondía según lo previsto, recibimos una llamada del Sr. Doe porque quería comentaros un proyecto que tenía en mente y quería llevar adelante, así que concretamos un día de visita en la misma semana.
+
+En la reunión tuvimos por primera vez contacto con el responsable de Posventa, el cual se encontraba junto a Zutano, hablando en el momento de nuestra llegada. Muy satisfechos con el nivel de funcionalidad que habían logrado alcanzar gracias a nuestro sistema Asterisk, querían proponernos la posibilidad de llevar a cabo un desarrollo interesante, que les resultaba muy útil y también como un precedente para poder ver si realmente nuestro sistema Asterisk podía llegar hasta donde le habíamos dicho
+
+La idea surgía a raíz de una necesidad por parte del departamento de Posventa, dado que observaron que existía un amplio número de llamadas de clientes, pidiendo información acerca de la garantía de su vehículo y el tiempo que les quedaba para que expirase la misma, hacía perder tiempo al personal al teléfono, ya que tenían que consultar la base de datos de clientes, en el apartado de Garantías, y ver la fecha de compra, y los años contratados, para decirles cuanto tiempo les restaba. Pensando al respecto, se nos ocurrió la idea, de asociar en el teléfono directo, diese la opción al cliente, de marcando un dígito, de solicitarle el DNI, y que hiciese una consulta a la base de datos donde estaba conectado su ERP, buscando el cliente por DNI, y extrayendo la información relativa a la garantia, y con un sistema de síntesis de voz, decirle al cliente los días que le quedaban para que finalizase el contrato.
+
+Tanto Zutano, como el responsable de Posventa, quedaron más que satisfechos con la idea propuesta, y nos pidieron que la lleváramos adelante con prontitud.
+
+\color[rgb]{0,0,0}
+
+\newpage
+
+\subsection{Respuesta de Voz Interactiva}
+
+Después de todo el despliegue, ya íbamos a desarrollar la primera aplicación que hace nuestro sistema Asterisk que destaque por encima de otras soluciones estándar. El concepto subyacente, era muy sencillo.
+
+En primer lugar, íbamos a montar una pequeña Operadora Automática en una extensión general para el departamento de Posventa, íbamos a requerir un teléfono directo (DDI), para mismo por un lado, y por otro lado, desarrollar el sistema de respuesta de voz interactiva (IVR), para que realizase la gestión que nos solicitaban.
+
+La idea sería aprovechar la funcionalidad de Reconocimiento de Voz Automático (ASR) para capturar los dígitos del DNI, y en caso de intentarlo dos veces sin éxito, solicitar la marcación vía teclado numérico. Una vez capturado el numero de DNI, pasaríamos a hacer la consulta en la base de datos, y recogeríamos tanto la Fecha de Compra como los años de garantía, para sacar la fecha de finalización, y restando los días a la fecha actual, comprobar si ya esta finalizada, o los días que quedan, remitírselos los al cliente, con un mensaje síntesis de voz (TTS) expresamente, diciendo el número de días restantes.
+
+Una vez establecido el Algoritmo que vamos a seguir, procedemos a su construcción en nuestro sistema.
+
+Vamos a empezar con la construcción de la aplicación de recogida de información, en el lenguaje PHP, utilizando la interfaz que proporciona Asterisk AGI, y para establecer la comunicación bidireccional utilizaremos el API, PHP-AGI \footnote{AGI y PHP en WIKIAsterisk, http://wikiasterisk.com/index.php?title=AGI}.
+
+En primer lugar, necesitamos una función para convertir fechas de formato SQL a un formato que vamos a manejar a voluntad en este caso DDMMAAAA
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+#!/usr/bin/php -q
+<?php
+
+require_once("/var/lib/asterisk/agi-bin/phpagi/phpagi.php");
+
+function fecha_normal($fecha)
+{
+    ereg( "([0-9]{2,4})-([0-9]{1,2})-([0-9]{1,2})", $fecha, $mifecha);
+    $lafecha=$mifecha[3].$mifecha[2].$mifecha[1];
+    return $lafecha;
+}
+
+\end{lstlisting}
+
+En segundo lugar, otra función, calcular los días de diferencia entre dos fechas, en el formato que hemos establecido DDMMAAAA, la idea sería partiendo del formato de fecha, dividirla en un vector de tres elementos con la función ereg, convertirla a un formato de tipo marca de tiempo, en formato UNIX y los valores restarlos mutuamente y quitarle las horas, minutos y segundos, para conseguir como resultado la diferencia de días.
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+function resta_fecha($fecha_inicial, $fecha_final)
+{
+    ereg( "([0-9]{1,2})([0-9]{1,2})([0-9]{2,4})", $fecha_inicial, $fini);
+    ereg( "([0-9]{1,2})([0-9]{1,2})([0-9]{2,4})", $fecha_final, $ffin);
+
+    $fecha1 = mktime(0,0,0,$fini[2], $fini[1], $fini[3]);
+    $fecha2 = mktime(0,0,0,$ffin[2], $ffin[1], $ffin[3]);
+
+    return round(($fecha2 - $fecha1) / (60 * 60 * 24));
+}
+
+\end{lstlisting}
+
+La siguiente función sirve para calcular la letra del DNI \footnote{WIKI Books, http://es.wikibooks.org/wiki/Algoritmo\_para\_obtener\_la\_letra\_del\_NIF}:
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+function letra_nif($dni)
+{
+ return substr("TRWAGMYFPDXBNJZSQVHLCKE",$dni%23,1);
+}
+
+\end{lstlisting}
+
+A continuación, recogemos una información acerca del sistema AGI, y argumentos que recibimos, en este caso el DNI del cliente. Aparte también realizamos la conexión a la base de datos del ERP.
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+$agi = new AGI();
+$dni = $argv[1];
+$dni = str_replace(" ","",$dni);
+$dni = $dni.letra_nif($dni);
+
+// Conexion a la base de Datos
+$base = "erp";
+$host = "home-asterisk.local";
+$user = "asterisk";
+$password = "asterisk";
+$conexion = mysql_connect($host,$user,$password);
+$result = mysql_select_db($base,\$conexion) 
+or die ("Error en la Conexion a BD");
+
+\end{lstlisting}
+
+A partir de aquí realizamos algunas consultas, para localizar los datos que necesitamos, es decir, fecha de compra y años de garantía, para así poder calcular los días de garantía que quedan. En caso de que encontremos el cliente por el DNI, devolveremos 0 días de garantía
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+if(!mysql_num_rows($query))
+{
+ $diasgarantia = '0';
+}
+else
+{
+ $cliente = mysql_fetch_array($query);
+ $idcliente = $cliente['id'];
+
+ $query2 = mysql_query("SELECT * FROM vehiculos 
+ WHERE cliente = '$idcliente'");
+ $vehiculo = mysql_fetch_array($query2);
+ $fcompra = $vehiculo['fcompra'];
+ $garantia = $vehiculo['garantia'];
+ $ahora = date("dmY",strtotime("-$garantia year"));
+ $fechacompra = fecha_normal($fcompra);
+ $diasgarantia = resta_fecha($ahora,$fechacompra);
+}
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+$query = mysql_query("SELECT * FROM clientes WHERE dni = '$dni'");
+
+\end{lstlisting}
+
+Finalizamos devolviendo al flujo de la llamada una variable con los días de garantía obtenidos
+
+\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+
+$agi->verbose($diasgarantia);
+
+$agi->set_variable("textotts",\$diasgarantia);
+?>
+
+\end{lstlisting}
+
+Por otro lado necesitamos definir algunos scripts específicos para tratar el sistema Automatic Speech Recognition y Text-To-Speech, basados también en AGI. Podemos encontrar los scripts en el Anexo.
+
+Ahora solo faltaría definir el IVR dentro de nuestro DialPlan. Para ello hemos creado una extensión específica especial que cumplira dicho proposito, ejecutando las aplicaciones oportunas según descrito a continuación:
+
+\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+
+/ IVR de GARANTIAS
+exten => 105,1,Answer()
+same => n,Set(contador=1)
+// Recogida de Informacion
+same => n(repetir),GotoIf($[${contador}>2]?operador)
+same => n,AGI(asterisk-tts.php,"Diga los numeros de su DNI y pulse almohadilla")
+same => n,Playback(google-tts)
+same => n,Record(grabacion-asr.wav,2)
+same => n,AGI(asterisk-asr.php)
+same => n,AGI(asterisk-tts.php,"Su DNI es")
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,${TEXTOASR})
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,"Marque 1 si es correcto")
+same => n,read(varok,google-tts,1)
+same => n,Set(contador=$[${contador}+1])
+same => n,GotoIf(\$[${varok}!=1]?repetir)
+
+\end{lstlisting}
+
+La secuencia sería: 
+
+\begin{enumerate}
+	\item Respondemos la llamada
+	\item Tenemos un contador para evitar que el cliente se pase indefinidamente intentado decir su DNI, en caso que lo haga dos veces sin exito, le pasariamos con un operador
+	\item Lanzamos mensajes utilizando el sistema TTS de Google, ya no necesitamos grabar los mensajes expresamente, de forma estática
+	\item Recogemos la grabación, tanto si marca la almohadilla (\#) como si pasan dos segundos de silencio
+	\item Lanzamos la aplicación AGI asterisk-tts para convertir un texto a audio, y reproducimos el mismo
+	\item Recogemos los números del DNI utilizando la aplicación AGI asterisk-asr
+	\item Seguimos lanzando la aplicación AGI TTS y la aplicación para reproducir todos los textos y los números del DNI.
+	\item Confirmamos con el cliente si es correcta la grabación de los números. En caso que no lo sea, volvemos a empezar, si lo es, continuamos a la siguiente parte
+\end{enumerate}
+
+\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+
+// Comprobacion de Garantia
+same => n,AGI(fingarantia.php,${TEXTOASR})
+same => n,GotoIf($[${textotts}<1]?caducada)
+same => n,AGI(asterisk-tts.php,"Le quedan")
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,${textotts})
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,"dias de garantia")
+same => n,Playback(google-tts)
+same => n,Hangup()
+same => n(caducada),AGI(asterisk-tts.php,"La garantia ha caducado")
+same => n,Playback(google-tts)
+same => n,Hangup()
+
+\end{lstlisting}
+
+La secuencia seria:
+
+\begin{enumerate}
+	\item Ejecutamos el script fingarantia.php descrito anteriormente.
+	\item En caso que la garantia sea inferior a 1 día, lanzariamos la reproducción de garantía caducada
+	\item En caso que no, lanzariamos reproducciones utilizando el sistema TTS para dar el número de días restantes y terminaría
+\end{enumerate}
+
+
+\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+
+// Salto a Extensiones Posventa
+same => n(operador),AGI(asterisk-tts.php,"Le pasamos con un operador")
+same => n,Playback(google-tts)
+same => n,Goto(extensiones,400,1)
+
+\end{lstlisting}
+
+Finalmente, en caso que hubieran pasado 2 intentos de reconocer el DNI con el sistema ASR sin éxito, lanzaríamos la llamada al grupo de lineas de Posventa. Para definir el grupo de líneas de Posventa, necesitamos hacer algunas modificaciones. Por un lado vamos a crear una variable globales, que agrupe los dispositivos SIP de las extensiones actuales:
+
+\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+
+[globals]
+
+GRUPOPOSVENTA=SIP/41&SIP/42&SIP/43
+
+\end{lstlisting}
+
+Por otro lado, definiriamos en el contexto [extensiones] la extensión 400 a la que hacemos referencía, utilizando esta variable global declarada.
+
+\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+
+; Extensiones Grupo Posventa
+exten => 400,1,Answer()
+same => n,Dial(\${GRUPOPOSVENTA},30,m)
+same => n,VoiceMail(41)
+same => n,Hangup()
+
+\end{lstlisting}
+
+Finalmente vamos a necesitar de un último DDI, que dará la opción de hablar con el grupo Posventa, o saber la garantía. Para ello vamos a crear otra pequeña Operadora Automática en el DDI número 956001161, que se desarrollará de la siguiente forma:
+
+\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+
+exten => 956001161,1,NoOp()
+same => n,AGI(asterisk-tts.php,"Si quiere saber el tiempo restante de su garantia marque el 1")
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,"en otro caso, espere y le pondremos con un operador")
+same => n,Read(opciones,google-tts,1)
+same => n,GotoIf($[${opciones}=1]?especiales,105,1:extensiones,400,1)
+
+\end{lstlisting}
+
+Con esto ya tendríamos el sistema IVR listo para ser entregado a nuestro cliente UCA Autos.
+
