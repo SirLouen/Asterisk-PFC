@@ -1,6 +1,6 @@
 #!/usr/bin/php -q
 <?php
-require_once("phpagi/phpagi.php");
+require_once("/var/lib/asterisk/agi-bin/phpagi/phpagi.php");
 $agi = new AGI();
 // $agi->answer();
 // Primero convertimos el fichero que generamos desde Asterisk a formato FLAC (que es el que admite Google)
