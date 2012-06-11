@@ -5,30 +5,38 @@
 % Para más información, la licencia completa viene incluida en el
 % fichero fdl-1.3.tex
 
+\newpage
+
+\color[rgb]{0,0,1}
+
 \section{Mejorando lo presente}
 
-\textbf{Tras haber realizado los trabajos solicitados, en la siguiente reunión con Zutano Doe, tuvimos la oportunidad de conocer su experiencia. Nosotros sabíamos que cuando viera los resultados querría más, ya que quedaba latente el hecho, que nuestra máquina Asterisk aun tenía mucho potencial por desarrollar.}
+Tras haber realizado los trabajos solicitados, en la siguiente reunión con Zutano Doe, tuvimos la oportunidad de conocer su experiencia. Nosotros sabíamos que cuando viera los resultados querría más, ya que quedaba latente el hecho, que nuestra máquina Asterisk aun tenía mucho potencial por desarrollar.
 
-\textbf{Uno de los aspectos que notó el Sr. Doe, es que evidentemente, aún no podían cursar llamadas. Era lógico que nosotros no íbamos a ser tan atrevidos como para desarrollar un plan de marcación especifico sin antes consultar su opinión dado que aquí estaríamos entrando en el tema económico de facturación, con la compañía elegida UCA Telecom.}
+Uno de los aspectos que notó el Sr. Doe, es que evidentemente, aún no podían cursar llamadas. Era lógico que nosotros no íbamos a ser tan atrevidos como para desarrollar un plan de marcación especifico sin antes consultar su opinión dado que aquí estaríamos entrando en el tema económico de facturación, con la compañía elegida UCA Telecom.
 
-\textbf{Averiguamos que Zutano, mantenía conversaciones con Alemania regularmente, ya que era el su principal proveedor de Vehículos, pero estos temas los trataba el personalmente, y no quería que nadie más pudiera cursar llamadas fuera de nuestro país. Además como es común no se fiaba que sus usuarios pudieran llamar libremente a números de tarificación extraordinaria (80X), o de pago por uso, pero sabía que los números de tarificación adicional, estaban ya demasiado extendidos en las grandes corporaciones, así que no podía de momento evitar su uso (90X). También era consciente, que la mayor parte de los clientes hoy en día, utilizan el móvil como su principal medio de comunicación, asi que quería las llamadas a móviles totalmente libres. Un último aspecto que hizo hincapié, es en la posibilidad de que los Mánager pudieran llamar a números de información telefónica (118XX), en caso que cualquiera de sus trabajadores requiriese la información. Le expresamos, que no nos pareció demasiada buena idea, ya que son bastante caros, y hoy en día la mayor parte de esa información esta e Internet, pero aún así, insistió disponer de esto, exclusivo a los Jefe de departamento. Finalmente le hicimos el apunte, que dado la falta de regulación en la actualidad de la telefonía IP, los números de emergencia, podían fallar, por eso aunque habilitaríamos el 112 no se aseguraba su correcto funcionamiento. Tampoco le afecto demasiado, ya que todos sus empleados disponían como mínimo, de su teléfono móvil particular y en el caso de los jefes un móvil de empresa.}
+Averiguamos que Zutano, mantenía conversaciones con Alemania regularmente, ya que era el su principal proveedor de Vehículos, pero estos temas los trataba el personalmente, y no quería que nadie más pudiera cursar llamadas fuera de nuestro país. Además como es común no se fiaba que sus usuarios pudieran llamar libremente a números de tarificación extraordinaria (80X), o de pago por uso, pero sabía que los números de tarificación adicional, estaban ya demasiado extendidos en las grandes corporaciones, así que no podía de momento evitar su uso (90X). También era consciente, que la mayor parte de los clientes hoy en día, utilizan el móvil como su principal medio de comunicación, asi que quería las llamadas a móviles totalmente libres. Un último aspecto que hizo hincapié, es en la posibilidad de que los Mánager pudieran llamar a números de información telefónica (118XX), en caso que cualquiera de sus trabajadores requiriese la información. Le expresamos, que no nos pareció demasiada buena idea, ya que son bastante caros, y hoy en día la mayor parte de esa información esta e Internet, pero aún así, insistió disponer de esto, exclusivo a los Jefe de departamento. Finalmente le hicimos el apunte, que dado la falta de regulación en la actualidad de la telefonía IP, los números de emergencia, podían fallar, por eso aunque habilitaríamos el 112 no se aseguraba su correcto funcionamiento. Tampoco le afecto demasiado, ya que todos sus empleados disponían como mínimo, de su teléfono móvil particular y en el caso de los jefes un móvil de empresa.
 
-\textbf{Ya que su negocio empezaba a marchar, quería empezar a publicitar un número común genérico, para ofrecérselo a los clientes y poder utilizarlo con fines de Marketing, por ejemplo en sus recientes anuncios en el periódico local. Este teléfono principal, tendría que tener un sistema de interacción con el cliente más personalizado, es decir, la implementación de un IVR (Interactive Voice Response). El Sr. Doe todavía no tenía muy claro como debía operar ya que todavía no estaban sentados los cimientos de la empresa en profundidad. Nosotros le propusimos de momento la siguiente idea:}
+Ya que su negocio empezaba a marchar, quería empezar a publicitar un número común genérico, para ofrecérselo a los clientes y poder utilizarlo con fines de Marketing, por ejemplo en sus recientes anuncios en el periódico local. Este teléfono principal, tendría que tener un sistema de interacción con el cliente más personalizado, es decir, la implementación de un IVR (Interactive Voice Response). El Sr. Doe todavía no tenía muy claro como debía operar ya que todavía no estaban sentados los cimientos de la empresa en profundidad. Nosotros le propusimos de momento la siguiente idea:
 
 \begin{enumerate}
 
-\item \textbf{Al entrar la llamada, lanzar un mensaje de Bienvenida}
-\item \textbf{A continuación, ofrecer numéricamente las posibilidades de contactar con cada departamento}
-\item \textbf{Si no pulsa nada, volver a ofrecerle todas las posibilidades}
-\item \textbf{Si sigue sin pulsar nada, entonces dirigirle al departamento de Marketing}
+\item Al entrar la llamada, lanzar un mensaje de Bienvenida
+\item A continuación, ofrecer numéricamente las posibilidades de contactar con cada departamento
+\item Si no pulsa nada, volver a ofrecerle todas las posibilidades
+\item Si sigue sin pulsar nada, entonces dirigirle al departamento de Marketing
 
 \end{enumerate}
 
-\textbf{Nosotros tenemos un horario de atención al cliente restringido, por tanto sería conveniente, que si nos llaman, fuera de nuestro horario, en vez de aparecer este IVR, apareciera un mensaje que indique que no podemos atenderle, ofreciendo nuestro horario y la posibilidad de dejar un mensaje en un buzón de voz, por ejemplo del Responsable de Marketing. El horario de apertura que nos ofreció el gerente sería de Lunes a Viernes de 9h a 20h ininterrumpidas}
+Nosotros tenemos un horario de atención al cliente restringido, por tanto sería conveniente, que si nos llaman, fuera de nuestro horario, en vez de aparecer este IVR, apareciera un mensaje que indique que no podemos atenderle, ofreciendo nuestro horario y la posibilidad de dejar un mensaje en un buzón de voz, por ejemplo del Responsable de Marketing. El horario de apertura que nos ofreció el gerente sería de Lunes a Viernes de 9h a 20h ininterrumpidas
 
-\textbf{Por último, ya que sacamos el tema de los buzones, también estaba interesado en poder disponer de Buzones de Voz para todos su Jefes de Departamento y para él. Todas los mensajes dejados en los contestadores irían a parar a sus correos en cualquier formato de Audio, pero además tendría que existir la posibilidad de ser almacenados en el sistema y escuchados a voluntad por cada uno de los usuarios dentro del sistema. El Sr. Zutano, adelantándose, tenía constancia que Asterisk era de origen americano, así que sugirió, que que si el menú del sistema de buzón de voz estuviese en Español sería un punto muy favorable, ya que no todos sus empleados estaban duchos en el manejo del Inglés.}
+Por último, ya que sacamos el tema de los buzones, también estaba interesado en poder disponer de Buzones de Voz para todos su Jefes de Departamento y para él. Todas los mensajes dejados en los contestadores irían a parar a sus correos en cualquier formato de Audio, pero además tendría que existir la posibilidad de ser almacenados en el sistema y escuchados a voluntad por cada uno de los usuarios dentro del sistema. El Sr. Zutano, adelantándose, tenía constancia que Asterisk era de origen americano, así que sugirió, que que si el menú del sistema de buzón de voz estuviese en Español sería un punto muy favorable, ya que no todos sus empleados estaban duchos en el manejo del Inglés.
 
-\textbf{En principio todo este planteamiento le resulto aceptable y necesario de poner en marcha cuanto antes, aunque seguramente sujeta a modificaciones en un futuro. Siendo realistas, hasta aquí es lo que suelen ofrecer el 99\% de las centralitas de telefonía ofrecidas para cualquier PYME.}
+En principio todo este planteamiento le resulto aceptable y necesario de poner en marcha cuanto antes, aunque seguramente sujeta a modificaciones en un futuro. Siendo realistas, hasta aquí es lo que suelen ofrecer el 99\% de las centralitas de telefonía ofrecidas para cualquier PYME.
+
+\newpage
+
+\color[rgb]{0,0,0}
 
 \subsection{Preparando las Llamadas Salientes}
 
@@ -69,13 +77,21 @@ Para el envío de e-mail es necesario tener instalado algún servidor de envío 
 
 En este caso, dado que no disponemos de IP estática, hemos utilizado un servidor SMTP remoto (smarthost) para configurar nuestro servidor Postfix. Toda la configuración relativa que no atañe directamente a este proyecto podrá verse dentro de la máquina virtual en el fichero principal de configuración del servidor /etc/postfix/main.cf. \footnote{Configuración Relay SMTP Smarthost en Postfix con SASL, http://www.dnsexit.com/support/mailrelay/postfix.html}
 
+\newpage
+
+\color[rgb]{0,0,1}
+
 \section{Interconectando máquinas Asterisk}
 
-\textbf{Una vez terminados los trabajos, volvemos una semana después a UCA Autos para comprobar que todo va bien. Casualmente nos encontramos con el Sr. Zutano el cual nos comenta que esta muy satisfecho con los trabajos realizados, y el ahorro de coste que ha supuesto para su empresa haber montado un sistema como este. Nos hace saber que tiene algunos proyectos en mente, pero todavía no se ha dispuesto a llevarlos adelante porque necesita plantear con los Jefes de Departamento sus opciones a ver la opinión de los mismos, y la mejor forma de implementarlos. }
+Una vez terminados los trabajos, volvemos una semana después a UCA Autos para comprobar que todo va bien. Casualmente nos encontramos con el Sr. Zutano el cual nos comenta que esta muy satisfecho con los trabajos realizados, y el ahorro de coste que ha supuesto para su empresa haber montado un sistema como este. Nos hace saber que tiene algunos proyectos en mente, pero todavía no se ha dispuesto a llevarlos adelante porque necesita plantear con los Jefes de Departamento sus opciones a ver la opinión de los mismos, y la mejor forma de implementarlos. 
 
-\textbf{Durante la pequeña conversación, nos dejo caer, que en breve seguramente, ampliaría el personal por departamentos, dado que las cosas le estaban yendo muy bien, y cada día sus necesidades aumentaban. Esto sería relevante para nosotros por el hecho de intentar pasar de una central específica a lo más genérica posible para evitar complicarnos en un futuro.}
+Durante la pequeña conversación, nos dejo caer, que en breve seguramente, ampliaría el personal por departamentos, dado que las cosas le estaban yendo muy bien, y cada día sus necesidades aumentaban. Esto sería relevante para nosotros por el hecho de intentar pasar de una central específica a lo más genérica posible para evitar complicarnos en un futuro.
 
-\textbf{Justamente pocos minutos después, recibimos una llamada de nuestro contacto técnico en UCA Telecom, informándonos que desde hace apenas unas horas han implementado en sus servidores la nueva funcionalidad de interconexión a través de un protocolo especifico para sistemas Asterisk llamado IAX. Una alegría para nosotros dado que todas nuestras instalaciones son Asterisk, y eramos conscientes que no estábamos cumpliendo en la mayoría de las mismas a nivel de seguridad, por una cuestión de costes de implementación, excepto en algunos clientes que nos lo pidieron expresamente. De hecho el gerente de UCA Autos ya nos hizo un comentario para su mejoría en un futuro, sobre algo que había escuchado de encriptación de las llamadas, para evitar que le pudieran "pinchar" las lineas telefónicas. Ahora con el sistema IAX teníamos la oportunidad de actualizar nuestras instalaciones en general, incluyendo el concesionario.}
+Justamente pocos minutos después, recibimos una llamada de nuestro contacto técnico en UCA Telecom, informándonos que desde hace apenas unas horas han implementado en sus servidores la nueva funcionalidad de interconexión a través de un protocolo especifico para sistemas Asterisk llamado IAX. Una alegría para nosotros dado que todas nuestras instalaciones son Asterisk, y eramos conscientes que no estábamos cumpliendo en la mayoría de las mismas a nivel de seguridad, por una cuestión de costes de implementación, excepto en algunos clientes que nos lo pidieron expresamente. De hecho el gerente de UCA Autos ya nos hizo un comentario para su mejoría en un futuro, sobre algo que había escuchado de encriptación de las llamadas, para evitar que le pudieran "pinchar" las lineas telefónicas. Ahora con el sistema IAX teníamos la oportunidad de actualizar nuestras instalaciones en general, incluyendo el concesionario.
+
+\newpage
+
+\color[rgb]{0,0,0}
 
 \subsection{Acceso al protocolo IAX}
 
@@ -156,23 +172,31 @@ Y con todo ya generado y preparado, creamos nuestro fichero iax.conf en el direc
 
 Por otro lado y para terminar, en el fichero de configuración del Plan de Marcación, solo tenemos que editar todos los puntos donde nos encontramos una comunicación a través del protocolo SIP, y pasarlo por el protocolo IAX2. 
 
+\newpage
+
+\color[rgb]{0,0,1}
+
 \section{Distribuidor de Piezas de Repuesto}
 
-\textbf{Pasado un mes desde nuestra última instalación, pudimos observar como la mayor parte del personal se sentía satisfecha con la solución de telefonía ofrecida. Algunos Mánager de departamento se habían puesto en contacto con el gerente, para consultarle la posibilidad de sacar más partido al sistema. Justamente, en este periodo, se presentó un nuevo reto a la compañía UCA Autos, dado que fue nombrada Distribuidora oficial de piezas de Repuesto para toda la provincia que representaba.}
+Pasado un mes desde nuestra última instalación, pudimos observar como la mayor parte del personal se sentía satisfecha con la solución de telefonía ofrecida. Algunos Mánager de departamento se habían puesto en contacto con el gerente, para consultarle la posibilidad de sacar más partido al sistema. Justamente, en este periodo, se presentó un nuevo reto a la compañía UCA Autos, dado que fue nombrada Distribuidora oficial de piezas de Repuesto para toda la provincia que representaba.
 
-\textbf{Esto significaba tener que dar servicio a toda la red de talleres, y distribuidores de recambios locales, para la Marca que representaban, pero a nivel provincial, lo que supondría tener que ofrecer un nivel de servicio a sus nuevos clientes. La comunicación se establecía tanto presencialmente, por los gestores de estos negocios, o la vía más común, pedidos a nivel telefónico, dado que aunque existía una interfaz en Internet por la cual podrían cursar sus pedidos, la mayor parte de los clientes, no tenían demasiado control sobre las nuevas tecnologías (gente de relativa avanzada edad, propietarios de talleres acostumbrados a un servicio de toda la vida), y por otro lado, también era frecuente la consulta como atención al cliente, dada la amplia selección de piezas, que causaba relativa confusión entre los compradores.}
+Esto significaba tener que dar servicio a toda la red de talleres, y distribuidores de recambios locales, para la Marca que representaban, pero a nivel provincial, lo que supondría tener que ofrecer un nivel de servicio a sus nuevos clientes. La comunicación se establecía tanto presencialmente, por los gestores de estos negocios, o la vía más común, pedidos a nivel telefónico, dado que aunque existía una interfaz en Internet por la cual podrían cursar sus pedidos, la mayor parte de los clientes, no tenían demasiado control sobre las nuevas tecnologías (gente de relativa avanzada edad, propietarios de talleres acostumbrados a un servicio de toda la vida), y por otro lado, también era frecuente la consulta como atención al cliente, dada la amplia selección de piezas, que causaba relativa confusión entre los compradores.
 
-\textbf{Es en este momento, cuando el Sr. Doe contactó con nosotros, para ver si existía la posibilidad de montar una pequeña plataforma de Call Center, que fuera fiable, pero a ser posible, no demasiado cara, porque según había entendido por sus compañeros colaboradores, las que ellos conocían resultaban excesivamente costosas, pero ofrecían estadísticas de uso para su análisis de calidad de servicio, y en muchos casos tuvieron que optar por soluciones muy pobres que les aportaban escasa o nula información en la mayor parte de los casos.}
+Es en este momento, cuando el Sr. Doe contactó con nosotros, para ver si existía la posibilidad de montar una pequeña plataforma de Call Center, que fuera fiable, pero a ser posible, no demasiado cara, porque según había entendido por sus compañeros colaboradores, las que ellos conocían resultaban excesivamente costosas, pero ofrecían estadísticas de uso para su análisis de calidad de servicio, y en muchos casos tuvieron que optar por soluciones muy pobres que les aportaban escasa o nula información en la mayor parte de los casos.
 
-\textbf{Tras la conversación con Zutano, le explicamos que con el sistema Asterisk que había elegido implementar, podría tener el mismo sistema que le comentaron sus compañeros, pero a coste mínimo, solo el coste de implantación por parte de nuestra empresa. El gerente de UCA Autos, no podía dar crédito a nuestras palabras y nos pidió que lo hiciéramos lo antes posible. }
+Tras la conversación con Zutano, le explicamos que con el sistema Asterisk que había elegido implementar, podría tener el mismo sistema que le comentaron sus compañeros, pero a coste mínimo, solo el coste de implantación por parte de nuestra empresa. El gerente de UCA Autos, no podía dar crédito a nuestras palabras y nos pidió que lo hiciéramos lo antes posible.
 
-\textbf{Las especificaciones fueron muy sencillas. Para el departamento de almacén existían tres puestos aparte del Mánager. Quería que esos tres puestos fueran los tres componentes de la primera instancia de Call-Center, ya que de momento no tenía intención de contratar más personal y ver si podía valerse para atender a sus clientes con lo que disponía en la actualidad, o plantear alguna ampliación en un futuro. }
+Las especificaciones fueron muy sencillas. Para el departamento de almacén existían tres puestos aparte del Mánager. Quería que esos tres puestos fueran los tres componentes de la primera instancia de Call-Center, ya que de momento no tenía intención de contratar más personal y ver si podía valerse para atender a sus clientes con lo que disponía en la actualidad, o plantear alguna ampliación en un futuro. 
 
-\textbf{Por otro lado, quería tener un teléfono directo especifico para el Call-Center, al entrar la llamada, diese un mensaje de bienvenida, y pusiera al cliente en la cola de espera hasta que pudiera ser atendido por un agente. Y si fuera posible también nos pidió que el sistema dijera eventualmente al cliente en espera, su posición en la cola. Le confirmamos que sus peticiones eran todas posibles, y que nos pondríamos manos a la obra de inmediato.}
+Por otro lado, quería tener un teléfono directo especifico para el Call-Center, al entrar la llamada, diese un mensaje de bienvenida, y pusiera al cliente en la cola de espera hasta que pudiera ser atendido por un agente. Y si fuera posible también nos pidió que el sistema dijera eventualmente al cliente en espera, su posición en la cola. Le confirmamos que sus peticiones eran todas posibles, y que nos pondríamos manos a la obra de inmediato.
 
-\textbf{Le preguntamos como quería distribuir sus llamadas entre los agentes disponibles. Hicimos algunos comentarios sobre las estrategias disponibles, y eligió la estrategia más simple de momento, dado que todavía no conocía en profundidad como resultaría esta nueva operación, que sonase por igual el teléfono en todas las lineas disponibles a cada momento.}
+Le preguntamos como quería distribuir sus llamadas entre los agentes disponibles. Hicimos algunos comentarios sobre las estrategias disponibles, y eligió la estrategia más simple de momento, dado que todavía no conocía en profundidad como resultaría esta nueva operación, que sonase por igual el teléfono en todas las lineas disponibles a cada momento.
 
-\textbf{Finalmente, también le inquietaba, el hecho de poder controlar la calidad de las llamadas. En un principio le comentamos que existía la posibilidad tanto de escuchar las llamadas en tiempo real, como poder realizar grabaciones de llamadas en disco. Ambas opciones le parecían interesantes por igual, especialmente para el Responsable de Almacen y Marketing los cuales debían hacer un seguimiento intensivo por la forma en la que la que se realizaba la comunicación pudiera optimizarse en un futuro. En consecuencia, se planteo el hecho de tener los dos servicios disponibles}
+Finalmente, también le inquietaba, el hecho de poder controlar la calidad de las llamadas. En un principio le comentamos que existía la posibilidad tanto de escuchar las llamadas en tiempo real, como poder realizar grabaciones de llamadas en disco. Ambas opciones le parecían interesantes por igual, especialmente para el Responsable de Almacen y Marketing los cuales debían hacer un seguimiento intensivo por la forma en la que la que se realizaba la comunicación pudiera optimizarse en un futuro. En consecuencia, se planteo el hecho de tener los dos servicios disponibles
+
+\newpage
+
+\color[rgb]{0,0,0}
 
 \subsection{Colas en Asterisk}
 

@@ -1,0 +1,129 @@
+% -*-introduccion.tex-*-
+% Este fichero es parte de la plantilla LaTeX para
+% la realización de Proyectos Final de Carrera, protejido
+% bajo los términos de la licencia GFDL.
+% Para más información, la licencia completa viene incluida en el
+% fichero fdl-1.3.tex
+
+\section{Contexto}
+
+Desde los inicios de la telefonía a finales del siglo XIX, el mercado ha dictado el orden en el proceso de creación y desarrollo, en un mundo sin estándares, donde las compañías emergentes impusieron su visión, establecieron el control y la oferta de servicios estaba limitada a lo que las mismas podían ofrecer exclusivamente.
+
+Justamente un siglo después, surgió el primer movimiento para empezar a crear un camino común pero a su vez, más flexible y abierto a la demanda general impuesta por la nueva forma de concebir el mundo de la comunicación a distancia. Su nombre fue Asterisk. En la última década ha ido expandiéndose por todo el mundo, pero solo en los últimos 3 años ha sufrido realmente un importante auge. Tanto los principales proveedores de telefonía, así como las compañías lideres en el sector de las telecomunicaciones han sabido adaptarse al cambio y empiezan a adoptar este sistema con vistas puestas al futuro.
+
+\section{Objetivos}
+
+Aunque está visto que cada día cobra mayor relevancia, la comunidad de Asterisk en Español, ha permanecido circunscrita al contenido y desarrollo de las fuentes que provienen del ingles. Con este proyecto pretendo sentar las bases de Asterisk en nuestro idioma, abarcándolas de la siguiente forma:
+
+\begin{enumerate}
+	\item Para la documentación Teórica, la creación de una WIKI exclusiva de Asterisk, basándome en sus principales fuentes, en mi propio conocimiento y experiencia con el sistema.
+	\item Desarrollar un Caso Práctico que cubra el máximo de la teoría, basado en un sistema Asterisk, siguiendo el Método del Caso y reflejarlo en la memoria
+  \item Demostrar el caso realmente, utilizando una Máquina Virtual que se adjuntara al resto del proyecto.
+  \item Utilizar herramientas de Software Libre como es Asterisk para preservar su filosofía de uso y distribución.
+\end{enumerate}
+
+Este proyecto pretende cubrir los siguientes aspectos sobre el sistema Asterisk y lo directamente relacionado al mismo:
+
+\begin{itemize}
+	\item Estado del arte y conceptos fundamentales
+  \item Arquitectura de Asterisk
+  \item Principales Protocolos de comunicación: SIP,IAX,...
+  \item Interfaces con la telefonía clásica.
+  \item Despliegue del Plan de Marcación, Asterisk como una PBX.
+  \item Múltiples Aplicaciones específicas como:
+  \item 
+		\begin{enumerate}
+	  	\item Sistemas de Conferencias
+			\item Gestión de Call-Centers
+	  	\item Grabación y Monitorización
+	  	\item Sistemas de FAX
+	  	\item Buzones de Voz, Música en Espera, etc...
+	  \end{enumerate}
+  \item Bases de datos y Asterisk Real Time
+  \item Manejo del Call Detail Recording
+  \item Profundizar en la seguridad del sistema Asterisk
+  \item Métodos de Distribución Automática de Llamadas (p.e. Marketing)
+  \item Sistemas Automatic Speech Recognition y Text-To-Speech
+  \item Programación en Asterisk Gateway Interface con un lenguaje de programación interpretado como PHP
+  \item Introducción al CTI de Asterisk: Asterisk Manager Interface.
+  \item Breve análisis de las interfaces web más populares de terceros
+\end{itemize}
+
+\section{Motivación}
+
+Siguiendo en la línea, es curioso observar, como la mayoría de las empresas proveedoras de servicios de telecomunicaciones y en especial, proveedores de centralitas, PBX y sistemas de conmutación telefónica, preservan sistemas de protección, relativamente complejos, con difícil acceso a la documentación relativa para el manejo de las mismas, y aún peor, para el desarrollo. 
+
+Esto queda relegado a empresas de segundo y tercer nivel, que se configuran en un plano de "Partners" y queda todo el sistema cerrado, muy parecido al panorama del software, hasta hace poco menos de una década donde empresas Líderes como Microsoft, Oracle, o IBM operaban con la misma estructura.
+
+Considerando que las distancias que existían entre el entorno de las telecomunicaciones, concrétamente entre sistemas de Hardware y Software, y partiendo que este último ha cobrado mayor relevancia, consideré por mi parte viable, el hecho de realizar un acercamiento a este mundo y comprobar las posibilidades que este ofrecía al entorno de la Ingeniería Informática. Gracias a asignaturas como \textbf{Redes y Diseño e Interconexión de Redes}, de Tercer curso, surgió mi especial interés por este sector, y me propuse a desarrollarlo en los meses consecutivos, aprovechando además la figura profesional que tenía en aquellos días dentro de mi empresa.
+
+En el momento de empezar a indagar en el mundo de las PBX, observé como comentaba anteriormente, grandes dificultades para profundizar, y accediendo por Internet encontré la alternativa de Asterisk como una plataforma de telecomunicaciones que además podía funcionar como una PBX convencional, y todo sustentado bajo una estructura Open Source. Lo curioso quedaba en la idea de pensar, como sería posible conectar un sistema Open Source, con toda la red de Telefonía, y justo averiguar, como Asterisk era justo lo que esto resolvía, gracias a toda una red de Tarjetas de comunicaciones y dispositivos pasarela conectadas a Ethernet, que permitirían realizar esta conexión de forma sistemática y aún así preservando la idea del Software Libre en el trasfondo.
+
+En contrapartida, mi primera experiencia fue observar, como la mayor parte de la documentación, era poco clara y sistemática, y uno de los grandes impedimentos para muchos posibles usuarios, era que en grand medida, la mayor parte de la documentación se encontraba en Inglés. Aunque afortunadamente, esto no me afecta personalmente, fuí consciente que era una barrera para muchos otrs conocidos, y que con el tiempo esto fue una de las grandes figuras que apoyaron mi motivación, para desarrollar un proyecto basado en información relativa a este sistema, íntegramente en Español, dandole un carácter más sistemático y tras conversaciones con mi tutor, surgió la idea de canalizar este planteamiento en forma de WIKI, de ahí surgió la idea de realizar \textbf{WIKIAsterisk}.
+
+Por otro lado, gracias a mi experiencia dentro del sector de las PYMEs he podido observar la problemática que surge en estas empresas, dadas las increíbles limitaciones económicas, y de estructura, que imponen los sistemas PBX actuales. Pese a que las fichas técnicas de los productos de telefonía, ofrecen aparentemente unos niveles de calidad espectaculares, con una expectativa de infinita funcionalidad, a la hora de solucionar los problemas concretos que surgen en las empresas, se convierte en una auténtica odisea, que muchas veces resulta inconclusa, y otras veces, forzada a ser solucionada mediante la incorporación de software de terceros, que conecta con las Interfaces de Integración de la Telefonía a los Ordenadores (CTI), pero que a cambio, supone un desembolso en licencias considerable. En términos generales, dada la situación del mercado y con la filosofía que tienen las empresas del "bootstrapping" financiero, luchando cada céntimo, este tipo de inversiones no suelen mostrar un retorno a corto plazo, por tanto suele optarse por la solución manual, o menos eficiente, y suelen quedar como proyectos abandonados.
+
+Yo he conocido al sistema Asterisk, como una PBX orientada a las PYME, aunque es cierto, que cada vez día están surgiendo mayores implementaciones de las grandes empresas, e incluso los principales proveedores de telefonía integran equipos especialistas en este sistema, las empresas líderes del sector, como Alcatel-Lucent, Panasonic, Avaya, Aastra, etc. siguen dominando gracias a su fiabilidad demostrada. Por tanto, mi conocimiento acerca del sector, me ha permitido idear un concepto práctico para demostrar en gran medida paso a paso, una buena porción de las posibilidades que puede aportar al tejido empresarial.
+
+\section{Estructura de la Memoria}
+
+Este documento recoge toda la información relativa al desarrollo del proyecto. La estructura podría desglosarse de la siguiente forma:
+
+\begin{itemize}
+	\item Un primer capitulo introductorio hablando de los conceptos básicos, motivaciones por el desarrollo y objetivos planificados
+	\item En segunda instancia, todo el desarrollo a nivel de planificación, y el planteamiento desde el inicio de la idea, hasta el fruto como resultado final
+	\item El tercer capitulo se hace un desarrollo general, sobre el entorno utilizado para desarrollar el medio teórico en el que se sustenta este Proyecto, el sistema WIKI
+	\item En cuarto nivel, se tratan los aspectos esenciales sobre el soporte práctico en forma de Maquina Virtual y los medios utilizados para llevar a cabo este planteamiento
+	\item El quinto capitulo, desarrolla un Caso de Estudio utilizando una técnica de enseñanza y aprendizaje desarrollada en la HBS para demostrar a nivel práctico formalmente el concepto subyacente de Asterisk
+	\item El último tema, trata da lugar a mis conclusiones personales sobre todo lo desarrollado y algunas reflexiones y dificultades que destacaría al finalizar el desarrollo del proyecto
+\end{itemize}
+
+Por otro lado, se incluyen unos apéndices, para complementar un poco más la información aportada por todos los medios aplicados en este Proyecto y como medio de soporte.
+
+\begin{itemize}
+	\item Una breve descripción de todo el Software más destacado utilizado para desarrollar el Proyecto
+	\item Una descripción en términos generales de los medios difusión aplicados, para dar a conocer la WIKI especialmente a la finalización del proyecto, presentes y futuros estimados
+	\item Todo el desarrollo de código referenciado al proyecto, específicamente scripts y ficheros de configuración finales.
+\end{itemize}
+
+\section{Conceptos Generales}
+
+En esta sección trataremos por encima algunos conceptos Generales relativos a la Telefonía IP, y en particular al segmento de la telefonía que hace referencia al sistema Asterisk, como \textbf{Telefonía 2.0}.
+
+\subsection{¿Que es Asterisk?}
+
+Según la definición formal, Asterisk es un entorno de trabajo de código abierto, creado para diseñar aplicaciones de comunicación. Asterisk convierte un ordenador cualquiera, en un completo servidor de comunicaciones. Ademas potencia los sistemas PBX IP, las pasarelas VoIP, servidores de conferencias, y mucho mas. Es utilizado por pequeños y grandes negocios, Call Centers, proveedores de telefonía, y sedes gubernamentales en todo el mundo. Asterisk es gratuito, libre y de código abierto.
+
+Realmente esta pregunta puede ir mucho más allá de esta definición común que se establece para el sistema. Existen ciertas consideraciones que hacen a Asterisk lo que realmente es en la actualidad, y una de las principales surge de la propia naturaleza del sistema: La filosofía Open Source.
+
+Considerando Asterisk como una plataforma integral de comunicaciones, podría considerarse que es la más importante en su ámbito, y ha prevalecido como única por muchos años en un entorno, donde todos los sistemas de comunicación directamente competidores, eran totalmente privativos. Aunque con el tiempo, fueron sacando interfaces comúnmente conocidos como CTI (Computer Telephony Integration) para la integración de sistemas de terceros para cumplir funciones muy específicas, la potencia de estas interfaces era y sigue siendo, bastante limitada dado que el verdadero núcleo de los sistemas privados, permanencia cerrado al público.
+
+Con Asterisk se sienta un precedente desde el momento que el código es de libre acceso, modificación y ampliación, dado que múltiples colectivos pudieron desarrollar sus necesidades y adaptarlas a lo que venían buscando en un momento concreto, que un sistema de comunicaciones pudiera ofrecerles, dentro de sus extensivas bondades. 
+
+\subsection{¿Que es Telefonía IP?}
+
+Varios años después del nacimiento del protocolo SIP, este resulto un candidato idóneo para establecer un marco basado en un entorno de telefonía para Internet, dentro un sistema de comunicaciones entre dos puntos por mensajes (he de ahí el concepto protocolo), concrétamente destinadas al envío y recepción de datos multimedia. Los primeros datos, resultaron ser de tipo audio exactamente igual que los sistemas tradicionales de telefonía. Como se encontraban utilizando un protocolo destinado al entorno de Internet, y se realizaba una comunicación al estilo telefónico, de ahí apareció el concepto.
+
+Realmente existen otros protocolos en los que se basa la Telefonía IP, como los desarrollados por Skype (ahora Microsoft) basado en un códec propietario y Google basado en el códec libre iLBC. Concrétamente la principal característica del primero que es el más popular a nivel mundial, es la increíble integración con todo tipo de redes, además de aprovechar la propia de red de Pares (el ordenador de cada usuario) para optimizar la calidad de las llamadas, eligiendo a los candidatos mejores para cada llamada en función del punto donde nos conectásemos, al puro estilo peer to peer (P2P, originalmente desarrollado a partir del software Kazaa). 
+
+Comparativamente, SIP se basa en la idea cliente servidor, en el que todos los pares conectan a un solo servidor principal. Esto supone las ventajas subyacentes a la gestión directa de los pares, y desventajas en la comunicación dado que muchas veces puede ser que la ruta al mismo en función del lugar pueda ser deficiente, degenerando la calidad de las llamadas comparativamente.
+
+\subsection{¿Que es la Telefonía 2.0?}
+
+El término oficial de la Telefonía 2.0 es el de las \textbf{Comunicaciones Unificadas}. Hay que considerar que hoy en día existen múltiples sistemas de comunicación, los cuales suelen ser utilizados con sistemas individuales que además no tienen ningún tipo de relación entre ellos, y en consecuencia no pueden resurgir posibles sinergias entre los mismos.
+
+Además el mantenimiento individual de cada uno de estos sistemas implica un mayor consumo de tiempo, que repercute en costes productivos, de personal, de seguridad, infraestructura y mantenimiento. Por ello empezaron a surgir determinados sistemas específicos cuya idea se sustentaba en servicio de aplicación general para dotar un concepto en concreto y que abarcara la plenitud de las necesidades actuales. Es muy común en este caso, el ejemplo de las credenciales de acceso a los sistemas.
+
+Siguiendo este ejemplo, surgió un protocolo específico para almacenar información relativa a individuales, llamado Lightweight Directory Access Protocol, que concebía esta idea en forma de directorios. Con ello era posible la capacidad de crear una estructura de usuarios, y todas las aplicaciones que requiriesen un sistema de autentificación basado en usuario y contraseña, pudieran aprovechar la información almacenada en el mismo. Esta idea podría conceptualizarse en forma de Base de Datos, pero realmente transciende más allá de esta, dado que queda encuadrada en un marco conceptual basado en un protocolo, como fue SIP en sus días, para la Telefonía IP.
+
+Lo mismo ocurre por ejemplo, con los sistemas de Correo Electrónico, Buzones de Voz de Telefonía, Bandejas de FAX, y comunicaciones en tiempo real como las Conferencias y la mensajería instantánea, son múltiples mecanismos que hoy en día casi todas las empresas utilizan de manera regular, pero haciendo reflexión, y exceptuando contados casos si recordamos, existe una distinción para cada uno de estos sistemas claramente demarcada. Eventualmente los nuevos sistemas On-Demand (a demanda), también han surgido para aplacar un poco los efectos colaterales de no recurrir a tiempo a las comunicaciones unificadas. 
+
+Un ejemplo de todo esto podría ser, el clásico uso de un entorno web-mail por ejemplo basado en un servidor de correo Microsoft Exchange, funcionando simultáneamente, con un buzón de voz en el teléfono fijo ofrecido por el software de la PBX de la empresa, y añadiendo otro buzón de voz, ofrecido por la operadora de telecomunicaciones. Utilizamos Google Talk para comunicarnos con nuestros compañeros de trabajo, la empresa tiene contratados servicios On-Demand de Adobe Connect para establecer las reuniones virtuales, y todos los FAX entran en una fotocopiadora central, a la que van a parar los FAX de todo el departamento juntos apilados en la misma bandeja desorganizadamente.
+
+El resultado es en la mayor parte de los casos, una infra-utilización de los sistemas de mensajería instantánea, y una sobre-utilización de los sistemas de e-mail, con tendencia a concebirlos como pseudo-sistemas de mensajería instantánea de forma errónea ya que originalmente no fueron diseñados para ello \footnote{Clásico ejemplo de dos personas al teléfono, una le pide a la otra su e-mail para enviarle un correo sobre la marcha, y el correo no llega, al final acaban colgando si pode haber realizado la gestión in-situ que pretendían dado que el correo no resulto en ese momento lo eficiente que creían debería haber sido}. Por otro lado, solo atendemos a FAXes muy específicos que solicitamos específicamente, dado que la gran desorganización existente en la pila de FAXes recibidos resulta demasiado molesta, y tenemos que pagar una cantidad de dinero considerable para poder tener el servicio de Adobe Connect funcionando, para servicios muy puntuales y eventualmente infrautilizados también para las reuniones online, dado que todavía no reemplaza las reuniones reales (En este sentido Skype dado que es gratuito su uso, esta cubriendo estas necesidades aunque no fuera esa su idea original, volviendo al ejemplo del correo vs la mensajería instantánea). Y para terminar, es clásico ver como la mayor parte de los usuarios de telefonía tiene su buzón de voz activado, pero casi nunca hace escucha del mismo, lo que resulta en desconfianza del medio muy generalizada, aunque viéndolo prácticamente sea extremadamente útil, dado que no siempre hay un teclado delante para dar un mensaje.
+
+¿Que ocurriría, si en la misma bandeja de correo electrónico, entrarán los mensajes de audio del buzón de voz en un formato ligero, tanto para los mensajes dejados en nuestro móvil como en nuestro teléfono de sobremesa, y adicionálmente, todos los FAXes entrarán como ficheros adjuntos dentro de nuestra buzón de e-mail simultáneamente? 
+
+¿Sería viable que desde un teléfono, ubicado dentro de nuestro ordenador, pudiéramos realizar conferencias de audio o video, recibir mensajes instantáneos, y que en caso de ausencia estos se convirtieran en correos electrónicos, y de forma añadida pudiéramos cursar llamadas a todos los destinos posibles, y utilizando por ejemplo un teléfono convencional para ejercer como dispositivo de entrada y salida de audio?
+
+Estas son las dos preguntas que tratan de resolver la Telefonía 2.0 en la actualidad.

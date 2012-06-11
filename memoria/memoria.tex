@@ -42,9 +42,11 @@
 
 \tableofcontents
 \listoffigures
-\listoftables
 
-\mainmatter % Contenido en si ...
+\mainmatter % Contenido
+
+\chapter{Introducción}
+\input{introduccion.tex}
 
 \chapter{Motivación y contexto del proyecto}
 
@@ -60,16 +62,16 @@
 \input{caso_de_uso_3.tex}
 \input{caso_de_uso_4.tex}
 
-\backmatter % Apéndices, bibliografia ...
+\backmatter % Apéndices
 
-\clearpage
+\cleardoublepage
 
-\addcontentsline{toc}{chapter}{Software usado}
-\chapter*{Software utilizado}
+%\addcontentsline{toc}{chapter}{Software usado}
+\chapter{Software utilizado}
 \input{programas.tex}
 
-\addcontentsline{toc}{chapter}{Difusión de WIKIAsterisk}
-\chapter*{Difusión de WIKIAsterisk}\label{cap:difusion}
+%\addcontentsline{toc}{chapter}{Difusión de WIKIAsterisk}
+\chapter{Difusión de WIKIAsterisk}\label{cap:difusion}
 \input{difusion.tex}
 
 \addcontentsline{toc}{chapter}{Bibliografia y referencias}

@@ -5,25 +5,33 @@
 % Para más información, la licencia completa viene incluida en el
 % fichero fdl-1.3.tex
 
+\newpage
+
+\color[rgb]{0,0,1}
+
 \section{Nuevas Incorporaciones}
 
-\textbf{Poco tiempo después de incorporar el Centro de Llamadas para Almacén dentro de la empresa, el gerente Sr. Doe, vuelve a contactar con nosotros. Nos indica que el sistema ha prosperado y que el Mánager de Almacén ha conseguido controlar la situación sin mucha dificultad, próximamente contratarán a una persona más, y así modifiquemos un poco el sistema, porque se ven un poco desbordados dado que se les acumula el trabajo que ya previamente hacían con la nueva encomendación, aunque sus ventas estaban aumentando de forma bastante fuerte. Pero la llamada fue realmente para informarnos, que había contratado a una nueva persona, dentro del departamento de Marketing, ya que tenían intención de mejorar algunos aspectos a nivel tecnológicos dentro de la empresa, y montar un CRM para la gestión de la fuerza comercial dado que también estaba aumentando y tenía programado contratar dos vendedores más en los próximos días. Concertamos una cita con el nuevo empleado, llamado Pedro de los Palotes, unos días después de incorporarse.}
+Poco tiempo después de incorporar el Centro de Llamadas para Almacén dentro de la empresa, el gerente Sr. Doe, vuelve a contactar con nosotros. Nos indica que el sistema ha prosperado y que el Mánager de Almacén ha conseguido controlar la situación sin mucha dificultad, próximamente contratarán a una persona más, y así modifiquemos un poco el sistema, porque se ven un poco desbordados dado que se les acumula el trabajo que ya previamente hacían con la nueva encomendación, aunque sus ventas estaban aumentando de forma bastante fuerte. Pero la llamada fue realmente para informarnos, que había contratado a una nueva persona, dentro del departamento de Marketing, ya que tenían intención de mejorar algunos aspectos a nivel tecnológicos dentro de la empresa, y montar un CRM para la gestión de la fuerza comercial dado que también estaba aumentando y tenía programado contratar dos vendedores más en los próximos días. Concertamos una cita con el nuevo empleado, llamado Pedro de los Palotes, unos días después de incorporarse.
 
-\textbf{La nueva figura, tenía conocimientos aceptables sobre el mundo del marketing, pero su principal manejo era las tecnologías de la información, y unos buenos conocimientos de informática en general. Durante la reunión que mantuvimos con el, nos comentó por encima alguna de las funciones que tenía que cumplir, y que tenían mucho que ver con nosotros, dado que necesitaba que introdujéramos algunas modificaciones en la central si fueran posibles. Además el Sr. Doe le dio carta blanca para ello, dado que tenía muy buenas referencias de él, y sabía bien lo que hacía. Lo que pudimos sacar fue:}
+La nueva figura, tenía conocimientos aceptables sobre el mundo del marketing, pero su principal manejo era las tecnologías de la información, y unos buenos conocimientos de informática en general. Durante la reunión que mantuvimos con el, nos comentó por encima alguna de las funciones que tenía que cumplir, y que tenían mucho que ver con nosotros, dado que necesitaba que introdujéramos algunas modificaciones en la central si fueran posibles. Además el Sr. Doe le dio carta blanca para ello, dado que tenía muy buenas referencias de él, y sabía bien lo que hacía. Lo que pudimos sacar fue:
 
 \begin{enumerate}
 
-\item \textbf{Le habían ofrecido la oportunidad de montar en un servidor independiente para incorporar un sistema de CRM}
-\item \textbf{Querían que controlara los gastos y la facturación de los conceptos de telefonía dado que habían observado ciertos usos indebidos, pero no sabían a quien achacar esta responsabilidad}
-\item \textbf{Necesitaban que el Sr. de los Palotes, tuviera más autocontrol sobre Asterisk, aunque no tenía conocimientos de como funcionaba internamente, el sistema, para poder ser algo más autónomos dado los cambios que se avecinaban.}
-\item \textbf{Finalmente, también el Mánager Comercial, el cual tenía dificultades a veces para establecer la comunicación con sus proveedores cuando necesitaban tener conversaciones entre más de dos usuarios simultáneamente, le había encomendado ver si era posible alguna pequeña mejora para poder solucionar esto.}
+\item Le habían ofrecido la oportunidad de montar en un servidor independiente para incorporar un sistema de CRM
+\item Querían que controlara los gastos y la facturación de los conceptos de telefonía dado que habían observado ciertos usos indebidos, pero no sabían a quien achacar esta responsabilidad
+\item Necesitaban que el Sr. de los Palotes, tuviera más autocontrol sobre Asterisk, aunque no tenía conocimientos de como funcionaba internamente, el sistema, para poder ser algo más autónomos dado los cambios que se avecinaban.
+\item Finalmente, también el Mánager Comercial, el cual tenía dificultades a veces para establecer la comunicación con sus proveedores cuando necesitaban tener conversaciones entre más de dos usuarios simultáneamente, le había encomendado ver si era posible alguna pequeña mejora para poder solucionar esto.
 
 \end{enumerate}
 
-\textbf{Tras poner cada una de las tareas encima de la mesa, hicimos un primer planteamiento para dividir las nuevas encomendaciones en diferentes secuencias que iríamos incorporando en nuestra máquina Asterisk progresivamente para ir probando su funcionalidad con Pedro. Le pareció bien, y nos pusimos manos a la obra.}
+Tras poner cada una de las tareas encima de la mesa, hicimos un primer planteamiento para dividir las nuevas encomendaciones en diferentes secuencias que iríamos incorporando en nuestra máquina Asterisk progresivamente para ir probando su funcionalidad con Pedro. Le pareció bien, y nos pusimos manos a la obra.
+
+\newpage
+
+\color[rgb]{0,0,0}
+
 
 \subsection{Generación Automática de Eventos}
-
 Antes de nada, creamos una nueva extensión para el Sr. Pedro de los Palotes, dentro del grupo de Marketing, la número 54, en el fichero sip.conf, y por otro lado, le habilitamos dicha extensión en el Plan de Marcación extensions.conf.
 
 En primera instancia, hicimos un breve análisis de sus pretensiones de montar un servidor CRM propio, dado el mantenimiento y dedicación que esto llevaba, queríamos averiguar un poco su planteamiento y de que forma quería que nuestro sistema Asterisk trabajara con su sistema CRM. En primer lugar, no observamos que tuviera ningún conocimiento acerca de sistemas de motorización de sistemas informáticos, dado que en realidad aun sus buenos conocimientos del tema, realmente su función no era la mantener el sistema. 
@@ -60,6 +68,8 @@ Finalmente añadimos una linea en el fichero del proceso Cron, crontab, para que
 
 En el momento que el servidor web deje de atender a las peticiones entrantes por el puerto 80, el Sr. de los Palotes recibirá una llamada de emergencia en su extensión personal, cuyo CallerID será Emergencias CRM <111>, hasta que se resuelva el problema.
 
+\newpage
+
 \subsection{Probando nuestro CTI, Asterisk Manager Interface}
 
 Ahora vamos a montar el sistema para que el CRM vTiger pueda integrarse con nuestra máquina Asterisk. Tan pronto este preparado le daremos las credenciales al nuevo responsable IT para que pudiera poner en marcha lo necesario.
@@ -90,7 +100,7 @@ Por otro lado era necesario cubrir los aspectos concretos de configuración del 
 
 Con esto supuestamente le indicamos al Sr. de los Palotes que probara a realizar las operaciones que conocía para trabajar con el sistema vTiger, pero comprobamos que no funcionaba nada. Buscando en la web, pudimos observar que vTiger requería de algunas modificaciones a nivel interno para su correcta integración con nuestro Plan de Marcación, así que revisando la página oficial de configuración \footnote{PBXManager Wiki de Vtiger, https://wiki.vtiger.com/index.php/PBX\_Manager\_Module} nos dímos cuenta que era fundamental modificar un archivo propio del PBXManager (al parecer un módulo encargado de realizar toda esta gestión de interpretación de Mánager de Asterisk), y las modificaciones pertinentes las hicimos según podemos ver a continuación:
 
-\begin{lstlisting}[language=bash,title={./www/vtigercrm/modules/PBXManager/utils/AsteriskClass.php}]
+\begin{lstlisting}[language=php,title={./www/vtigercrm/modules/PBXManager/utils/AsteriskClass.php}]
 switch($typeCalled){
  case "SIP":
   $context = "extensiones";
@@ -111,7 +121,7 @@ Así que tuvimos que realizar ya algunas modificaciones más intensas de codigo,
 
 La incidencia más significativa que encontramos fue, dentro de la función \textbf{asterisk\_handleResponse2} nos dimos cuenta, que no solo el condicional tampoco valía, la sintaxis de uno de los parámetros llamado AppData del comando NewExten, habia cambiado significativamente, por esto adaptamos un poco el código PHP para que sirviera para esta nueva aplicación:
 
-\begin{lstlisting}[language=bash,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
+\begin{lstlisting}[language=php,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
 
 // if($mainresponse['Event'] == 'Newexten' && 
 //(strstr($appdata, "__DIALED_NUMBER") || 
@@ -137,6 +147,8 @@ A continuación en la Figura \ref{llamandaentrante} y la Figura \ref{llamandasal
 \figura{vtiger_incoming.png}{scale=1}{Llamada Entrante en Vtiger}{llamandaentrante}{!ht}
 
 \figura{vtiger_outgoing.png}{scale=1}{Llamada Saliente en Vtiger}{llamandasaliente}{!ht}
+
+\newpage
 
 \subsection{Devolviendo el Control al Cliente}
 
@@ -238,7 +250,7 @@ Ahora es el momento de diseñar una aplicación en PHP muy sencillo para poder l
 
 El script se irá describiendo a continuación \footnote{Montando un Sistema Asterisk Autonomo I, \\ http://10000horas.com/asterisk/2011/12/08/montando-un-sistema-asterisk-autonomo-i}, primero conectamos a la base de datos \textbf{asterisk}:
 
-\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+\begin{lstlisting}[language=php,title={./www/usuarios.php}]
 
  <?php
 
@@ -258,7 +270,7 @@ A continuación, registramos una sesión con una Cookie, y hacemos una consulta 
 
 Como vemos, en caso que no hubiesemos accedido al sistema, nos aparecería un pequeño formulario pidiendo las credenciales, que al rellenarlo, lanzaría las credenciales como variables para una consulta SQL contra nuestra Base de Datos:
 
-\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+\begin{lstlisting}[language=php,title={./www/usuarios.php}]
 
 session_start();
 
@@ -307,7 +319,7 @@ En caso que ya estemos logeados, nos ofrece un pequeño menu por si queremos ava
 
 A partir de aquí, considerando, que hayamos lanzado el formulario que veremos al final de la descripción de esta aplicación, en caso que hayamos rellenado el formulario de insertar un registro, recibiríamos los parámetros, y crearíamos una consulta SQL con los mismos a medida, para insertarla en nuestra base de datos. Con esto quedaría registrado nuestro usuario y podríamos volver a nuestro panel principal.
 
-\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+\begin{lstlisting}[language=php,title={./www/usuarios.php}]
 
 // Si ya estamos logeados
 
@@ -347,7 +359,7 @@ else
 
 La segunda posibilidad, es que hayamos optado por pulsar el botón del formulario principal para borrar un registro SIP. En este caso, haría el borrado lanzando la consulta SQL correspondiente, asociándolo al identificador concreto del Par SIP que hayamos decidido eliminar:
 
-\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+\begin{lstlisting}[language=php,title={./www/usuarios.php}]
 
  // Borrado de un Registro
  elseif(isset($_POST['deletesubmit']))
@@ -363,7 +375,7 @@ La segunda posibilidad, es que hayamos optado por pulsar el botón del formulari
 
 Finalmente, están los dos posibles formularios, tanto el de inserción como el de borrado, los cuales recogen las variables para pasárselas a las consultas anteriormente explicadas:
 
-\begin{lstlisting}[language=bash,title={./www/usuarios.php}]
+\begin{lstlisting}[language=php,title={./www/usuarios.php}]
 
  // Formularios de Insercion y Borrado
  else
@@ -427,6 +439,8 @@ exten => _9[1-5]X,1,Macro(buzon)
 
 Y con esto ya quedaría terminada por completo esta parte del trabajo.
 
+\newpage
+
 \subsection{Análisis de Asterisk con Lupa}
 
 Continuando con la serie de trabajos encomendados por el señor Pedro, era el momento de hacer frente a la gestión y el control del registro de llamadas, dado que según nos comento nuestro cliente, había observado en la factura de teléfono que se estaban haciendo usos desmedidos del mismo, pero no podía controlar bien, quien y porque, estaba incurriendo en este gasto desmesurado. Quiza fuese simplemente porque se sabía que hasta el momento no existía un mecanismo de control eficiente, y era raro tener este tipo de controles para las PYME del sector, en las PBX convencionales dado que suponían unos sistemas de licenciamiento bastante costosos.
@@ -460,6 +474,8 @@ En la Figura \ref{cdrstats_grafico} y la Figura \ref{cdrstats_barras} mostramos 
 \figura{cdrstats_grafico.png}{scale=1}{Gráfico Circular de Llamadas Totales}{cdrstats_grafico}{!ht}
 
 \figura{cdrstats_barras.png}{scale=1}{Histograma de Llamadas por días}{cdrstats_barras}{!ht}
+
+\newpage
 
 \subsection{Conferencias Corporativas}
 
@@ -579,7 +595,7 @@ Considerando que Web-Meetme, incorpora una versión de PHP-AGI \footnote{Interfa
 
 Y tambien editar un fichero de configuración para la conexión a la base de datos de la aplicación MeetMe propia:
 
-\begin{lstlisting}[language=bash,title={/var/www/web-meetme/lib/database.php}]
+\begin{lstlisting}[language=php,title={/var/www/web-meetme/lib/database.php}]
 
 include_once 'DB.php';
 $database = 'meetme';
@@ -591,7 +607,7 @@ $password = 'asterisk';
 
 Finalmente vamos a especificar algunos parámetros concretos, para que nuestro sistema Web-MeetMe funcione con plenitud \footnote{Configuración Adicional Web-MeetMe, WikiAsterisk.com, \\ http://wikiasterisk.com/index.php?title=Web-MeetMe\#Configuraci.C3.B3n\_Adicional}.
 
-\begin{lstlisting}[language=bash,title={/var/www/web-meetme/lib/defines.php}]
+\begin{lstlisting}[language=php,title={/var/www/web-meetme/lib/defines.php}]
 
 define ("WEBROOT", "http://pfc-asterisk.local/web-meetme/");
 define ("FSROOT", "/var/www/web-meetme/");
