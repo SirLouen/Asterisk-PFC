@@ -5,7 +5,7 @@
 % Para más información, la licencia completa viene incluida en el
 % fichero fdl-1.3.tex
 
-En este capítulo desarrollaremos un poco más la idea detrás de desarrollar una plataforma teórica basada en un sistema WIKI, concretamente el software MediaWiki, todas sus repercusiones y ventajas que aportan en general al desarrollo de este proyecto.
+En este capítulo desarrollaremos un poco más la idea detrás de desarrollar una plataforma teórica basada en un sistema WIKI, concrétamente el software MediaWiki, todas sus repercusiones y ventajas que aportan en general al desarrollo de este proyecto.
 
 También daremos un recorrido por la estructura de la WIKI y así poder entender el concepto subyacente de su estructura.
 
@@ -21,13 +21,13 @@ Realmente más allá de destacar como se ha realizado el despliegue del sistema,
 
 Desde el momento que tome la determinación de desarrollar la WIKI, mi primer planteamiento fue lanzarla públicamente a un servidor en Internet de mi propiedad y enmarcarla bajo un dominio que en un futuro pudiera facilitar su adecuación. La primera idea que rondaba en mi mente era el diseño gráfico de toda una referencia basada en el sistema Asterisk con alguna referencia a España, para dar a entender fielmente la intención asociada al idioma que se pretendía instaurar.
 
-A partir de aquí realice el registro del dominio http://www.wikiasterisk.com muy significativo para el tema que pretendía cubrir, y simultáneamente, lo asocié al servidor web que comentaba anteriormente. Con esto resuelto ya solo quedaba instalar MediaWiki y configurarla con los parámetros estandar de uso. De aquí recibiría su nombre final el proyecto WIKI: \textbf{WIKIASterisk}
+A partir de aquí realice el registro del dominio http://www.wikiasterisk.com muy significativo para el tema que pretendía cubrir, y simultáneamente, lo asocié al servidor web que comentaba anteriormente. Con esto resuelto ya solo quedaba instalar MediaWiki y configurarla con los parámetros estándar de uso. De aquí recibiría su nombre final el proyecto WIKI: \textbf{WIKIASterisk}
 
 El planteamiento es dejar la WIKI sin acceso público hasta la finalización integral del proyecto y conclusión favorable, y tras esto, dar acceso únicamente a editores de confianza. El método para definir editores de confianza todavía no ha quedado demasiado definido, pero el concepto de dejarla libremente pública todavía no me resulta atractivo, dado que tengo constancia que existen excesivos Bots y las exigencias de Moderación pueden resultar excesivas, al menos para preservar íntegramente contenidos de calidad.
 
 Otro planteamiento sería el bloqueo de las páginas principales, y dejar libre acceso para crear otras páginas desarrollando nuevos temas. Solo los moderadores, y editores de confianza tendrían acceso a este tipo de edición y también esta alternativa es candidata a ser resolutiva tras la "liberación del sistema"
 
-\subsection{Estructura General}
+\section{Estructura General}
 
 La WIKI esta dividida en 6 secciones claramente diferenciadas, como puede verse en la Figura \ref{esquema_wiki}:
 
@@ -44,7 +44,7 @@ La WIKI esta dividida en 6 secciones claramente diferenciadas, como puede verse 
 
 \subsection{Fundamentos}
 
-El apartado de Fundamentos de Asterisk, esta enfocado a dar una perspectiva general del sistema, y establecer los primeros precedentes para su funcionamiento, partiendo de la instalación del mismo, se subdivide en tres artículos principales, segun figura \ref{wiki_intro}:
+El apartado de Fundamentos de Asterisk, esta enfocado a dar una perspectiva general del sistema, y establecer los primeros precedentes para su funcionamiento, partiendo de la instalación del mismo, se subdivide en tres artículos principales, según figura \ref{wiki_intro}:
 
 \begin{enumerate}
 	  \setlength{\itemsep}{10pt}
@@ -62,11 +62,11 @@ El apartado de Fundamentos de Asterisk, esta enfocado a dar una perspectiva gene
 	
 \end{enumerate}
 
-\figura{wiki_intro.png}{scale=1}{Esquema de la sección Introductoría de la WIKI}{wiki_intro}{!ht}
+\figura{wiki_intro.png}{scale=1}{Esquema de la sección Introductoria de la WIKI}{wiki_intro}{!ht}
 
 \subsection{Plan de Marcación}
 
-La base del sistema Asterisk es el plan de Marcación. Realmente es la columna vertebral y es el método para poner en funcionamiento a vonlutad del desarrollador todas las posibilidades que ofrece esta plataforma de telecomunicaciones. Todo esto puede verse en la figura \ref{wiki_dialplan}
+La base del sistema Asterisk es el plan de Marcación. Realmente es la columna vertebral y es el método para poner en funcionamiento a voluntad del desarrollador todas las posibilidades que ofrece esta plataforma de telecomunicaciones. Todo esto puede verse en la figura \ref{wiki_dialplan}
 
 \begin{enumerate}
 	  \setlength{\itemsep}{10pt}
@@ -114,15 +114,186 @@ En esta sección se tratan de cubrir todos los elementos relacionados al interca
 	
 	\item \textbf{DAHDI}
 	
-	EStas siglas hacen referencia a Digium
+	Estas siglas hacen referencia a Digium/Asterisk Hardware Device Interface. Es decir, una interfaz para poder dialogar con el hardware específico de Digium y compatible, en relación a Asterisk. Esto hace realmente referencia a tarjetas para conectar con la telefonía clásica. Es un mundo donde es posible profundizar bastante, pero dado que la intención del proyecto es dar una breve visión sobre estas capacidades pero no profundizar demasiado en el detalle de las mismas, se realiza un buen repaso sobre las opciones dentro de esta rama más comunes.
 	
-  \item \textbf{Dialplan Avanzado}
+  \item \textbf{Pasarelas ATA}
 	
-	Este articulo quizá pueda ser el más desubicado de toda la Wiki, pero a su vez se encuentra en el sitio apropiado. Hay que considerar que una vez que hemos aunado todos los conceptos dispares relacionados al sistema Asterisk, todas las técnicas adicionales para construir Planes de Marcación mas sofisticados hacen de Asterisk una herramienta aún más potente y práctica. También se hace una introducción teórica a los sistemas de Respuesta de Voz Interactiva, porque realmente estos últimos son más comprensibles en la práctica que sobre el papel.
+	Las Pasarelas o Gateways, juegan el papel de las tarjetas de comunicación como las vistas en el apartado de DAHDI, pero enlazando con nuestra máquina Asterisk a traves del protocolo SIP. Existen cientos de Pasarelas de este tipo, con muchos submodelos a su vez. Esta sección esta destinada a poder ofrecer una guía y un manual claro y conciso de la funcionalidad que aportan las pasarelas más reconocidas en el mercado actual.
 	
 \end{enumerate}
 
+\figura{wiki_protocolo.png}{scale=1}{Esquema de la sección de los Protocolos e Interfaces de la WIKI}{wiki_protocolo}{!ht}
 
-\figura{wiki_protocolo.png}{scale=1}{Esquema de la sección de los Prótocolos e Interfaces de la WIKI}{wiki_protocolo}{!ht}
+\subsection{Sistema de Módulos}
 
-ESTRUCTURA DE LOS ARTICULOS: ARTICULO ESTRUCTURA
+Siguiendo el esquema establecido en la Arquitectura de Asterisk, considerando que Asterisk se fundamenta principalmente en el despliegue de módulos que van cubriendo las necesidades especificas de forma autónoma, en este apartado se explican con gran detalle los módulos que conforman la base de las Comunicaciones Unificadas que ofrecen Asterisk, en un término nivel medio, considerándolos todos como fundamentales pero a su vez muy específicos en función de las distintas combinaciones de instalaciones posibles. En detalle puede verse un extracto en la Figura \ref{wiki_modulos}
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{Buzones de Voz}
+	Tratamos con mucho detalle todos los aspectos relevantes al sistema de Buzones de Voz, tanto a nivel de configuración como de gestión. Este es uno de los apartados que suele ofrecer más funcionalidad dentro del sistema Asterisk pero que suele quedar relegado si no aplicamos un nivel de configuración razonable para lo que ofrece, por eso aquí detallamos como alcanzarlo.
+	
+	\item \textbf{MeetMe}
+	
+	Aquí hacemos referencia al sistema de Conferencias ofrecido por Asterisk llamado MeetMe, que realmente sigue destacando por su uso. Esta sección es muy probable que sufra modificaciones en un futuro próximo dado que ya también hacemos alguna mención a las nuevas tendencias en este entorno dentro del Artículo
+	
+	\item \textbf{Colas de Llamadas}
+	
+	Este capitulo esta orientado al mundo de los Call Centers como primeros y fundamentales usuarios de la estructura de colas de llamadas como tal, y agentes atendiendo a las llamadas entrantes. Hacemos especial mención a varios aspectos derivados de este tema tales como las Estrategias en la entrada de llamadas, sistema de prioridades, y aspectos generales que hacen referencia a este mundo particular.
+	
+	\item \textbf{Monitorización de Llamadas}
+	
+	En Asterisk el termino monitorización hace referencia al hecho de estar conectado activamente a un canal de audio. En esta sección se tratan de definir los mecanismos de grabación y escucha activa de llamada que ofrece nuestro sistema.
+	
+  \item \textbf{Música en Espera}
+	
+	El concepto de Música en Espera (MOH), también esta externalizado como un módulo en Asterisk y es relativamente configurable. Solamente damos unas pinceladas sobre el tema, aunque es algo que puede resultar relativamente extenso en función de las posibilidades que podamos encontrar en esta funcionalidad
+	
+	\item \textbf{FAX}
+	
+	Los sistemas de FAX pueden haber quedado ya prácticamente obsoletos, pero aun así se siguen utilizando. Asterisk ofrece la posibilidad de configurarlos en mayor o menor medida, y aquí se explican algunas formas para realizar este cometido.
+	
+	\item \textbf{Codecs y Formatos}
+	
+	Una breve descripción sobre la gran mayoría de codecs y formatos disponibles en el sistema Asterisk
+	
+	\item \textbf{Asterisk Realtime}
+	
+	Aquí se detalla con gran precisión, como Asterisk es capaz de operar con bases de datos, y concrétamente una capacidad que tiene específica de llevar el control de la configuración interna del sistema directamente desde tablas dinámicas basadas en bases de datos de tipo relacional.
+	
+\end{enumerate}
+
+\figura{wiki_modulos.png}{scale=1}{Esquema de la sección de Módulos Asterisk}{wiki_modulos}{!ht}
+
+\subsection{Conceptos Avanzados}
+
+Una vez que se ha cubierto la gran parte de los conceptos cruciales para el buen entendimiento del sistema Asterisk, es necesario dotar la WIKI de un apartado con conceptos más avanzados en el aprendizaje que suelen surgir la necesidad en etapas más desarrolladas. Entre estos conceptos se incluyen ideas sobre el control, sobre la capacidad de desarrollar nuevos aspectos propios, y capacidades para interconectar sistemas externos a Asterisk, con este de forma eficaz. \ref{wiki_avanzado}
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{Seguridad}
+	Es importante tratar todos los aspectos relevantes a la seguridad ejemplar de un sistema integral, dentro de un apartado específico. Quizá podían haber quedado dispersos en cada una de las secciones correspondientes, pero con este apartado se pretende dar una visión más orientada a la auditoría que a las buenas prácticas.
+	
+	\item \textbf{Generación Automática de Llamadas}
+	
+	Cuando pensamos en la capacidad de generar llamadas de forma automática, nos suele venir a la mente intenciones orientadas al Marketing, y a la posibilidad de ofrecer algo de forma automatizada. Pero nada más fuera de la realidad aquí explicamos muchas de las funciones que podemos utilizar con este sistema que provee Asterisk para automatizar una serie de procesos relativos entre la telefonía y la computación.
+	
+	\item \textbf{Registro Llamadas y Eventos}
+	
+	Asterisk establece un rigoroso control de varios aspectos, entre ellos incluso, del flujo de llamadas y eventos que van ocurriendo, tal y como podría ocurrir con otros tipos de servidores como los dedicados a ofrecer servicios Web, pueden almacenar todas las peticiones de entrada y salida al servidor. Con esto se pueden establecer mecanismos de control, facturación entre otros, especialmente interesantes desde una perspectiva eminentemente práctica.
+	
+	\item \textbf{TTS y ASR}
+	
+	TTS hace referencia a Text-To-Speech, es decir, Texto a Voz, o Síntesis de Voz, y ASR, significa Automátic Speech Recognition, o reconocimiento de Voz Automática. Podrían considerarse las interfaces de Voz entre la máquina Asterisk, y las personas que pudieren utilizarlas. Estos dos sistemas en esencia vienen explicados en profundidad haciendo referencia a las múltiples alternativas que nos podemos encontrar en este entorno
+	
+  \item \textbf{AGI}
+	
+	El sistema AGI, Asterisk Gateway Interface, esta orientado a poder ofrecer un soporte externo de programación en múltiples tipos de lenguajes de programación, para desarrollar aplicaciones específicas que interactúen con los flujos de llamadas dentro de Asterisk, con mecanismos relativamente sencillos de implementar y muy orientados a un entorno de desarrollo para mejorar la funcionalidad intrínseca del sistema
+	
+	\item \textbf{AMI}
+	
+	Asterisk Manager Interface, es una interfaz modular, totalmente independiente de Asterisk, que establece un tipo de Pasarela a través de la cual puede recibir comandos para invocar aplicaciones dentro del sistema Asterisk, y simultáneamente vuelca información en la misma, accesible desde el exterior y proveniente específicamente de todos los módulos que están interconectados dentro de la estructura de nuestra máquina de telecomunicaciones.
+	
+	\item \textbf{Intrefaces Web}
+	
+	Por cada uno de los módulos explicados, podría decirse que pueden existir una o varias interfaces cuya función principal es cubrir una serie de aspectos relativos a los mismos, como la configuración, el control y la gestión o la monitorización de los eventos que suceden en ellos. Dado que en el Caso de Estudio, se plantean como alternativas interesantes, el uso de determinados Interfaces Web, aprovechamos para desarrollarlos de manera práctica principalmente con algunos aspectos teóricos específicos de los mismos.
+	
+\end{enumerate}
+
+\figura{wiki_avanzado.png}{scale=1}{Esquema de la sección de Aspectos Avanzados del Sistema}{wiki_avanzado}{!ht}
+
+\subsection{Bibliografía y Enlaces de Interés}
+
+El último apartado simplemente esta destinado a realizar referencias a determinadas páginas de interés general dentro del mundo Asterisk, otro tipo de páginas que hayan podido tener alguna relación con WIKIAsterisk, y finalmente, medios de comunicación para establecer contacto con el autor de este proyecto. \ref{wiki_bibliografia}
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{Asterisk: The Definitive Guide}
+	Este libro es por muchos considerado, la Biblia de Asterisk y podría decirse que gran parte de esta WIKI se fundamenta en este libro. Además es el libro recomendado por la mayoría de los expertos. Una de las pretensiones de esta Wiki es la de superar algún día los contenidos de este libro tanto en calidad como en cantidad con el resto de las aportaciones de valor.
+	
+	\item \textbf{Github Asterisk-PFC}
+	
+	Dado que el proyecto ha sido accedido desde diversas máquinas, entre las cuales se encuentran, el ordenador de trabajo y el servidor donde se aloja la máquina virtual del proyecto, y además con la idea de poder realizar un seguimiento de las distintas ediciones que ha ido sufriendo el proyecto desde las primeras instancias, se origino el planteamiento de alojar la mayor parte de los ficheros más relevantes al mismo, dentro de un sistema de control de versiones, y el elegido fue GIT, dentro ampliamente conocido repositorio \textbf{Github}.
+	
+	\item \textbf{Guía Wikimedia}
+	
+	Una de las guías que más útil me resultó para introducirme en el mundo de la edición de textos en formato Wiki, y en el que se sustenta todo el desarrollo de WikiAsterisk, pasando desde el diseño estructural, hasta las plantillas para simplificar la labor y modelación.
+	
+	\item \textbf{Contacto}
+	
+	Varios medios de comunicación para ponerse en contacto conmigo como Autor principal y único de este proyecto.
+	
+\end{enumerate}
+
+\figura{wiki_bibliografia.png}{scale=1}{Esquema de la sección de Bibliografía y Enlaces de Interés}{wiki_bibliografia}{!ht}
+
+\section{Estructura de los Artículos}
+
+El planteamiento establecido para desarrollar los artículos estuvo basado en una Estructura general definida en la mayoría de los artículos fundamentada en la siguiente base:
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{Descripción corta} 
+	
+	Una breve descripción introductoria para el articulo explicando brévemente la posible relación con Asterisk, o definiendo el acrónimo en caso que existiese
+	
+	\item \textbf{Tabla de Contenidos} 
+	
+	En todos los artículos existe un índice para marcar una guía muy especialmente útil en caso de querer referenciar determinadas posiciones específicas del mismo sin tener que mirar el artículo completo
+  
+	\item \textbf{Introducción} 
+	
+  Aún llamado de diferentes formas, todos los artículos poseen una primera sección introductoria que sirve para empezar a desarrollar el tema en profundidad empezando a sacar posibles subdivisiones del mismo, o enumerado funcionalidades
+ 
+  \item \textbf{Contenido Principal} 
+	
+	Es la masa crítica del Articulo
+  
+	\item \textbf{Referencias} 
+	
+	Podrían considerarse, los "pie de página" de cada artículo, las cuales se encuentran dispersas por todo el Contenido Principal con un pequeño enlace que las referencia. Aquí no se ha tomado forzosamente un idioma de referencia dado que se considerarían enlaces externos
+
+ 	\item \textbf{Véase También} 
+	
+	Serían enlaces a otros artículos de la Wiki, teniendo siempre en mente, que absolutamente todo, tiene alguna relación con otro articulo. La idea de esto, es que fuera viable poder establecer como mínimo un camino de lectura, y poder recorrer el 100\% de los artículos sin tener que visitar la página principal.
+	
+	\item \textbf{Enlaces Externos} 
+	
+	Todas las empresas, documentos interesantes y direcciones que pudiera hacer referencia directamente al artículo y cobraran sentido con respecto al mismo. Podría considerarse un tipo de bibliografía añadida al artículo conjunta al grupo de Referencias.
+
+\end{enumerate}
+
+ \subsection{Consideraciones de Formato y Estructura}
+
+ En el momento de crear un artículo se diseñaba principalmente aplicando un Artículo de ejemplo:
+
+ http://wikiasterisk.com/index.php?title=Estructura
+
+ El cual contenía la estructura anteriormente comentada en líneas generales, y utilizaba algunas plantillas prácticas para el desarrollo del mismo.
+
+ También se creo una categoría específica para englobar todas las Plantillas posibles en caso que pudiera requerirse de su uso: 
+
+ http://wikiasterisk.com/index.php?title=Categor\%C3\%ADa:Principal:Plantillas
+
+ Dentro de la Estructura existen dos indicadores específicos del estado del Artículo. Para mi criterio les he dado el siguiente uso:
+
+ \begin{itemize}
+	  \setlength{\itemsep}{10pt}
+
+ \item \textbf{To Do}
+ 
+ En caso que el Artículo no estuviese terminado, o tuviera intención de ampliarlo en un futuro, se marcaría con esta Plantilla, aque ademas asigna una Categoría especial, para poder sacar en un futuro un listado de todos los artículos marcados y así poder seguir trabajando donde lo dejamos. Se representa con una pequeña caja como podemos ver en la figura \ref{todo}
+
+\figura{todo.png}{scale=1}{Indicador de Artículo pendiente de Completar o Mejorar}{todo}{!ht}
+
+\item \textbf{Formato}
+
+Por otro lado, en caso que un Artículo no haya cumplido toda la estructura anteriormente mencionada al completo, incluyendo al menos un enlace de cada tipo, y como nota adicional, al menos una imagen relativa al contexto (para resultar más gráficamente descriptivos de manera general), quedaba marcado con una caja representativa indicando que le falta cumplir las reglas de Formato preestablecidas. La representación de la misma puede verse en la Figura \ref{format}
+
+\figura{format.png}{scale=1}{Indicador de Artículo pendiente Formatear}{format}{!ht}
+
+\end{itemize}

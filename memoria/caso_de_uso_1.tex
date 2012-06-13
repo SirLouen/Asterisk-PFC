@@ -84,6 +84,22 @@ Todavía tenemos suficiente espacio para añadir componentes de menor magnitud. 
 
 Se trata del paquete LAMP (Linux + Apache como servidor Web + MySQL como SGBD de nuestra BD + PHP como lenguaje de programación en entorno web que se conjugará con nuestro servidor web para poder ofrecer aplicaciones combinables con Asterisk como veremos mas adelante) y por otro lado algún servidor de Correo como Postfix. Para ello nos valemos de la herramienta \negrita{tasksel} de Ubuntu que realiza la instalación completa de la forma más ágil para nuestro propósito. Con estas instalaciones apenas consumimos poco más de 100MB así que seguimos teniendo suficiente espacio para continuar el proceso tranquilamente.
 
+\subsection{Comprobación: Instalación del sistema Asterisk}
+
+Para comprobar que el sistema ha sido instalado y configurado correctamente, simplemente podríamos probar a acceder a la Interfaz en Línea de Comandos de Asterisk:
+
+\begin{lstlisting}[language=sh]
+# asterisk -r
+\end{lstlisting}
+
+Y a continuación comprobar que todo funciona bien lanzando un comando CLI para recargar toda la configuración:
+
+\begin{lstlisting}[language=sh]
+CLI> core reload
+\end{lstlisting}
+
+En caso que no aparezcan errores significa que todo esta bien. Si no hemos emplazado todos los ficheros de configuración tales como \textbf{asterisk.conf} o \textbf{indications.conf} es probable que salga algún error, por falta de los mismos. Para ello deberemos volver a repasar la guía de Instalación y Configuración inicial provista en la WIKI de Asterisk.
+
 \newpage
 
 \subsection{Configurando equipos y el entorno SIP}
@@ -94,11 +110,44 @@ Vamos a considerar, que todavía el presupuesto es demasiado ajustado para la em
 
 Creamos en primer lugar el fichero de configuración dentro de /etc/asterisk/ llamado sip.conf donde añadiremos la configuración especifica de cada una de las 20 extensiones solicitadas por el gerente:
 
-\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf.1}
+\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
 
-Para la creación de este fichero, hemos seguido las reglas básicas de configuración para el protocolo SIP como podemos ver en el correspondiente articulo de la Wiki. \footnote{SIP. http://wikiasterisk.com/index.php?title=SIP}. Significativamente podemos observar que la estructura que hemos seguido para denominar las extensiones, aun no siendo demasiado recomendada, es la siguiente:
+[general]
+; Nuestro idioma
+language = es
+; Cambiamos el puerto para ofrecer seguridad por ocultacion
+bindport = 35060
+allowguest = no
+
+\end{lstlisting}
+
+En primer lugar para la creación de este fichero, hemos seguido las reglas básicas de configuración para el protocolo SIP como podemos ver en el correspondiente articulo de la Wiki. \footnote{SIP. http://wikiasterisk.com/index.php?title=SIP}. Significativamente podemos observar que la estructura que hemos seguido para denominar las extensiones, aun no siendo demasiado recomendada, puede verse en la figura \ref{tabla_extensiones}
+
+\figura{tabla_extensiones.png}{scale=1}{Estructura Inicial de Extensiones de Usuario}{tabla_extensiones}{!ht}
 
 Las extensiones constarán de dos dígitos. El primero se encarga de definir el departamento, y el segundo, el puesto. La extensión 10, como extensión especial para definir concrétamente la del Sr. Doe, el resto, si el número para designar el puesto es el número 1, correspondería al Responsable de Sección, y los sucesivos dígitos, corresponden al resto de los empleados. Además hemos creado cuatro plantillas para un cometido concreto: 
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+
+[telefonos](!)
+; Vamos a impedir el Transcoding utilizando solo el codec Alaw
+disallow = all
+allow = alaw
+dtmfmode = rfc2833
+host = dynamic
+qualify = yes
+type = friend
+
+[gerencia](!)
+context = gerencia
+
+[manager](!)
+context = manager
+
+[resto](!)
+context = extensiones
+
+\end{lstlisting}
 
 La primera, teléfonos, es una plantilla que engloba todos los parámetros comunes a las extensiones de la centralita. En este caso, nos interesa trabajar en exclusiva con el códec Alaw (G.711 EU), dado que tenemos una conexión bastante buena, pero nuestra máquina no es demasiado potente, además no queremos invertir en códecs licenciados.
 
@@ -108,6 +157,26 @@ El sistema de contraseñas, teniendo a lo más básico, aun siendo una mala prá
 
 Finalmente y volviéndonos a adelantar a una probable futura necesidad, hemos asociado a cada extensión su correspondiente buzón de voz, que configuraremos a voluntad si surge el caso más adelante.
 
+Pongo un ejemplo de varias extensiones "que cumplan estas condiciones":
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+
+; Gerente
+[10](telefonos,gerencia)
+md5secret=2b45660a7b1155943f0132f05bd0e34d
+mailbox = 0@admin
+
+; Responsable Administracion
+[11](telefonos,manager)
+md5secret=6acb3eb4a4939b22ea6709e87ec79311
+mailbox = 1@admin
+
+[12](telefonos,resto)
+md5secret=bb24a2de8a36fdd14e358493cd5abac5
+mailbox = 2@admin
+
+\end{lstlisting}
+
 Ahora pasamos a comprobar que todo ha ido bien. Accedemos a la CLI de Asterisk y con el comando:
 
 \begin{lstlisting}[language=sh]
@@ -115,6 +184,8 @@ CLI> sip reload
 \end{lstlisting}
 
 Vemos como nuestra configuración carga adecuadamente. Ahora vamos a comprobar que los pares han sido configurados correctamente. Observando el despliegue de sistemas de la empresa UCA Autos, comprobamos que todos los puestos trabajan en un sistema operativo de Microsoft. En este caso decidimos que vamos a utilizar un teléfono por software, dado que el Sr. Doe de momento no se ha decidido en el modelo de teléfono físico que quiere comprar. El Softphone que hemos elegido por su reconocida estabilidad y calidad es uno gratuito, pero no libre, llamado X-Lite. Tenemos constancia de múltiples Softphone Open Source, pero bajo este sistema operativo, no tienen demasiada estabilidad y pueden complicarnos la vida.
+
+\subsection{Comprobación: Configurando equipos y el entorno SIP}
 
 Configurando la extensión del Sr.Doe de ejemplo como podemos ver en la siguiente Figura \ref{config_xlite}, captura de pantalla de X-Lite.
 
@@ -137,7 +208,58 @@ Así que ya podemos proceder a registrar las 20 extensiones, en los 20 equipos d
 
 Ahora los teléfonos no pueden hacer casi nada, excepto llamar a una extensión si saber la ruta exacta, y sin pasar por nuestro sistema Asterisk. Nos interesa que por lo menos puedan realizar llamadas entre ellos marcando el número de extensión según la estructura que definimos anteriormente. Para ello vamos a crear el fichero de configuración del Dial Plan según veremos a continuación:
 
-\lstinputlisting[title={/etc/asterisk/extensions.conf}]{../conf/extensions.conf.1}
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+; --- Plan General de Extensiones
+
+[extensiones]
+
+exten => 10,1,NoOp()
+same => n,Dial(SIP/10)
+
+exten => 11,1,NoOp()
+same => n,Dial(SIP/11)
+
+exten => 12,1,NoOp()
+same => n,Dial(SIP/12)
+
+\end{lstlisting}
+
+En primer lugar, creamos números de marcación específicos para todas las extensinoes, he puesto las extensiones del ejemplo para continuar con la misma línea
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+; --- Contexto especifico de los Managers
+
+[manager]
+
+include => extensiones
+
+\end{lstlisting}
+
+Dado que de momento no existe nada especial para los Mánager, definimos un contexto que apunte al resto de las extensiones, como si fueran extensiones normales
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+; --- Contexto especifico del Gerente
+
+[gerencia]
+
+include => manager
+
+; --- Otros Sistemas Adicionales de Prueba, solo puede acceder el Gerente.
+
+exten => 1111,1,NoOp()
+same => n,Progress()
+same => n,MusicOnHold()
+
+exten => 2222,1,NoOp()
+same => n,Answer()
+same => n,Set(CHANNEL(tonezone)=starwars)
+same => n,Dial(Local/10,tT,30)
+
+\end{lstlisting}
+
+Aquí especificamos un contexto para el gerente, que incluye de forma jerarquíca todas las posibilidades que pudiesen tener los manager, y a su vez algunas extensiones de ejemplo, como la capacidad de escuchar la música en espera por defecto, o de llamarse a si mismo para comprobar que todo va bien.
 
 Es importante considerar, que no hemos creado extensiones de marcación dentro del plan para cada una de los dispositivos SIP ya que como veremos adelante, este proceso se simplifica bastante utilizando Macros, como un sistema algo más avanzado del Dialplan de Asterisk.
 
@@ -147,13 +269,24 @@ Para recargar el Plan de Marcación y poder hacer uso de este desde la CLI de As
 CLI> dialplan reload
 \end{lstlisting}
 
-Ahora utilizando nuestro Softphone X-Lite podríamos marcar la extensión 11 y el teléfono empezaría a sonar. Al descolgar se establecería la conexión. En este fichero vemos algunas cosas peculiares:
+ En este fichero vemos algunas cosas peculiares:
 
 La aplicación NoOp sirve para hacer debug en consola. Si pusiéramos mensajes dentro del paréntesis, se verían en el log del CLI. Se pueden poner incluso variables del sistema, la cuestión es que esto viene más explicando en el apartado correspondiente de la documentación.
 
 Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos contextos hacen referencia a los contextos a donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para "incluir" todas las extensiones de los contextos a los que apunta el mismo. En este caso, incluiría por completo el contexto [manager], que este a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene "visibilidad" total sobre todo el plan de marcacion del sistema, en cambio un dispositivo de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto, pero no del contexto del gerente.
 
 Cuando se lo expliquemos al gerente, seguro que se le ocurren aplicaciones prácticas como el hecho de evitar que sus empleados llamen a números internacionales, o de tarificación especial.
+
+\subsection{Comprobación: Configuración del Primer Plan de Marcación}
+
+Esta parte es muy sencilla de comprobar su correcto funcionamiento.
+
+Ahora utilizando nuestro Softphone X-Lite podríamos marcar la extensión 11 y el teléfono empezaría a sonar. Al descolgar se establecería la conexión.
+
+Es posible que esta no se establezca. Para ello debemos utilizar el interfaz CLI para comprobar si el transcurso de la llamada esta produciendose de manera correcta. La salida que debemos ver en este flujo de información en detalle deber ser similar a la que mostramos en la siguiente Figura \ref{ejemplo_cli_sip}
+
+\figura{ejemplo_cli_sip.png}{scale=1}{Ejemplo de una llamada en formato CLI}{ejemplo_cli_sip}{!ht}
+
 
 \newpage
 
@@ -224,3 +357,19 @@ exten => 956001151,1,Goto(extensiones,51,1)
 \end{lstlisting}
 
 Y con esto, ya estarían satisfechas las necesidades del gerente, por lo que concertamos una nueva cita con el Sr. Zutano para mostrarle que todo esta correctamente funcionando.
+
+\subsection{Comprobación: Introduciendo al proveedor de Telefonía}
+
+En este apartado tal y como estan definidos los ficheros de configuración todavía es imposible comprobar que todo funciona bien, dado que no tenemos definido en el plan de marcación un metodo para llamar a través del proveedor de telefonía IP. 
+
+De momento, para probarlo a modo de ejemplo, podriamos establecer una ruta específica en la configuración específica del contexto del Gerente la siguiente linea:
+
+\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+
+[gerencia]
+
+exten => 956001121,1,Dial(SIP/proveedorip/956001121}
+
+\end{lstlisting}
+
+Muy similar a la comprobación del apartado anterior, en este caso considerando por ejemplo, que tenemos configurada la extensión número 21, cuyo número Direct Dial-In (de marcación directa), es el 956001121, si llamamos a este número desde la extensión del gerente (10), debería de empezar a sonar en la extensión 21 el teléfono, dado que gracias a esta linea, estamos mandando llamada a traves del par que definimos en el fichero de configuración SIP llamado \textbf{proveedorip}, y luego el Proveedor, nos devuelve la llamada a traves del mismo par (recordemos que es un tipo \textbf{friend}, es decir "permite" tanto la entrada como la salida), y entraría según definido al contexto [entrantes]. En este momento, se redirigiría a la extensión 956001121, que esta a su vez, redirige a la extensión 21, dentro del contexto extensiones.
