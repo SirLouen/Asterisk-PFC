@@ -1,0 +1,219 @@
+[globals]
+
+GRUPOPOSVENTA=SIP/41&SIP/42&SIP/43
+
+[especiales]
+
+exten => 101,1,NoOp()
+same => n,Playback(bienvenida)
+same => n,Playback(grabacion)
+same => n,Set(GRABACION="grabacion-"${STRFTIME(${EPOCH},,%Y%m%d-%H%M%S)})
+same => n,Monitor(wav,${GRABACION},mb)
+same => n,Queue(almacen)
+same => n,Hangup()
+
+exten => 102,1,NoOp()
+same => n,MeetMe()
+same => n,Hangup()
+
+exten => 103,1,NoOp()
+same => n,MeetMe(100)
+same => n,Hangup()
+
+// IVR de GARANTIAS
+exten => 105,1,Answer()
+same => n,Set(contador=1)
+// Recogida de Informacion
+same => n(repetir),GotoIf($[${contador}>2]?operador)
+same => n,AGI(asterisk-tts.php,"Diga los numeros de su DNI y pulse almohadilla al terminar")
+same => n,Playback(google-tts)
+same => n,Record(grabacion-asr.wav,2)
+same => n,AGI(asterisk-asr.php)
+same => n,AGI(asterisk-tts.php,"Su DNI es")
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,${TEXTOASR})
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,"Marque 1 si es correcto")
+same => n,read(varok,google-tts,1)
+same => n,Set(contador=$[${contador}+1])
+same => n,GotoIf($[${varok}!=1]?repetir)
+// Comprobacion de Garantia
+same => n,AGI(fingarantia.php,${TEXTOASR})
+same => n,GotoIf($[${textotts}<1]?caducada)
+same => n,AGI(asterisk-tts.php,"Le quedan")
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,${textotts})
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,"dias de garantia")
+same => n,Playback(google-tts)
+same => n,Hangup()
+same => n(caducada),AGI(asterisk-tts.php,"La garantia ha caducado")
+same => n,Playback(google-tts)
+same => n,Hangup()
+// Salto a Extensiones Posventa
+same => n(operador),AGI(asterisk-tts.php,"Le pasamos con un operador")
+same => n,Playback(google-tts)
+same => n,Goto(extensiones,400,1)
+
+; --- Macro para Extensiones
+; --- Con Buzones de Voz Mejorados
+[macro-telefonos]
+exten => s,1,NoOp()
+same => n,Set(buzon=${MACRO_EXTEN})
+same => n,Set(CHANNEL(tonezone)=starwars)
+same => n,Dial(SIP/${buzon},30)
+same => n,Gotoif($["${DIALSTATUS}" = "BUSY"]?ocupado)
+same => n,VoiceMail(${buzon},u)
+same => n,Hangup()
+same => n(ocupado),VoiceMail(${buzon},b)
+same => n,Hangup()
+
+[macro-buzon]
+exten => s,1,NoOp()
+same => n,Set(buzon=${MACRO_EXTEN:1})
+same => n,VoiceMailMain(${buzon})
+same => n,Hangup()
+
+[macro-pausa]
+exten => s,1,NoOp()
+same => n,PauseQueueMember(almacen,SIP/${MACRO_EXTEN:1})
+same => n,Hangup()
+
+[macro-sinpausa]
+exten => s,1,NoOp()
+same => n,UnpauseQueueMember(almacen,SIP/${MACRO_EXTEN:1})
+same => n,Hangup()
+
+; --- Plan General de Extensiones
+[extensiones]
+
+include => exterior
+include => especiales
+
+; Minimizando las combinaciones para
+; ofrecer justo las extensiones disponibles
+
+; Todas las Extensiones para Asterisk RealTime
+exten => _[1-5]X,1,Macro(telefonos)
+exten => _9[1-5]X,1,Macro(buzon)
+
+; Extensiones para Colas de Almacen
+exten => _73[2-4],1,Macro(pausa)
+exten => _83[2-4],1,Macro(sinpausa)
+
+; Extensiones Grupo Posventa
+exten => 400,1,Answer()
+same => n,Dial(${GRUPOPOSVENTA},30,m)
+same => n,VoiceMail(41)
+same => n,Hangup()
+
+[exterior]
+; --- Contexto Especifico para Llamadas al exterior
+
+exten => _[89]ZXXXXXXX,1,NoOp()
+same => n,Dial(IAX2/proveedorip/${EXTEN})
+;same => n,Dial(SIP/proveedorip/${EXTEN})
+same => n,Hangup()
+
+exten => _6XXXXXXXX,1,NoOp()
+same => n,Dial(IAX2/proveedorip/${EXTEN})
+same => n,Hangup()
+
+exten => _90[0-2]XXXXXX,1,NoOp()
+same => n,Dial(IAX2/proveedorip/${EXTEN})
+same => n,Hangup()
+
+
+; --- Contexto especifico de los Managers
+[manager]
+
+include => extensiones
+
+; --- Llamadas a numeros de informacion
+exten => _118XX,1,NoOp()
+same => n,Dial(IAX2/proveedorip/${EXTEN})
+same => n,Hangup()
+
+exten => 201,1,NoOp()
+same => n,ChanSpy(SIP/3)
+same => n,Hangup()
+
+; --- Contexto especifico del Gerente
+[gerencia]
+
+include => manager
+include => grabaciones
+
+; --- Los numeros en Alemania son de longitud variable
+; --- Para evitar plantear todas las posibilidades
+; --- Hacemos uso del comodin "."
+
+exten => _0049.,1,NoOp()
+same => n,Dial(IAX2/proveedorip/${EXTEN})
+same => n,Hangup()
+
+; --- Otros Sistemas Adicionales de Prueba, 
+; --- solo puede acceder el Gerente.
+
+exten => 1111,1,NoOp()
+same => n,Progress()
+same => n,MusicOnHold()
+
+[entrantes]
+
+;Numero General de UCA Autos
+exten => 956001191,1,Goto(s,1)
+;Numero del Callcenter de Almacen
+exten => 956001181,1,Goto(especiales,101,1)
+exten => 956001171,1,Goto(especiales,102,1)
+exten => 956001172,1,Goto(especiales,103,1)
+exten => 956001101,1,Goto(extensiones,10,1)
+exten => 956001111,1,Goto(extensiones,11,1)
+
+exten => 956001121,1,NoOp()
+same => n,Set(CALLERID(num)=${EXTEN})
+same => n,Goto(extensiones,21,1)
+
+exten => 956001131,1,Goto(extensiones,31,1)
+exten => 956001141,1,Goto(extensiones,41,1)
+exten => 956001151,1,Goto(extensiones,51,1)
+
+exten => 956001161,1,NoOp()
+same => n,AGI(asterisk-tts.php,"Si quiere saber el tiempo restante de su garantia marque el 1")
+same => n,Playback(google-tts)
+same => n,AGI(asterisk-tts.php,"en otro caso, espere y le pondremos con un operador")
+same => n,Read(opciones,google-tts,1)
+same => n,GotoIf($[${opciones}=1]?especiales,105,1:extensiones,400,1)
+
+; Operadora Automatica
+exten => s,1,NoOp()
+same => n,Set(ivrcont=0)
+same => n,Answer()
+same => n(bienvenida),Playback(bienvenida)
+same => n,GotoIfTime(16:00-23:30,mon-fri,*,*?abierto)
+same => n,Playback(cerrado&horario)
+same => n,VoiceMail(1@market)
+same => n,Hangup()
+same => n(abierto),Background(menu-ivr)
+same => n,WaitExten(1)
+
+exten => t,1,NoOp()
+same => n,Set(ivrcont=$[${ivrcont}+1])
+same => n,GoToIf($[${ivrcont}<2]?s,bienvenida:0,1)
+
+; 1 a Ventas
+exten => 1,1,Goto(extensiones,21,1)
+; 2 a Almacen
+exten => 2,1,Goto(extensiones,31,1)
+; 3 a Posventa
+exten => 3,1,Goto(extensiones,41,1)
+; 0 a Marketing
+exten => 0,1,Goto(extensiones,51,1)
+
+[grabaciones]
+
+; Este contexto sirve para especificar las extensiones 
+; Dedicadas a Grabacion de mensajes especiales
+
+exten => 511,1,Record(bienvenida.wav)
+exten => 512,1,Record(menu-ivr.wav)

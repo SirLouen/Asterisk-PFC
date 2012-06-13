@@ -5,12 +5,124 @@
 % Para más información, la licencia completa viene incluida en el
 % fichero fdl-1.3.tex
 
+En este capítulo desarrollaremos un poco más la idea detrás de desarrollar una plataforma teórica basada en un sistema WIKI, concretamente el software MediaWiki, todas sus repercusiones y ventajas que aportan en general al desarrollo de este proyecto.
+
+También daremos un recorrido por la estructura de la WIKI y así poder entender el concepto subyacente de su estructura.
+
 \section{Sistema MediaWiki}
 
+Para la realización del sistema WIKI se ha usado de la plataforma MediaWiki \cite{website:mediawiki} la cual esta diseñada específicamente para este propósito.
+
+Es conveniente considerar que la edición en la misma es semejante a la de otras WIKIs y concrétamente a la más popular, la de Wikipedia dado que en general todos estas aplicaciones pertenecen a la misma fuente.
+
+Realmente más allá de destacar como se ha realizado el despliegue del sistema, y las buenas prácticas, en esta sección vamos a tratar la estructura de la WIKI en si.
+
+\subsection{Origen de la WIKI}
+
+Desde el momento que tome la determinación de desarrollar la WIKI, mi primer planteamiento fue lanzarla públicamente a un servidor en Internet de mi propiedad y enmarcarla bajo un dominio que en un futuro pudiera facilitar su adecuación. La primera idea que rondaba en mi mente era el diseño gráfico de toda una referencia basada en el sistema Asterisk con alguna referencia a España, para dar a entender fielmente la intención asociada al idioma que se pretendía instaurar.
+
+A partir de aquí realice el registro del dominio http://www.wikiasterisk.com muy significativo para el tema que pretendía cubrir, y simultáneamente, lo asocié al servidor web que comentaba anteriormente. Con esto resuelto ya solo quedaba instalar MediaWiki y configurarla con los parámetros estandar de uso. De aquí recibiría su nombre final el proyecto WIKI: \textbf{WIKIASterisk}
+
+El planteamiento es dejar la WIKI sin acceso público hasta la finalización integral del proyecto y conclusión favorable, y tras esto, dar acceso únicamente a editores de confianza. El método para definir editores de confianza todavía no ha quedado demasiado definido, pero el concepto de dejarla libremente pública todavía no me resulta atractivo, dado que tengo constancia que existen excesivos Bots y las exigencias de Moderación pueden resultar excesivas, al menos para preservar íntegramente contenidos de calidad.
+
+Otro planteamiento sería el bloqueo de las páginas principales, y dejar libre acceso para crear otras páginas desarrollando nuevos temas. Solo los moderadores, y editores de confianza tendrían acceso a este tipo de edición y también esta alternativa es candidata a ser resolutiva tras la "liberación del sistema"
+
+\subsection{Estructura General}
+
+La WIKI esta dividida en 6 secciones claramente diferenciadas, como puede verse en la Figura \ref{esquema_wiki}:
+
+\begin{enumerate}
+	\item Introducción
+	\item Plan de Marcación
+	\item Protocolos e Interfaces
+	\item Módulos Principales
+	\item Conceptos Avanzados
+	\item Bibliografía y Referencias
+\end{enumerate}
+
+\figura{esquema_wiki.png}{scale=1}{Estructura general de WIKIAsterisk}{esquema_wiki}{!ht}
+
+\subsection{Fundamentos}
+
+El apartado de Fundamentos de Asterisk, esta enfocado a dar una perspectiva general del sistema, y establecer los primeros precedentes para su funcionamiento, partiendo de la instalación del mismo, se subdivide en tres artículos principales, segun figura \ref{wiki_intro}:
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{Introducción}
+	En este artículo se definen conceptos básicos sobre Asterisk, se trata un poco sobre su historia, creadores, y nuevos proyectos como Asterisk Scalable Communications Framework (Asterisk SCF), que está destinado a convertirse en el futuro real de Asterisk aunque todavía no ha sufrido el despegue inicial dado que se encuentra en fase de desarrollo.
+	
+	\item \textbf{Instalación}
+	
+	Como su nombre hace referencia en este articulo se definen todos los aspectos relevantes a la instalación de Asterisk en nuestro sistema operativo de elección.
+	
+	\item \textbf{Arquitectura}
+	
+	Aquí se desarrolla en detalle toda la estructura interna de Asterisk, en concepto de Arquitectura, como se ha conceptualizado el proyecto, buscando siempre el máximo nivel de escalabilidad e independencia, basada en un sistema de módulos integrables individualmente, y una interconexión entre los mismos con metodología estándar.
+	
+\end{enumerate}
+
+\figura{wiki_intro.png}{scale=1}{Esquema de la sección Introductoría de la WIKI}{wiki_intro}{!ht}
+
+\subsection{Plan de Marcación}
+
+La base del sistema Asterisk es el plan de Marcación. Realmente es la columna vertebral y es el método para poner en funcionamiento a vonlutad del desarrollador todas las posibilidades que ofrece esta plataforma de telecomunicaciones. Todo esto puede verse en la figura \ref{wiki_dialplan}
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{Introducción Dialplan}
+	Podría considerarse el primer capitulo introductorio a todo el concepto y distribución del Plan de Marcación. Como se fundamenta cada concepto y los primeros pasos para construir una aplicación funcional basada en lo que Asterisk puede ofrecer. 
+	
+	\item \textbf{Aplicaciones Básicas}
+	
+	Para poder poner en funcionamiento lo aprendido a través del capitulo de introducción al Plan de Marcación es necesario conocer una serie de aplicaciones que podrían considerarse de índole imprescindible. En este apartado se van desarrollando cada una de estas aplicaciones individualmente con una detallada explicación del funcionamiento de las mismas.
+	
+	\item \textbf{Funciones}
+	
+	Quizá uno de los conceptos menos evidentes y populares del sistema Asterisk, dado que aunque realmente son verdaderas funciones propiamente dichas, son consideradas como elementos internos y estáticos del sistema, que generalmente solo hacen referencia práctica a modificaciones de comportamiento o características del sistema de módulos, aunque posiblemente para entender este concepto es necesario realizar una recapitulación general de la Arquitectura del sistema.
+	
+	\item \textbf{AstDB}
+	
+	Asterisk incorpora una base de datos interna, para almacenar información poco sensible y quizá bastante dinámica basada en un sistema no relacional llamado Berkeley DB. Quizá podría considerarse como una de las alternativas más flexibles pero a su vez menos potentes. Puede servir para pequeñas ideas, pero en el largo plazo es algo relativamente poco práctico. En este articulo se desarrolla muy por encima esta idea en términos muy generales.
+	
+  \item \textbf{Dialplan Avanzado}
+	
+	Este articulo quizá pueda ser el más desubicado de toda la Wiki, pero a su vez se encuentra en el sitio apropiado. Hay que considerar que una vez que hemos aunado todos los conceptos dispares relacionados al sistema Asterisk, todas las técnicas adicionales para construir Planes de Marcación mas sofisticados hacen de Asterisk una herramienta aún más potente y práctica. También se hace una introducción teórica a los sistemas de Respuesta de Voz Interactiva, porque realmente estos últimos son más comprensibles en la práctica que sobre el papel.
+	
+\end{enumerate}
+
+\figura{wiki_dialplan.png}{scale=1}{Esquema de la sección del Plan de Marcación de la WIKI}{wiki_dialplan}{!ht}
+
+\subsection{Protocolos e Interfaces}
+
+En esta sección se tratan de cubrir todos los elementos relacionados al intercambio de mensajes o información, por resumirlo en lineas muy generales. Por un lado contamos con los Protocolos más comunes de Asterisk, aun habiéndose descartado algunos secundarios como el SCCP, Skinny o el MGCP de Cisco, los cuales también ofrecen servicio Asterisk, pero no son los más utilizados a nivel general. Todo esto puede observarse en la Figura \ref{wiki_protocolo}
+
+\begin{enumerate}
+	  \setlength{\itemsep}{10pt}
+
+	\item \textbf{SIP}
+	En este capitulo se explica en gran detalle el protocolo más importante asociado a Asterisk y la Telefonía IP. No es una referencia para conocer el protocolo SIP en particular, sino para conocer como funciona el protocolo en relación a Asterisk y que provecho podemos sacar del mismo
+	
+	\item \textbf{IAX}
+	
+	Por otro lado tenemos un protocolo específico, creado por la misma persona que fabricó Asterisk para cubrir una serie de deficiencias propias de SIP e intentar estandarizar un protocolo que para aquel momento se encontraba demasiado disperso. Aunque hoy en día ha seguido evolucionando SIP, e IAX ha quedado relegado como protocolo específico de comunicación entre máquinas Asterisk. Todo esto con mucho más  detalle queda explicado de este apartado
+	
+	\item \textbf{CLI}
+	
+	Asterisk aporta una interfaz muy singular basada en linea de comandos, para los administradores en la cual se pueden lanzar los mismos. Pero realmente el interés de esta interfaz suele ser de carácter informativo, dado que va ofreciendo un importante nivel de detalle de eventos configurable, del sistema interno de Asterisk en tiempo real. En esta sección hacemos un muy breve resumen al respecto dado que su función en el proyecto es meramente transitiva, aunque para el día a día de un administrador de Asterisk pueda llegar a ser vital.
+	
+	\item \textbf{DAHDI}
+	
+	EStas siglas hacen referencia a Digium
+	
+  \item \textbf{Dialplan Avanzado}
+	
+	Este articulo quizá pueda ser el más desubicado de toda la Wiki, pero a su vez se encuentra en el sitio apropiado. Hay que considerar que una vez que hemos aunado todos los conceptos dispares relacionados al sistema Asterisk, todas las técnicas adicionales para construir Planes de Marcación mas sofisticados hacen de Asterisk una herramienta aún más potente y práctica. También se hace una introducción teórica a los sistemas de Respuesta de Voz Interactiva, porque realmente estos últimos son más comprensibles en la práctica que sobre el papel.
+	
+\end{enumerate}
 
 
-\section{Estadisticas de Acceso}
+\figura{wiki_protocolo.png}{scale=1}{Esquema de la sección de los Prótocolos e Interfaces de la WIKI}{wiki_protocolo}{!ht}
 
-Para poder conocer las estadísticas de acceso del sistema MediaWiki conseguí dar con una aplicación complementaría llamada Firestats \cite{website:firestats} bastante completa y mucho más intuitiva y versátil que las propias extensiones de Mediawiki que podían agregarse (y la pobre interfaz de estadísticas que incluye de serie).
-
-Con esto podríamos en tiempo real, el impacto producido por el trabajo realizado a nivel de Difusión \ref{cap:difusion}.
+ESTRUCTURA DE LOS ARTICULOS: ARTICULO ESTRUCTURA

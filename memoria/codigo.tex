@@ -1,0 +1,109 @@
+% -*-codigo.tex-*-
+% Este fichero es parte de la plantilla LaTeX para
+% la realización de Proyectos Final de Carrera, protejido
+% bajo los términos de la licencia GFDL.
+% Para más información, la licencia completa viene incluida en el
+% fichero fdl-1.3.tex
+
+\section*{Ficheros de Configuración}
+
+\subsection*{Protocolo SIP}
+
+Antes de Convertirlo a configuración RealTime:
+
+\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf.old}
+
+Después de Convertirlo a configuración RealTime:
+
+\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf}
+
+\subsection*{Plan de Marcación}
+
+\lstinputlisting[title={/etc/asterisk/extensions.conf}]{../conf/extensions.conf.noutf}
+
+\subsection*{Protocolo IAX}
+
+\lstinputlisting[title={/etc/asterisk/iax.conf}]{../conf/iax.conf}
+
+\subsection*{Buzones de Voz}
+
+\lstinputlisting[title={/etc/asterisk/voicemail.conf}]{../conf/voicemail.conf}
+
+\subsection*{Sistema de Colas}
+
+\lstinputlisting[title={/etc/asterisk/queues.conf}]{../conf/queues.conf}
+
+\subsection*{Sistema de Conferencias}
+
+\lstinputlisting[title={/etc/asterisk/meetme.conf}]{../conf/meetme.conf}
+
+\subsection*{Música en Espera}
+
+\lstinputlisting[title={/etc/asterisk/musiconhold.conf}]{../conf/musiconhold.conf}
+
+\subsection*{Asterisk RealTime}
+
+\lstinputlisting[title={/etc/asterisk/res\_odbc.conf}]{../conf/res_odbc.conf}
+
+\lstinputlisting[title={/etc/asterisk/extconfig.conf}]{../conf/extconfig.conf}
+
+\lstinputlisting[title={/etc/odbc.ini}]{../conf/odbc.ini}
+
+\lstinputlisting[title={/etc/odbcinst.ini}]{../conf/odbcinst.ini}
+
+\subsection*{Generación Automática de Llamadas}
+
+\lstinputlisting[title={/etc/asterisk/cdr\_adaptive\_odbc.conf}]{../conf/cdr_adaptive_odbc.conf}
+
+\subsection*{Interfaz AMI}
+
+\lstinputlisting[title={/etc/asterisk/manager.conf}]{../conf/manager.conf}
+
+\subsection*{Interfaz AGI}
+
+\lstinputlisting[title={/etc/asterisk/phpagi.conf}]{../conf/phpagi.conf}
+
+
+\section*{Scripts de Gestión}
+
+\subsection*{Instalación y Configuración de Asterisk}
+
+\lstinputlisting[title={./permisos\_asterisk.sh}]{../scripts/permisos_asterisk.sh}
+
+\subsection*{Protocolo SIP}
+
+\lstinputlisting[title={./clave\_md5.sh}]{../scripts/clave_md5.sh}
+
+\subsection*{Asterisk RealTime}
+
+\lstinputlisting[title={/var/www/usuarios.php}]{../scripts/usuarios.php}
+
+\lstinputlisting[title={./usuarioasterisk.sql}]{../scripts/usuarioasterisk.sql}
+
+\lstinputlisting[title={./pares\_sip.sql}]{../scripts/pares_sip.sql}
+
+\lstinputlisting[title={./ejemplo\_pares\_sip.sql}]{../scripts/ejemplo_pares_sip.sql}
+
+\subsection*{Sistema de Conferencias}
+
+\lstinputlisting[title={./tablasmeetme.sql}]{../scripts/tablasmeetme.sql}
+
+\subsection*{Generación Automática de Llamadas}
+
+\lstinputlisting[title={./apache\_monitor.sh}]{../scripts/apache_monitor.sh}
+
+\lstinputlisting[title={./apache\_warning.call}]{../scripts/apache_warning.call}
+
+\subsection*{Detalle de Llamadas y Eventos}
+
+\lstinputlisting[title={./sistemacdr.sql}]{../scripts/sistemacdr.sql}
+
+\subsection*{Interactive Voice Response}
+
+\lstinputlisting[title={/var/lib/asterisk/agi-bin/asterisk-asr.php}]{../scripts/asterisk-asr.php}
+
+\lstinputlisting[title={/var/lib/asterisk/agi-bin/asterisk-asr.php}]{../scripts/asterisk-tts.php}
+
+\lstinputlisting[title={/var/lib/asterisk/agi-bin/fingarantia.php}]{../scripts/fingarantia.php}
+
+
