@@ -38,7 +38,8 @@ $host = "home-asterisk.local";
 $user = "asterisk";
 $password = "asterisk";
 $conexion = mysql_connect($host,$user,$password);
-$result = mysql_select_db($base,$conexion) or die ("Error en la Conexion a BD");
+$result = mysql_select_db($base,$conexion) 
+or die ("Error en la Conexion a BD");
 
 $query = mysql_query("SELECT * FROM clientes WHERE dni = '$dni'");
 
@@ -51,7 +52,7 @@ else
  $cliente = mysql_fetch_array($query);
  $idcliente = $cliente['id'];
 
- $query2 = mysql_query("SELECT * FROM vehiculos WHERE cliente = '$idcliente'");
+ mysql_query("SELECT * FROM vehiculos WHERE cliente = '$idcliente'");
  $vehiculo = mysql_fetch_array($query2);
  $fcompra = $vehiculo['fcompra'];
  $garantia = $vehiculo['garantia'];

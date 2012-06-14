@@ -36,7 +36,7 @@ Antes de nada, creamos una nueva extensión para el Sr. Pedro de los Palotes, de
 
 En primera instancia, hicimos un breve análisis de sus pretensiones de montar un servidor CRM propio, dado el mantenimiento y dedicación que esto llevaba, queríamos averiguar un poco su planteamiento y de que forma quería que nuestro sistema Asterisk trabajara con su sistema CRM. En primer lugar, no observamos que tuviera ningún conocimiento acerca de sistemas de motorización de sistemas informáticos, dado que en realidad aun sus buenos conocimientos del tema, realmente su función no era la mantener el sistema. 
 
-Hasta la fecha según nos comento, en su anterior empresa, había estado trabajando con un CRM llamado vTiger CRM \cite{website:vtiger}, lo cual nos agradó bastante dado que conocíamos su buena integración con Asterisk a traves del Asterisk Manager Interface. Pero en su caso, solo había utilizado vTiger en un servidor externalizado online, y todas las tareas de mantenimiento se las llevaba una empresa de hosting web, y el solo se encargaba de administrar y gestionar el sistema CRM. Según había oído, era posible con los CTI \footnote{CTI en Wikipedia, http://es.wikipedia.org/wiki/Computer\_Telephony\_Integration} de algunas PBX, era posible que directamente desde la interfaz web de vTiger, los usuarios pudieran cursar llamadas, y otras tantas funcionalidades.
+Hasta la fecha según nos comento, en su anterior empresa, había estado trabajando con un CRM llamado vTiger CRM \cite{website:vtiger}, lo cual nos agradó bastante dado que conocíamos su buena integración con Asterisk a traves del Asterisk Manager Interface. Pero en su caso, solo había utilizado vTiger en un servidor externalizado online, y todas las tareas de mantenimiento se las llevaba una empresa de hosting web, y el solo se encargaba de administrar y gestionar el sistema CRM. Según había oído, era posible con los CTI \cite{website:ctiwikipedia} de algunas PBX, era posible que directamente desde la interfaz web de vTiger, los usuarios pudieran cursar llamadas, y otras tantas funcionalidades.
 
 Le informamos que esto era posible, siempre y cuando el servidor para su servicio, estuviera dentro de la misma red local, dado que "abrir" a Internet el CTI de Asterisk suponía serias implicaciones en la seguridad del sistema de las cuales no podíamos hacernos totalmente responsables. Le pusimos en contacto con una empresa colaboradora nuestra, "Cadiz Computers" para que le facilitarán el trabajo de montaje, mantenimiento y administración del servidor CRM, pero de momento para que pudieran empezar a trabajar, le informamos de una funcionalidad de Asterisk que le serviría para poder establecer un mínimo de motorización sobre el estado de su servidor web, donde se contenía la aplicación vTiger, que realmente estaba basada en el lenguaje de programación PHP.
 
@@ -68,6 +68,20 @@ Finalmente añadimos una linea en el fichero del proceso Cron, crontab, para que
 
 En el momento que el servidor web deje de atender a las peticiones entrantes por el puerto 80, el Sr. de los Palotes recibirá una llamada de emergencia en su extensión personal, cuyo CallerID será Emergencias CRM <111>, hasta que se resuelva el problema.
 
+\subsection{Resolución: Generación Automática de Eventos}
+
+En el momento que paremos el servidor web en el servidor donde esta asociado el script deberían empezar a recibirse llamadas en la extensión 54 si la tenemos configurada en algun télefono.
+
+Para parar el servidor web, suponiendo por ejemplo que estemos utilizando apache en el servidor remoto, deberíamos ejecutar en el mismo:
+
+\begin{lstlisting}[language=sh]
+# sudo service apache2 stop
+\end{lstlisting}
+
+En cuestión de un minuto máximo recibiremos la llamada. Podemos comprobar también en esa llamada que el Identificador de llamada hace referencia a "Emergencias Servidor" (Figura \ref{servidor_caido}) Además deberíamos escuchar al responder una reproducción indicando la alerta.
+
+\figura{servidor_caido.png}{scale=1}{Llamada Entrante de alerta}{servidor_caido}{!ht}
+
 \newpage
 
 \subsection{Probando nuestro CTI, Asterisk Manager Interface}
@@ -98,7 +112,7 @@ Por otro lado era necesario cubrir los aspectos concretos de configuración del 
 
 \figura{vtiger_config_ami.png}{scale=1}{Configuración de los parámetros AMI en Vtiger}{vtiger_config_ami}{!ht}
 
-Con esto supuestamente le indicamos al Sr. de los Palotes que probara a realizar las operaciones que conocía para trabajar con el sistema vTiger, pero comprobamos que no funcionaba nada. Buscando en la web, pudimos observar que vTiger requería de algunas modificaciones a nivel interno para su correcta integración con nuestro Plan de Marcación, así que revisando la página oficial de configuración \footnote{PBXManager Wiki de Vtiger, https://wiki.vtiger.com/index.php/PBX\_Manager\_Module} nos dímos cuenta que era fundamental modificar un archivo propio del PBXManager (al parecer un módulo encargado de realizar toda esta gestión de interpretación de Mánager de Asterisk), y las modificaciones pertinentes las hicimos según podemos ver a continuación:
+Con esto supuestamente le indicamos al Sr. de los Palotes que probara a realizar las operaciones que conocía para trabajar con el sistema vTiger, pero comprobamos que no funcionaba nada. Buscando en la web, pudimos observar que vTiger requería de algunas modificaciones a nivel interno para su correcta integración con nuestro Plan de Marcación, así que revisando la página oficial de configuración \cite{website:vtigerpbx} nos dímos cuenta que era fundamental modificar un archivo propio del PBXManager (al parecer un módulo encargado de realizar toda esta gestión de interpretación de Mánager de Asterisk), y las modificaciones pertinentes las hicimos según podemos ver a continuación:
 
 \begin{lstlisting}[language=php,title={./www/vtigercrm/modules/PBXManager/utils/AsteriskClass.php}]
 switch($typeCalled){
@@ -142,7 +156,15 @@ Esto ocurría porque concretamente, utilizando la función PHP "explode" para se
 
 Y con estos dos cambios el sistema ya funcionaba a la perfección, y dimos por integrado vTiger con nuestra versión de Asterisk.
 
-A continuación en la Figura \ref{llamandaentrante} y la Figura \ref{llamandasaliente} podemos comprobar los mensajes emergientes, y visualizar la correcta puesta en marcha.
+\subsection{Comprobación: Probando nuestro CTI, Asterisk Manager Interface}
+
+Esta parte esta principalmente orientada al uso de vTiger que se realizo en el servidor externo, habría que considerar que el correcto desarrollo de un sistema externo como vTiger realmente no esta directamente relacionado con la idea de este proyecto, pero provee de un ejemplo interesante dentro del concepto de las Comunicaciones Unificadas. 
+
+Teniendo presentes algunos conceptos básicos de instalación del mismo que no se han cubierto dentro de este proyecto, y haciendo las pequeñas modificaciones necesarias podríamos conseguir los resultados.
+
+Igualmente hemos provisto de una instalación de vTiger de ejemplo con las credenciales \textbf{hdouglas}, y la contraseña \textbf{asterisk} haciendo referencia al Jefe Comercial del Caso de Estudio.
+
+A continuación en la Figura \ref{llamandaentrante} y la Figura \ref{llamandasaliente} podemos comprobar los mensajes emergientes, para visualizar el resultado de una correcta puesta en marcha.
 
 \figura{vtiger_incoming.png}{scale=1}{Llamada Entrante en Vtiger}{llamandaentrante}{!ht}
 
@@ -439,6 +461,14 @@ exten => _9[1-5]X,1,Macro(buzon)
 
 Y con esto ya quedaría terminada por completo esta parte del trabajo.
 
+\subsection{Resolución: Devolviendo el Control al Cliente}
+
+En primera instancia debemos acceder al servidor web, a la url http://pfc-asterisk.local/usuarios.php para comprobar que podemos acceder a la interfaz de creación de usuarios, acceder con nuestras credenciales (en el ejemplo las de la extensión 54, contraseña 1234), y probar a crear y borrar usuarios a voluntad.
+
+Una vez hayamos creado un usuario SIP considerando el rango permitido que hablábamos antes (del 10 al 59), podemos crear una extensión que no estuviera antes, configurarla en un dispositivo SIP, y probar a llamar al mismo para comprobar que recibe la llamada correctamente.
+
+El mismo efecto, para comprobar que el sistema de buzón de voz funciona, teniendo presente, que esto tendríamos que configurarlo de momento, manualmente dado que el sistema de Buzones de Voz, no se ha migrado al sistema RealTime, práctica que quizá también resultaría interesante para obtener una independencia integral.
+
 \newpage
 
 \subsection{Análisis de Asterisk con Lupa}
@@ -465,15 +495,39 @@ mysql -u root -p asterisk < sistemacdr.sql
 
 Con esto ya tendríamos el sistema CDR mandando registros autómaticamente.
 
-Por otro lado, necesitaríamos proveer de algún tipo de interfaz, para que nuestro cliente, pudiera observar fácilmente lo que tiene intención (en este caso, controlar el mal uso de las lineas telefónicas y detectar los abusos por parte del personal). Para ello realizariamos la instalación de CDR-Stats como entorno web \footnote{CDR-Stats en WikiAsterisk, http://wikiasterisk.com/index.php?title=CDR-Stats}, según viene perfectamente descrito en la WikiAsterisk.
+Por otro lado, necesitaríamos proveer de algún tipo de interfaz, para que nuestro cliente, pudiera observar fácilmente lo que tiene intención (en este caso, controlar el mal uso de las lineas telefónicas y detectar los abusos por parte del personal). Para ello realizariamos la instalación de CDR-Stats como entorno web \footnote{CDR-Stats en WikiAsterisk, http://wikiasterisk.com/index.php?title=CDR-Stats} \cite{website:cdrstats}, según viene perfectamente descrito en la WikiAsterisk.
 
 La instalación de este sistema, habria que considerar que ha ido bastante rápido, debido a que la preparación del sistema Asterisk Realtime, dio lugar a que las bases ya estuvieran sentadas, para la implementación de todos tipo de servicios que involucrarán la interrelación entre nuestra máquina Asterisk, y un sistema de Bases de Datos.
+
+\subsection{Resolución: Análisis de Asterisk con Lupa}
+
+En primer lugar, tenemos que intentar acceder al sistema CDR-Stats desde la URL \\ http://pfc-asterisk.local/cdr-stats y comprobar que no hay ningun problema al menos en el acceso aunque pueda estar todo sin datos.
+
+Para comprobar que esto funciona correctamente, en primer lugar tenemos que realizar múltiples llamadas aleatorias. Luego accediendo al sistema CDR-Stats nuevo deberían aparecer las llamadas prácticamente de inmediato
 
 En la Figura \ref{cdrstats_grafico} y la Figura \ref{cdrstats_barras} mostramos las posibilidades que ofrecerá para el Sr. De los Palotes la Interfaz que acabamos de preparar para el manejo de todo el Detalle de Llamadas según hubiera pretendido. Dado que la instalación todavía es muy prematura sin uso ninguno, solo se ve como quedarían los ejemplos, pero sin suficiente información para que resulten lo suficientemente esclarecedores:
 
 \figura{cdrstats_grafico.png}{scale=1}{Gráfico Circular de Llamadas Totales}{cdrstats_grafico}{!ht}
 
 \figura{cdrstats_barras.png}{scale=1}{Histograma de Llamadas por días}{cdrstats_barras}{!ht}
+
+Es importante considerar que si las llamadas no aparecen, podríamos comprobar si el sistema CDR esta en funcionamiento. Para ello podemos ejecutar la orden en la CLI:
+\begin{lstlisting}[language=sh]
+
+CLI> cdr show status
+
+Call Detail Record (CDR) settings
+----------------------------------
+  Logging:                    Enabled
+  Mode:                       Simple
+  Log unanswered calls:       No
+
+* Registered Backends
+  -------------------
+    Adaptive ODBC
+    cdr-custom
+		
+\end{lstlisting}
 
 \newpage
 
@@ -632,10 +686,32 @@ Con todo esto, ya quedaría el sistema Web-Meetme completamente configurado, pod
 \begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
 
 exten => 102,1,NoOp()
-same => n,MeetMe(100)
+same => n,MeetMe()
 same => n,Hangup()
 
 \end{lstlisting}
 
 Con esto ya habríamos terminado todas las tareas que nos encomendó Pedro de los Palotes y podríamos proceder a la entrega según previsto.
 
+\subsection{Resolución: Conferencias Corporativas}
+
+Por un lado tenemos el sistema MeetMe estático. Su comprobación es directa. Desde dos terminales accedemos a la extensión 103, marcamos la clave 1234 y deberíamos de estar en comunicación entre estos dos teléfonos de manera inmediata. 
+
+Podemos agregar un tercero para comprobar que la conferencia es correcta aunque con dos realmente es suficiente.
+
+En el caso del sistema Realtime, podríamos comprobar que funciona correctamente utilizando el comando CLI, vemos que aparece\textbf{ Connected: Yes}, simboliza que la conexión esta establecida. Desde la interfaz web podríamos crear una sala de conferencias, y llamando a la extensión 102, acceder a la misma, siguiendo las instrucciones de voz que nos va indicando el sistema.
+
+\begin{lstlisting}[language=sh]
+
+CLI> odbc show meetme_odbc
+
+ODBC DSN Settings
+-----------------
+
+  Name:   meetme_odbc
+  DSN:    meetme
+    Last connection attempt: 1970-01-01 01:00:00
+  Pooled: No
+  Connected: Yes
+
+\end{lstlisting}

@@ -9,26 +9,28 @@
 
 Debo reconocer que por cuestiones de la vida para desarrollar este proyecto he trabajado principalmente bajo un entorno Microsoft Windows. Aún así esto no quita para utilizar grandes herramientas Open Source como son el caso de la distribución \TeX{} para Windows llamada MiK\TeX \cite{website:miktex}. 
 
-Por otro lado, para la edición existe un IDE de \LaTeX{} muy popular en Windows y bastante completo a mi parecer, llamado \TeX nic Center (Figura \ref{texniccenter}, el proyecto se mantiene en la conocida web SourceForge.org, posee un licenciamiento GPL también y se integra con MiK\TeX{} a la perfección.
+Por otro lado, para la edición existe un IDE de \LaTeX{} muy popular en Windows y bastante completo a mi parecer, llamado \TeX nic Center (Figura \ref{texniccenter}, el proyecto se mantiene en la conocida web SourceForge \cite{website:sourceforge}, posee un licenciamiento GPL también y se integra con MiK\TeX{} a la perfección.
 
 Finalmente para la configuración de este documento, he utilizado una plantilla especifica para PFC que me ha proporcionado mi Director de Proyecto, y para la documentación referente a las guiás de edición, he de hacer referencia a la pagina web que me ha ido guiando en el proceso. \cite{website:latex}. Gracias a esta guía he introducido cambios generales de estructura para optimizarla un poco más y facilitarme el trabajo en general.
 
 \figura{texniccenter.png}{scale=1}{Captura del Software \TeX nic Center}{texniccenter}{!ht}
 
-\section*{Inkscape + GIMP}
+\section*{Inkscape + GIMP + DIA}
 
 Siguiendo un poco en la Línea de Aplicaciones Open Source, para editar las edición de imágenes he utilizado principalmente estos. Hay que considerar que los efectos tampoco han sido de gran nivel, dado que mis habilidades no se encuentran especialmente desarrolladas en este ámbito.
 
-GIMP ha sido principalmente práctico, para desarrollar los logotipos, adaptar imágenes al tamaño de la memoria y corregir algunos defectos en las imágenes de poca repercusión
+GIMP \cite{website:gimp} ha sido principalmente práctico, para desarrollar los logotipos, adaptar imágenes al tamaño de la memoria y corregir algunos defectos en las imágenes de poca repercusión
 
-Inkscape ha resultado muy útil para componer gráficos y esquemas explicativos dada su naturaleza de diseño vectorial esta especialmente orientado a esta faceta.
+Inkscape \cite{website:inkscape} ha resultado muy útil para componer gráficos y esquemas explicativos dada su naturaleza de diseño vectorial esta especialmente orientado a esta faceta.
+
+Para algunos graficos concretamente los diagramas de flujo la herramienta que he utilizado ha sido DIA \cite{website:dia}.
 
 
 \section*{Softphones: Zoiper + X-Lite}
 
 Un Softphone hace referencia a Software Telephone, es decir, un teléfono basado en Software. Desafortunádamente, debo decir que en contrapartida, trabajando en un entorno Windows, estos en formato Software de Código Libre no son especialmente funcionales. Dado que el protocolo SIP ha pasado por más de 10 drafts antes de convertirse en un RFC medianamente estandarizado, existen muchas implementaciones y disposiciones espécificas en el intercambio de mensajes, que pueden resultar fatales para ciertos programas. Está altamente desaconsejado utilizar Softphones de bajo desarrollo, y justamente los softpones Open Source en el entorno Windows, suelen ser malos "ports" \footnote{La denominación de recompilar el código fuente originalmente ideado para un Sistema Operativo específico, en otro sistema diferente} de su versión original en Linux.
 
-Yendo más allá, justamente Zoiper (Figura \ref{zoiper}) y X-Lite son versiones básicas de uso para consumo a nivel particular con niveles muy restringidos de uso, pero totalmente funcionales a nivel de llamadas. Podrían considerarse poco más que un teléfono básico físico a nivel de prestaciones, pero cumplían bien su objetivo cara al desarrollo de este proyecto.
+Yendo más allá, justamente Zoiper \cite{website:zoiper} (Figura \ref{zoiper}) y X-Lite \cite{website:xlite} son versiones básicas de uso para consumo a nivel particular con niveles muy restringidos de uso, pero totalmente funcionales a nivel de llamadas. Podrían considerarse poco más que un teléfono básico físico a nivel de prestaciones, pero cumplían bien su objetivo cara al desarrollo de este proyecto.
 
 \figura{zoiper.png}{scale=1}{Captura del Softphone Zoiper}{zoiper}{!ht}
 
@@ -38,7 +40,7 @@ Este programa es por excelencia la puerta de acceso a todos los servidores Linux
 
 \section*{MinGW}
 
-Sus siglas hacen referencia a Minimalist GNU for Windows, es decir, una plataforma para Windows que trae una gran cantidad de aplicaciones destacadas de GNU, basadas en librerías propias de la misma, y especialmente orientadas a entornos de programación. Concrétamente yo he dado uso a esta herramienta para poder hacer uso del cliente GIT, para conectar al repositorio GIT de GitHub.com donde se almacena toda la estructura de ficheros relacionados directamente con este proyecto.
+Sus siglas hacen referencia a Minimalist GNU for Windows \cite{website:mingw}, es decir, una plataforma para Windows que trae una gran cantidad de aplicaciones destacadas de GNU, basadas en librerías propias de la misma, y especialmente orientadas a entornos de programación. Concrétamente yo he dado uso a esta herramienta para poder hacer uso del cliente GIT \cite{website:git}, para conectar al repositorio GIT de GitHub.com donde se almacena toda la estructura de ficheros relacionados directamente con este proyecto.
 
 No he observado ninguna carencia con respecto al cliente GIT nativo de Linux, ni siquiera en el intercambio de claves RSA, con lo cual supone una gran alternativa en caso que estemos forzamos a utilizar un sistema Windows como ha resultado mi caso específico.
 

@@ -130,7 +130,7 @@ same => n,GoToIf($[${ivrcont}<2]?s,bienvenida:0,1)
 
 ; 1 a Ventas
 exten => 1,1,Goto(extensiones,21,1)
-; 2 a Almacen
+; 2 a Almacen 
 exten => 2,1,Goto(extensiones,31,1)
 ; 3 a Posventa
 exten => 3,1,Goto(extensiones,41,1)
@@ -242,7 +242,27 @@ review=yes|forcename=yes|forcegreetings=yes
 
 Para el envío de e-mail es necesario tener instalado algún servidor de envío de correo. En este caso, durante la instalación gracias a la herramienta tasksel habíamos instalado Postfix, y LAMP que nos serían de gran ayuda en el transcurso de la programación de esta central. En este caso Postfix será el encargado de enviar los mensajes de e-mail a nuestros destinatarios de correo según configuración en el fichero voicemail.conf. Considerar que para el envio de correo es importante que el servidor de correo este bien configurado dado que la mayor parte de los servidores de Internet rechazan correos por doquier, especialmente los mas populares (GMAIL, HOTMAIL, etc). Dentro del fichero /var/log/mail.log podemos ver el resultado del envío en caso que nuestro destinatario no haya recibido el mensaje, y considerar factores por los cuales nuestro servidor de correo Postfix deba ser mejorado. En este sentido es conveniente que nuestra conexión a Internet este asociada a una dirección IP estática, ya que la mayoría de las direcciones dinámicas han podido ser introducidas en las listas negras como http://www.spamhaus.org.
 
-En este caso, dado que no disponemos de IP estática, hemos utilizado un servidor SMTP remoto (smarthost) para configurar nuestro servidor Postfix. Toda la configuración relativa que no atañe directamente a este proyecto podrá verse dentro de la máquina virtual en el fichero principal de configuración del servidor /etc/postfix/main.cf. \footnote{Configuración Relay SMTP Smarthost en Postfix con SASL, http://www.dnsexit.com/support/mailrelay/postfix.html}
+En este caso, dado que no disponemos de IP estática, hemos utilizado un servidor SMTP remoto (smarthost) para configurar nuestro servidor Postfix. Toda la configuración relativa que no atañe directamente a este proyecto podrá verse dentro de la máquina virtual en el fichero principal de configuración del servidor /etc/postfix/main.cf. \cite{website:relaysmtp}
+
+\subsection{Resolución:Preparando las Llamadas Salientes}
+
+Aunque tuvimos que hacer una modificación en el Plan de Marcación en el apartado anterior para comprobar que las extensiones especificas para llamadas a través del proveedor IP UCATelecom funcionaban, ahora si es posible hacer la prueba directamente y comprobar a través de la interfaz CLI que se efectúa la llamada saliente, y esta regresa entrando por uno de nuestros DDI. En este caso, con cualquier extensión de las creadas en apartados anteriores, probamos a llamar de nuevo al numero 956001121. En este caso, si tenemos configurado también la extensión 21, debería empezar a sonar de inmediato.
+
+Podemos comprobar que esto se esta efectuando correctamente si obtenemos el resultado de la interfaz CLI como puede verse en la figura \ref{ejemplo_cli_sip_2}, y en caso que no aparezca correctamente esta salida, podremos observar en que punto esta fallando concrétamente.
+
+\figura{ejemplo_cli_sip_2.png}{scale=1}{Ejemplo de salida y entrada a través de un Proveedor IP}{ejemplo_cli_sip_2}{!ht}
+
+En el caso de las otras opciones planteadas de llamadas salientes al exterior, simplemente comprobar según el guión que los patrones de las extensiones para el resto de los casos posibles (llamadas a móviles, llamadas a números de información y números extranjeros) coinciden correctamente. Si el proveedor IP ofreciese salida al exterior real, podrían comprobarse en tiempo real, cosa que realmente no es del todo necesario, ya que podemos ver en nuestra interfaz CLI la salida que reporta el hecho de marcar a las posibles combinaciones y poder comprobar también que se estan efectuando de manera adecuada al menos en nuestro lado (independientemente de la configuración del Proveedor IP). Un ejemplo de esto, considerando que el proveedor IP no tiene configuradas las llamadas a números de información (por ejemplo 11811), en la Figura \ref{ejemplo_cli_sip_3} podemos observar como en nuestro servidor la salida si se cursa correctamente a través del proveedor, dado que entra en la extensión 118XX y va pasando prioridades, pero el proveedor acaba rechanzando la llamada porque no localiza ese patrón en su Plan de Marcación (o podrían ser otros factores, pero eventualmente ya sabemos que al menos la asociación de Patrón desde nuestro número saliente 11811 con el patron \_118XX.
+
+\figura{ejemplo_cli_sip_3.png}{scale=1}{Ejemplo de salida sin retorno a través de un Proveedor IP}{ejemplo_cli_sip_3}{!ht}
+
+Para comprobar que la operadora automática realiza su función el medio más eficaz sería llamando desde cualquier extensión al número Directo, 956001191, y comprobar manualmente que las distintas operaciones segun el esquema seguido en la Figura \ref{operadora1} surte efecto.
+
+Finalmente, acerca de los buzones de voz, en el momento que llamamos a cualquier extensión que tenga asociado un buzon de voz, podemos esperar a grabar un mensaje y ver si en la consola se almacena el resultado del mismo, segun vemos en la figura \ref{ejemplo_cli_voicemail}
+
+Adicionalmente tenemos la posibilidad de ver si existen ficheros de audio almacenados en los buzones concretos, accediendo por ejemplo, al buzón de la extensión 10 desde la ruta \textbf{/var/spool/asterisk/voicemail/default/10/INBOX/}, o de forma genérica: \\ \textbf{/var/spool/asterisk/voicemail/<contexto\_buzon>/<numero\_buzon>/INBOX/} podemos ver según la imagen que aparece un fichero de audio con el nombre msg00001.wav (o el nombre que haya reportado la Interfaz CLI de como quedó registrado).
+
+\figura{ejemplo_cli_voicemail.png}{scale=1}{Ejemplo de salida de un mensaje en el Buzón de Voz}{ejemplo_cli_voicemail}{!ht}
 
 \newpage
 
@@ -375,6 +395,25 @@ qualify = yes
 
 Por otro lado y para terminar, en el fichero de configuración del Plan de Marcación, solo tenemos que editar todos los puntos donde nos encontramos una comunicación a través del protocolo SIP, y pasarlo por el protocolo IAX2. 
 
+\subsection{Resolución: Acceso al protocolo IAX}
+
+En este caso, la comprobación es muy sencilla, dado que realmente solo hemos reformulado lo que ya teníamos hecho anteriormente, pero con un estilo más eficaz y elegante. 
+
+Por ejemplo, podemos comprobar el efecto de una llamada a una extensión realizando la misma entre dos teléfonos, y también comprobando si el buzón de voz hace su papel como vimos en el apartado anterior.
+
+En cuanto a la conexión IAX, ocurre exactamente lo mismo que con el proveedor IP a través de SIP. Simplemente llamando a cualquiera de los teléfonos DDI 9560011XX acabado en el número de extensión de las extensiones de Mánager deberíamos de poder recibir la llamada si la tenemos configurada en un teléfono sin problemas
+
+Además es posible comprobar que las claves RSA están correctamente configuradas en el servidor ejecutando el comando en la interfaz CLI:
+
+\begin{lstlisting}[language=sh]
+CLI> keys show
+Key Name           Type     Status           Sum
+------------------ -------- ---------------- --------------------------------
+ucaautos           PUBLIC   [Loaded]         a18c6e5866db067d9c378fb3cafd967c
+ucaautos           PRIVATE  [Loaded]         a46b82f019beb91702a73eec276bf6b6
+ucatelecom         PUBLIC   [Loaded]         c3abd8244e94ddb27d02b4b9ed9f9236
+\end{lstlisting}
+
 \newpage
 
 \color[rgb]{0,0,1}
@@ -457,7 +496,7 @@ exten => _83[2-4],1,Macro(sinpausa)
 
 Con esto quedaría el sistema base de Colas completamente funcional. Ahora por otro lado, queremos ofrecerle a UCA Autos eso que la mayor parte, ofrece como una solución con licencias bastante caras, el sistema de Estadísticas de control y Analisis.
 
-Para ello vamos a utilizar la herramienta Asternic Stats, en su formato Open Source. Siguiendo el esquema de instalación ofrecido en la Wiki \footnote{WIKIAsterisk, Asternic Stats, http://wikiasterisk.com/index.php?title=Asternic\_Stats} tenemos montado todo en un tiempo relativamente corto, podemos ver en la Figura \ref{asternic} una captura de la lista de los tres usuarios de Almacén y su respectiva disponibilidad. 
+Para ello vamos a utilizar la herramienta Asternic Stats, en su formato Open Source. Siguiendo el esquema de instalación ofrecido en la Wiki \footnote{WIKIAsterisk, Asternic Stats, http://wikiasterisk.com/index.php?title=Asternic\_Stats} \cite{website:asternic} tenemos montado todo en un tiempo relativamente corto, podemos ver en la Figura \ref{asternic} una captura de la lista de los tres usuarios de Almacén y su respectiva disponibilidad. 
 
 \figura{estado_agentes.png}{scale=1}{Captura de la Pantalla de Disponibilidad de Agentes de Asternic}{asternic}{!ht}
 
@@ -495,3 +534,15 @@ same => n,ChanSpy(SIP/3)
 same => n,Hangup()
 
 \end{lstlisting}
+
+\subsection{Resolución: Colas en Asterisk}
+
+En primer lugar, para comprobar el funcionamiento de las colas, es muy directo. Llamamos desde cualquier teléfono a la extensión especifica de las colas 101, y si tenemos teléfonos del rango 3X (extensiones de almacén), deberíamos de poder escuchar la llamada entrante. Si tenemos varios teléfonos para probar, podríamos comprobar como el primero pasa a estar en primera posición de la cola, y además todos los teléfonos asociados a la cola suenan a la vez por la estrategia \textbf{ringall}. Además los llamantes deberían recibir mensajes de audio indicándoles la posición en la cola, si todo esta correctamente parametrizado tal y como podemos ver en el desarrollo.
+
+Podemos acceder simultáneamente, cuando hay varias llamadas de prueba cursándose en la cola al sistema Asternic Stats, y en el apartado Realtime tenemos que ver como los eventos van surgiendo de forma inmediata y automática. Además si todo el registro de la cola va realizándose correctamente, empezaremos a ver estadísticas en los otros apartados correspondientes, un ejemplo de estadísticas podríamos ver en la Figura \ref{estadisticas_asternic}.
+
+\figura{estadisticas_asternic.png}{scale=1}{Ejemplo de Estadísticas Asternic Stats}{estadisticas_asternic}{!ht}
+
+Para la escucha activa, cuando un agente o varios entre las extensiones 3X este hablando, podemos ejecutar desde un dispositivo la extensión 201, y automáticamente deberíamos poder estar escuchando la conversación en ese canal.
+
+Finalmente para comprobar que las grabaciones se estan haciendo correctamente, simplemente tenemos que acceder a la URL http://pfc-asterisk.local/monitor para comprobar que van apareciendo ficheros de audio en su interior.

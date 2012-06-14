@@ -25,7 +25,8 @@ exten => 105,1,Answer()
 same => n,Set(contador=1)
 // Recogida de Informacion
 same => n(repetir),GotoIf($[${contador}>2]?operador)
-same => n,AGI(asterisk-tts.php,"Diga los numeros de su DNI y pulse almohadilla al terminar")
+same => n,AGI(asterisk-tts.php,"Diga los 
+numeros de su DNI y pulse almohadilla al terminar")
 same => n,Playback(google-tts)
 same => n,Record(grabacion-asr.wav,2)
 same => n,AGI(asterisk-asr.php)
@@ -179,9 +180,11 @@ exten => 956001141,1,Goto(extensiones,41,1)
 exten => 956001151,1,Goto(extensiones,51,1)
 
 exten => 956001161,1,NoOp()
-same => n,AGI(asterisk-tts.php,"Si quiere saber el tiempo restante de su garantia marque el 1")
+same => n,AGI(asterisk-tts.php,"Si quiere saber 
+el tiempo restante de su garantia marque el 1")
 same => n,Playback(google-tts)
-same => n,AGI(asterisk-tts.php,"en otro caso, espere y le pondremos con un operador")
+same => n,AGI(asterisk-tts.php,"en otro caso, 
+espere y le pondremos con un operador")
 same => n,Read(opciones,google-tts,1)
 same => n,GotoIf($[${opciones}=1]?especiales,105,1:extensiones,400,1)
 

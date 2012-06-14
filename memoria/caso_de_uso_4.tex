@@ -27,7 +27,7 @@ Tanto Zutano, como el responsable de Posventa, quedaron más que satisfechos con
 
 Después de todo el despliegue, ya íbamos a desarrollar la primera aplicación que hace nuestro sistema Asterisk que destaque por encima de otras soluciones estándar. El concepto subyacente, era muy sencillo.
 
-En primer lugar, íbamos a montar una pequeña Operadora Automática en una extensión general para el departamento de Posventa, íbamos a requerir un teléfono directo (DDI), para mismo por un lado, y por otro lado, desarrollar el sistema de respuesta de voz interactiva (IVR), para que realizase la gestión que nos solicitaban.
+En primer lugar, íbamos a montar una pequeña Operadora Automática en una extensión general para el departamento de Posventa, íbamos a requerir un teléfono directo (DDI), para mismo por un lado, y por otro lado, desarrollar el sistema de respuesta de voz interactiva (IVR) \cite{website:ivr}, para que realizase la gestión que nos solicitaban.
 
 La idea sería aprovechar la funcionalidad de Reconocimiento de Voz Automático (ASR) para capturar los dígitos del DNI, y en caso de intentarlo dos veces sin éxito, solicitar la marcación vía teclado numérico. Una vez capturado el numero de DNI, pasaríamos a hacer la consulta en la base de datos, y recogeríamos tanto la Fecha de Compra como los años de garantía, para sacar la fecha de finalización, y restando los días a la fecha actual, comprobar si ya esta finalizada, o los días que quedan, remitírselos los al cliente, con un mensaje síntesis de voz (TTS) expresamente, diciendo el número de días restantes.
 
@@ -70,7 +70,7 @@ function resta_fecha($fecha_inicial, $fecha_final)
 
 \end{lstlisting}
 
-La siguiente función sirve para calcular la letra del DNI \footnote{WIKI Books, http://es.wikibooks.org/wiki/Algoritmo\_para\_obtener\_la\_letra\_del\_NIF}:
+La siguiente función sirve para calcular la letra del DNI \cite{website:algoritmodni}:
 
 \begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
@@ -152,7 +152,8 @@ exten => 105,1,Answer()
 same => n,Set(contador=1)
 // Recogida de Informacion
 same => n(repetir),GotoIf($[${contador}>2]?operador)
-same => n,AGI(asterisk-tts.php,"Diga los numeros de su DNI y pulse almohadilla")
+same => n,AGI(asterisk-tts.php,"Diga los numeros
+ de su DNI y pulse almohadilla")
 same => n,Playback(google-tts)
 same => n,Record(grabacion-asr.wav,2)
 same => n,AGI(asterisk-asr.php)
@@ -167,7 +168,7 @@ same => n,GotoIf(\$[${varok}!=1]?repetir)
 
 \end{lstlisting}
 
-La secuencia sería: 
+La secuencia sería, como tambien puede verse en la figura \ref{ejemplo_ivr}
 
 \begin{enumerate}
 	\item Respondemos la llamada
@@ -179,6 +180,8 @@ La secuencia sería:
 	\item Seguimos lanzando la aplicación AGI TTS y la aplicación para reproducir todos los textos y los números del DNI.
 	\item Confirmamos con el cliente si es correcta la grabación de los números. En caso que no lo sea, volvemos a empezar, si lo es, continuamos a la siguiente parte
 \end{enumerate}
+
+\figura{ejemplo_ivr.png}{scale=1}{Diagrama de una llamada en el sistema a IVR}{ejemplo_ivr}{!ht}
 
 \begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
 
@@ -243,9 +246,11 @@ Finalmente vamos a necesitar de un último DDI, que dará la opción de hablar c
 \begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
 
 exten => 956001161,1,NoOp()
-same => n,AGI(asterisk-tts.php,"Si quiere saber el tiempo restante de su garantia marque el 1")
+same => n,AGI(asterisk-tts.php,"Si quiere saber el tiempo 
+restante de su garantia marque el 1")
 same => n,Playback(google-tts)
-same => n,AGI(asterisk-tts.php,"en otro caso, espere y le pondremos con un operador")
+same => n,AGI(asterisk-tts.php,"en otro caso, espere y le 
+pondremos con un operador")
 same => n,Read(opciones,google-tts,1)
 same => n,GotoIf($[${opciones}=1]?especiales,105,1:extensiones,400,1)
 
@@ -253,3 +258,12 @@ same => n,GotoIf($[${opciones}=1]?especiales,105,1:extensiones,400,1)
 
 Con esto ya tendríamos el sistema IVR listo para ser entregado a nuestro cliente UCA Autos.
 
+\subsection{Respuesta de Voz Interactiva}
+
+Muy parecido a la sección donde configurábamos una operadora automática basada en diferentes estados y diferentes combinaciones, en este caso, tendríamos que realizar las mismas comprobaciones llamando al a extensión 105 y observar que se efectúan correctamente, siguiendo la secuencia de estados mostrado en la figura \ref{ejemplo_ivr}
+
+Aparte llamando al número directo 956001161, deberíamos de poder probar también si en caso de no marcar nada, nos desvía a una extensión del grupo de Posventa siempre y cuando tengamos como mínimo uno de los teléfonos configurados de ese grupo (4X). En caso que marquemos la opción 1, deberíamos de poder escuchar el menú IVR correspondiente.
+
+Si en la base de datos tenemos configurados varios usuarios y vehículos con diferentes fechas de compra podremos comprobar además que el sistema AGI efectuá la comprobación de forma correcta. Incluso podríamos probar a marcar un DNI erróneo para comprobar que también los fallos están contemplados como posibles combinaciones.
+
+En este caso, los ejemplos de DNI son 79253592P con una garantía en vigor hasta el año 2013, y 12345678Z con una garantía caducada.

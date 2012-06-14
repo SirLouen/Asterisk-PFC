@@ -7,7 +7,8 @@ $host = "localhost";
 $user = "asterisk";
 $password = "asterisk";
 $conexion = mysql_connect($host,$user,$password);
-$result = mysql_select_db($base,$conexion) or die ("Error en la Conexion a BD");
+$result = mysql_select_db($base,$conexion) 
+or die ("Error en la Conexion a BD");
 
 session_start();
 
@@ -27,7 +28,8 @@ if (!$_SESSION['login'])
  }
  $password = $usuario.":asterisk:".$password;
  $password = md5($password);
- $query = mysql_query("SELECT * FROM pares_sip WHERE name='$usuario' AND md5secret = '$password' AND useradmin = '1'");
+ $query = mysql_query("SELECT * FROM pares_sip WHERE 
+  name='$usuario' AND md5secret = '$password' AND useradmin = '1'");
  if (mysql_num_rows($query) > 0)
  {
  session_register('login');
@@ -70,10 +72,11 @@ else
  $sippass = $sipuser.":asterisk:".$sippass;
  $sippass = md5($sippass);
  $buzon = $sipuser."@default";
- $query = mysql_query("INSERT INTO pares_sip (`name`, `host`, `nat`, `type`, `context`, 
- `md5secret`, `qualify`, `disallow`, `allow`, `port`, `regseconds`, `lastms`, `username`, `defaultuser`, `mailbox`) 
- VALUES ('$sipuser', 'dynamic', 'no', 'friend', '$contexto', '$sippass', 'yes', 'all', 'alaw;gsm;ulaw',
- '0','0', '0', '', '', '$buzon')");
+ $query = mysql_query("INSERT INTO pares_sip (`name`, `host`, `nat`, 
+ `type`, `context`,  `md5secret`, `qualify`, `disallow`, `allow`, 
+ `port`, `regseconds`, `lastms`, `username`, `defaultuser`, `mailbox`) 
+ VALUES ('$sipuser', 'dynamic', 'no', 'friend', '$contexto', '$sippass', 
+ 'yes', 'all', 'alaw;gsm;ulaw', '0','0', '0', '', '', '$buzon')");
 
  echo "<a href='usuarios.php'>Home</a><br>";
  echo "<a href='usuarios.php?exit'>Exit</a>";
