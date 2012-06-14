@@ -63,7 +63,7 @@ same => n,Hangup()
 
 \end{lstlisting}
 
-Por otro lado, dentro de los contextos de Mánager y gerencia, podemos ver también los requisitos específicos a los que solo podrán acceder los mismo como vimos en el primer DialPlan, por el sistema jerárquico creado gracias a la utilización de los "include". Con estos específicamente, definimos marcaciones para números de información (Aquellos que empiezan por 118), y para el gerente llamadas a números internacionales de destino Alemania, que tienen como peculiaridad, que aunque tienen una marcación común de inicio, a partir del 5 dígito, la numeración es variable considerando a continuación el prefijo regional + el número local (de 3 a 9 dígitos).
+Por otro lado, dentro de los contextos de Mánager y gerencia, podemos ver también los requisitos específicos a los que solo podrán acceder los mismo como vimos en el primer DialPlan, por el sistema jerárquico creado gracias a la utilización de los ``include''. Con estos específicamente, definimos marcaciones para números de información (Aquellos que empiezan por 118), y para el gerente llamadas a números internacionales de destino Alemania, que tienen como peculiaridad, que aunque tienen una marcación común de inicio, a partir del 5 dígito, la numeración es variable considerando a continuación el prefijo regional + el número local (de 3 a 9 dígitos).
 
 \begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
 
@@ -100,9 +100,9 @@ En siguiente lugar, dentro del contexto [entrantes], hemos añadido un nuevo nú
 \item Ponemos un contador a 0, la idea es que cuando hayamos pasado dos veces por la operadora sin resultado, desviemos la llamada según especificado en el paso número 4
 \item Lanzamos el mensaje de bienvenida.
 \item Comprobamos si el horario actual coincide con el horario de apertura o no. 
-\item En caso que no coincida, lanzamos los mensajes de "Cerrado" y a continuación el Buzón de Voz del responsable de Marketing
-\item En caso que si coincida, nos vamos a la etiqueta "bienvenida" y a partir de ahí lanzamos el menú contextual para dar la opción a marcar una u otra opción. 
-\item Si no pulsa nada pasado el mensaje + 1 segundo, desviamos a la extensión "relative timeout" 
+\item En caso que no coincida, lanzamos los mensajes de ``Cerrado'' y a continuación el Buzón de Voz del responsable de Marketing
+\item En caso que si coincida, nos vamos a la etiqueta ``bienvenida'' y a partir de ahí lanzamos el menú contextual para dar la opción a marcar una u otra opción. 
+\item Si no pulsa nada pasado el mensaje + 1 segundo, desviamos a la extensión ``relative timeout'' 
 \item Desde aquí comprobamos cuantas veces hemos pasado por aquí, si solo fue una vez, entonces volvemos al principio del algoritmo
 \item En cambio si fueron ya dos veces, mandamos la extensión a Marketing.
 
@@ -274,7 +274,7 @@ Una vez terminados los trabajos, volvemos una semana después a UCA Autos para c
 
 Durante la pequeña conversación, nos dejo caer, que en breve seguramente, ampliaría el personal por departamentos, dado que las cosas le estaban yendo muy bien, y cada día sus necesidades aumentaban. Esto sería relevante para nosotros por el hecho de intentar pasar de una central específica a lo más genérica posible para evitar complicarnos en un futuro.
 
-Justamente pocos minutos después, recibimos una llamada de nuestro contacto técnico en UCA Telecom, informándonos que desde hace apenas unas horas han implementado en sus servidores la nueva funcionalidad de interconexión a través de un protocolo especifico para sistemas Asterisk llamado IAX. Una alegría para nosotros dado que todas nuestras instalaciones son Asterisk, y eramos conscientes que no estábamos cumpliendo en la mayoría de las mismas a nivel de seguridad, por una cuestión de tiempo y en consecuencia coste de implementación, excepto en algunos clientes que nos lo pidieron expresamente. De hecho el gerente de UCA Autos ya nos hizo un comentario para su mejoría en un futuro, sobre algo que había escuchado de encriptación de las llamadas, para evitar que le pudieran "pinchar" las lineas telefónicas. Ahora con el sistema IAX teníamos la oportunidad de actualizar nuestras instalaciones en general, incluyendo el concesionario.
+Justamente pocos minutos después, recibimos una llamada de nuestro contacto técnico en UCA Telecom, informándonos que desde hace apenas unas horas han implementado en sus servidores la nueva funcionalidad de interconexión a través de un protocolo especifico para sistemas Asterisk llamado IAX. Una alegría para nosotros dado que todas nuestras instalaciones son Asterisk, y eramos conscientes que no estábamos cumpliendo en la mayoría de las mismas a nivel de seguridad, por una cuestión de tiempo y en consecuencia coste de implementación, excepto en algunos clientes que nos lo pidieron expresamente. De hecho el gerente de UCA Autos ya nos hizo un comentario para su mejoría en un futuro, sobre algo que había escuchado de encriptación de las llamadas, para evitar que le pudieran ``pinchar'' las lineas telefónicas. Ahora con el sistema IAX teníamos la oportunidad de actualizar nuestras instalaciones en general, incluyendo el concesionario.
 
 \newpage
 
@@ -448,7 +448,7 @@ El fichero se muestra a continuación:
 
 \lstinputlisting[title={/etc/asterisk/queues.conf}]{../conf/queues.conf}
 
-La mayor parte de las opciones quedan comentadas, significativamente, hemos asociado tres agentes de la cola que hemos creado llamada "Almacén" con los respectivos nombres de usuario, y asociados a los tres dipositivos SIP de cada uno de ellos.
+La mayor parte de las opciones quedan comentadas, significativamente, hemos asociado tres agentes de la cola que hemos creado llamada ``Almacén'' con los respectivos nombres de usuario, y asociados a los tres dipositivos SIP de cada uno de ellos.
 
 Por otro lado en el Plan de Marcación necesitamos hacer algunos ajustes a petición. Ajustamos un nuevo teléfono de tipo DDI ofrecido por la operadora:
 

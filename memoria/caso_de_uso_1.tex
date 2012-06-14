@@ -5,7 +5,7 @@
 % Para más información, la licencia completa viene incluida en el
 % fichero fdl-1.3.tex
 
-Con todo el sistema, preparado para empezar a trabajar con Asterisk, a continuación presento un ejemplo como caso de uso para una empresa ficticia, la cual tiene un enorme interés en implementar un sistema Asterisk, dadas las características que este le aportara para su negocio.
+Con todo el sistema, preparado para empezar a trabajar con Asterisk, a continuación presento un ejemplo como caso de uso para una empresa ficticia, la cual tiene un enorme interés en implementar un sistema Asterisk, dadas las características que este le aportará para su negocio.
 
 \color[rgb]{0,0,1}
 
@@ -56,21 +56,21 @@ De momento, el Sr. Doe no tenía demasiado clara una posible estructura jerárqu
 
 Dado que el nivel Hardware es algo excesivamente cambiante, voy a obviar las características técnicas del entorno y del servidor, haciendo referencia al apartado de elección de servidor para los aspectos determinantes a la hora de elegir una u otra preferencia.
 
-La instalación del sistema Asterisk, se realizara sobre la versión actual mas estable, la versión 1.8, momento en que escribo esta información. He de determinar, que en la actualidad aun existen múltiples ramas dentro de la elección de versionado para el sistema Asterisk. Principalmente existen 5 fundamentales:
+La instalación del sistema Asterisk, se realizará sobre la versión actual mas estable, la versión 1.8, momento en que escribo esta información. He de determinar, que en la actualidad aun existen múltiples ramas dentro de la elección de versionado para el sistema Asterisk. Principalmente existen 5 fundamentales:
 
 \begin{enumerate}
 
-\item Rama extremadamente conservadora, y un Fork de Asterisk del sistema base llamado Asterisk-RSP (Real Solid Patchset), que se basa en la teoría de conservarse en un sistema Asterisk totalmente obsoleto a nivel de funcionalidades emergentes (siempre considerando que Asterisk es una solución de comunicaciones, y no te telefonía exclusivamente). Esta fundamentada en la versión 1.4, versión que decidieron era el momento de parar la vorágine de avances, y centrarse en la resolución de deficiencias de seguridad del sistema
+\item Rama extremadamente conservadora, y un Fork de Asterisk del sistema base llamado Asterisk-RSP (Real Solid Patchset), que se basa en la teoría de conservarse en un sistema Asterisk totalmente obsoleto a nivel de funcionalidades emergentes (siempre considerando que Asterisk es una solución de comunicaciones, y no de telefonía exclusivamente). Está fundamentada en la versión 1.4, versión que decidieron era el momento de parar la vorágine de avances, y centrarse en la resolución de deficiencias de seguridad del sistema
 \item Rama por necesidad o moderadamente conservadora, basada en la anterior versión de Asterisk, 1.6.2. Realmente en esta situación se encuentran instalaciones de Asterisk con desarrollos a medida que no pueden actualizarse porque el sistema se volvería inestable. Realmente todo sistema Asterisk puro, es recomendable actualizarlo dado que la versión 1.6.2 tiene un soporte limitado.
 \item Basada el progreso de Asterisk, en este caso todas las instalaciones basadas en la versión 1.8 la cual trae bastantes mejoras, y simplificaciones a nivel de configuración. Se considera por Digium, la versión estable del sistema
 \item Basada en el progreso extremado, instalaciones basadas en Asterisk 1.10 (o como le llaman ahora, Asterisk 10). Realmente son versiones de prueba, y jamás recomendadas para instalaciones en entornos de producción como viene siendo habitual en la mayoría de los entornos de administración de sistemas.
-\item Liberada recientemente a la comunidad, una rama similiar a Asterisk-RSP pero mantenida por Digium, y basada en las versiones mas recientes del sistema que se encuentran en fase estable. Podría considerarse una versión de Soporte a Largo Plazo, y es denominada Asterisk-Certified. En estos momentos esta empezando a imponerse entre la mayoría de los usuarios profesionales que venían siguiendo por sistema la opción número 3.
+\item Liberada recientemente a la comunidad, una rama similar a Asterisk-RSP pero mantenida por Digium, y basada en las versiones mas recientes del sistema que se encuentran en fase estable. Podría considerarse una versión de Soporte a Largo Plazo, y es denominada Asterisk-Certified. En estos momentos esta empezando a imponerse entre la mayoría de los usuarios profesionales que venían siguiendo por sistema la opción número 3.
 
 \end{enumerate}
 
 Para nuestro cliente, en este caso, vamos a seguir la opción número 5, ya que se trata de un servidor de producción y queremos ofrecerle un nivel 2 de servicio según el acuerdo en la capa de servicio estandarizado \footnote{Wikipedia, Soporte Técnico. http://es.wikipedia.org/wiki/Soporte\_t\%C3\%A9cnico} \cite{walker01}
 
-Para el momento, la versión Certificada mas reciente es la versión 1.8.11-cert1 asi que descargaremos las fuentes de la siguiente URL:
+Para el momento, la versión Certificada mas reciente es la versión 1.8.11-cert1 así que descargaremos las fuentes de la siguiente URL:
 
 \href{http://downloads.asterisk.org/pub/telephony/certified-asterisk/releases/certified-asterisk-1.8.11-cert1.tar.gz}{Descarga Asterisk Certified 1.8.11-cert}
 
@@ -151,13 +151,13 @@ context = extensiones
 
 La primera, teléfonos, es una plantilla que engloba todos los parámetros comunes a las extensiones de la centralita. En este caso, nos interesa trabajar en exclusiva con el códec Alaw (G.711 EU), dado que tenemos una conexión bastante buena, pero nuestra máquina no es demasiado potente, además no queremos invertir en códecs licenciados.
 
-Las tres siguientes plantillas, hacen referencia al "nivel" de los usuarios, y en función de este, los mandaremos a un contexto u otro del Dialplan que construiremos a continuación. A priori, el señor Zutano no nos hizo referencia concreta, sobre la posibilidad de que unos usuarios pudiera hacer cosas que otros no, pero anticipándonos por nuestra experiencia, empezamos a "habilitar" esta funcionalidad.
+Las tres siguientes plantillas, hacen referencia al ``nivel'' de los usuarios, y en función de este, los mandaremos a un contexto u otro del Dialplan que construiremos a continuación. A priori, el señor Zutano no nos hizo referencia concreta, sobre la posibilidad de que unos usuarios pudiera hacer cosas que otros no, pero anticipándonos por nuestra experiencia, empezamos a "habilitar" esta funcionalidad.
 
 El sistema de contraseñas, teniendo a lo más básico, aun siendo una mala práctica, hemos utilizado la contraseña por defecto 1234 para todas las extensiones, pero al menos encubierto bajo contraseñas de algo mas de seguridad con un patrón MD5, para mostrar algo más de compromiso.
 
 Finalmente y volviéndonos a adelantar a una probable futura necesidad, hemos asociado a cada extensión su correspondiente buzón de voz, que configuraremos a voluntad si surge el caso más adelante.
 
-Pongo un ejemplo de varias extensiones "que cumplan estas condiciones":
+Pongo un ejemplo de varias extensiones ``que cumplan estas condiciones'':
 
 \begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
 
@@ -273,7 +273,7 @@ CLI> dialplan reload
 
 La aplicación NoOp sirve para hacer debug en consola. Si pusiéramos mensajes dentro del paréntesis, se verían en el log del CLI. Se pueden poner incluso variables del sistema, la cuestión es que esto viene más explicando en el apartado correspondiente de la documentación.
 
-Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos contextos hacen referencia a los contextos a donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para "incluir" todas las extensiones de los contextos a los que apunta el mismo. En este caso, incluiría por completo el contexto [manager], que este a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene "visibilidad" total sobre todo el plan de marcacion del sistema, en cambio un dispositivo de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto, pero no del contexto del gerente.
+Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos contextos hacen referencia a los contextos a donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para "incluir" todas las extensiones de los contextos a los que apunta el mismo. En este caso, incluiría por completo el contexto [manager], que este a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene ``visibilidad'' total sobre todo el plan de marcacion del sistema, en cambio un dispositivo de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto, pero no del contexto del gerente.
 
 Cuando se lo expliquemos al gerente, seguro que se le ocurren aplicaciones prácticas como el hecho de evitar que sus empleados llamen a números internacionales, o de tarificación especial.
 
@@ -372,4 +372,4 @@ exten => 956001121,1,Dial(SIP/proveedorip/956001121}
 
 \end{lstlisting}
 
-Muy similar a la comprobación del apartado anterior, en este caso considerando por ejemplo, que tenemos configurada la extensión número 21, cuyo número Direct Dial-In (de marcación directa), es el 956001121, si llamamos a este número desde la extensión del gerente (10), debería de empezar a sonar en la extensión 21 el teléfono, dado que gracias a esta linea, estamos mandando llamada a traves del par que definimos en el fichero de configuración SIP llamado \textbf{proveedorip}, y luego el Proveedor, nos devuelve la llamada a traves del mismo par (recordemos que es un tipo \textbf{friend}, es decir "permite" tanto la entrada como la salida), y entraría según definido al contexto [entrantes]. En este momento, se redirigiría a la extensión 956001121, que esta a su vez, redirige a la extensión 21, dentro del contexto extensiones.
+Muy similar a la comprobación del apartado anterior, en este caso considerando por ejemplo, que tenemos configurada la extensión número 21, cuyo número Direct Dial-In (de marcación directa), es el 956001121, si llamamos a este número desde la extensión del gerente (10), debería de empezar a sonar en la extensión 21 el teléfono, dado que gracias a esta linea, estamos mandando llamada a traves del par que definimos en el fichero de configuración SIP llamado \textbf{proveedorip}, y luego el Proveedor, nos devuelve la llamada a traves del mismo par (recordemos que es un tipo \textbf{friend}, es decir ``permite'' tanto la entrada como la salida), y entraría según definido al contexto [entrantes]. En este momento, se redirigiría a la extensión 956001121, que esta a su vez, redirige a la extensión 21, dentro del contexto extensiones.

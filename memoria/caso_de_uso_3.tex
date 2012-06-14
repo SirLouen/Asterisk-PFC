@@ -38,7 +38,7 @@ En primera instancia, hicimos un breve análisis de sus pretensiones de montar u
 
 Hasta la fecha según nos comento, en su anterior empresa, había estado trabajando con un CRM llamado vTiger CRM \cite{website:vtiger}, lo cual nos agradó bastante dado que conocíamos su buena integración con Asterisk a traves del Asterisk Manager Interface. Pero en su caso, solo había utilizado vTiger en un servidor externalizado online, y todas las tareas de mantenimiento se las llevaba una empresa de hosting web, y el solo se encargaba de administrar y gestionar el sistema CRM. Según había oído, era posible con los CTI \cite{website:ctiwikipedia} de algunas PBX, era posible que directamente desde la interfaz web de vTiger, los usuarios pudieran cursar llamadas, y otras tantas funcionalidades.
 
-Le informamos que esto era posible, siempre y cuando el servidor para su servicio, estuviera dentro de la misma red local, dado que "abrir" a Internet el CTI de Asterisk suponía serias implicaciones en la seguridad del sistema de las cuales no podíamos hacernos totalmente responsables. Le pusimos en contacto con una empresa colaboradora nuestra, "Cadiz Computers" para que le facilitarán el trabajo de montaje, mantenimiento y administración del servidor CRM, pero de momento para que pudieran empezar a trabajar, le informamos de una funcionalidad de Asterisk que le serviría para poder establecer un mínimo de motorización sobre el estado de su servidor web, donde se contenía la aplicación vTiger, que realmente estaba basada en el lenguaje de programación PHP.
+Le informamos que esto era posible, siempre y cuando el servidor para su servicio, estuviera dentro de la misma red local, dado que ``abrir'' a Internet el CTI de Asterisk suponía serias implicaciones en la seguridad del sistema de las cuales no podíamos hacernos totalmente responsables. Le pusimos en contacto con una empresa colaboradora nuestra, "Cadiz Computers" para que le facilitarán el trabajo de montaje, mantenimiento y administración del servidor CRM, pero de momento para que pudieran empezar a trabajar, le informamos de una funcionalidad de Asterisk que le serviría para poder establecer un mínimo de motorización sobre el estado de su servidor web, donde se contenía la aplicación vTiger, que realmente estaba basada en el lenguaje de programación PHP.
 
 Para ello en primer lugar, considerando que el servidor web ya esta funcionando con su aplicación CRM en marcha, instalamos telnet en nuestro servidor Asterisk:
 
@@ -78,7 +78,7 @@ Para parar el servidor web, suponiendo por ejemplo que estemos utilizando apache
 # sudo service apache2 stop
 \end{lstlisting}
 
-En cuestión de un minuto máximo recibiremos la llamada. Podemos comprobar también en esa llamada que el Identificador de llamada hace referencia a "Emergencias Servidor" (Figura \ref{servidor_caido}) Además deberíamos escuchar al responder una reproducción indicando la alerta.
+En cuestión de un minuto máximo recibiremos la llamada. Podemos comprobar también en esa llamada que el Identificador de llamada hace referencia a ``Emergencias Servidor'' (Figura \ref{servidor_caido}) Además deberíamos escuchar al responder una reproducción indicando la alerta.
 
 \figura{servidor_caido.png}{scale=1}{Llamada Entrante de alerta}{servidor_caido}{!ht}
 
@@ -127,7 +127,7 @@ switch($typeCalled){
 }
 \end{lstlisting}
 
-Con esto pudimos hacer que todas las llamadas salientes desde vTiger, se encaminaran a nuestro contexto de "Extensiones" principal, con suponía observar. Al parecer era posible realizar personalizaciones dentro de vTiger en función del tipo de teléfono al que deseáramos llamar (si fuera un teléfono tipo SIP, o por la linea de teléfono convencional (PSTN), pero como en nuestro caso, no hacemos esta diferenciación dentro de nuestro DialPlan, preferimos optar por utilizar el mismo contexto del DialPlan por defecto.
+Con esto pudimos hacer que todas las llamadas salientes desde vTiger, se encaminaran a nuestro contexto de ``Extensiones'' principal, con suponía observar. Al parecer era posible realizar personalizaciones dentro de vTiger en función del tipo de teléfono al que deseáramos llamar (si fuera un teléfono tipo SIP, o por la linea de teléfono convencional (PSTN), pero como en nuestro caso, no hacemos esta diferenciación dentro de nuestro DialPlan, preferimos optar por utilizar el mismo contexto del DialPlan por defecto.
 
 Y por último estuvimos comprobando, si llamando a la extensión 21 que acabábamos de configurar para el Sr. Douglas, se recibía dentro del sistema vTiger un mensaje pop-up indicando información referente al llamante, para comprobar que no era así. Al parecer las últimas versiones de vTiger provocaban serios fallos en la integración con instalaciones de Asterisk versiones 1.8 o superiores, de hecho como vimos en la Figura \ref{vtiger_config_ami} en la versión solo podíamos indicar 1.6 como máximo. 
 
@@ -152,7 +152,7 @@ $extension = $splits[0];
 
 \end{lstlisting}
 
-Esto ocurría porque concretamente, utilizando la función PHP "explode" para segmentar una cadena de texto, la cadena dentro Event Newexten, correspondiente al parámetro AppData, tenía una estructura del tipo, SIP/10,30, siendo SIP/10 el dispositivo SIP al que apuntaría la aplicación para mostrar el mensaje emergiente, y 30, los segundos antes del "timeout". Con esto, retiraría todos estos argumentos y nos quedaríamos exclusivamente con el "10" para este ejemplo que podría corresponderse con la extensión asignada a un usuario en el sistema vTiger.
+Esto ocurría porque concretamente, utilizando la función PHP ``explode'' para segmentar una cadena de texto, la cadena dentro Event Newexten, correspondiente al parámetro AppData, tenía una estructura del tipo, SIP/10,30, siendo SIP/10 el dispositivo SIP al que apuntaría la aplicación para mostrar el mensaje emergiente, y 30, los segundos antes del "timeout". Con esto, retiraría todos estos argumentos y nos quedaríamos exclusivamente con el "10" para este ejemplo que podría corresponderse con la extensión asignada a un usuario en el sistema vTiger.
 
 Y con estos dos cambios el sistema ya funcionaba a la perfección, y dimos por integrado vTiger con nuestra versión de Asterisk.
 
@@ -174,13 +174,13 @@ A continuación en la Figura \ref{llamandaentrante} y la Figura \ref{llamandasal
 
 \subsection{Devolviendo el Control al Cliente}
 
-Atendiendo a la petición de nuestro cliente para poder ofrecerle la posibilidad de ser más autónomo en la gestión de sus propias extensiones, con la voluntad de darlas de alta y baja por cuenta propia, era fundamental incorporar en nuestro sistema Asterisk un nuevo elemento, el sistema Asterisk RealTime, equivalente a "trasvasar" todo el sistema de configuración interno de los ficheros de texto plano, estáticos por naturaleza, a un sistema más dinámico, basado en Bases de Datos, cuya interpretación de las mismas cara a la configuración del sistema, se haría en tiempo real. Esta funcionalidad que ofrece Asterisk, es muy práctica, si tenemos la intención de querer brindar algún tipo de interfaz, por ejemplo, en entorno web, para modificar los parámetros de una manera mucho más cómoda y confiable.
+Atendiendo a la petición de nuestro cliente para poder ofrecerle la posibilidad de ser más autónomo en la gestión de sus propias extensiones, con la voluntad de darlas de alta y baja por cuenta propia, era fundamental incorporar en nuestro sistema Asterisk un nuevo elemento, el sistema Asterisk RealTime, equivalente a ``trasvasar'' todo el sistema de configuración interno de los ficheros de texto plano, estáticos por naturaleza, a un sistema más dinámico, basado en Bases de Datos, cuya interpretación de las mismas cara a la configuración del sistema, se haría en tiempo real. Esta funcionalidad que ofrece Asterisk, es muy práctica, si tenemos la intención de querer brindar algún tipo de interfaz, por ejemplo, en entorno web, para modificar los parámetros de una manera mucho más cómoda y confiable.
 
 Aunque es cierto que existen interfaces web ya creadas a medida para Asterisk, que no requieren de Bases de datos, ya que también permiten interpretar los ficheros de texto plano directamente, y estos adaptarlos a la misma, para mostrar su contenido y poder a su vez ser editado y reintroducido en los ficheros de configuración, el nivel de control que brindan al usuario que las utiliza es prácticamente total, y esto significa que un usuario inexperto podría provocar un problema en el sistema de forma casi involuntaria. 
 
-Además, por la propia definición de estas interfaces, su sistema radica, primero, en una lectura linea por linea del fichero de configuración, para interpretar su contenido, plasmarlo en la interfaz cara al usuario, y luego en caso de edición por parte de este, volver a reescribir literalmente ese fichero de texto de forma automáticamente, en el formato más conveniente por el sistema interfaz. Esto supone que la introducción y configuración de nuevos parámetros por un usuario más avanzado puede suponer una interferencia e incluso una inconveniencia, aunque dado el caso, existe la posibilidad de adaptar ficheros de configuración a medida en comunión a los "automáticos" generados por estas interfaces, que en un peor de los casos, incluso podrían provocar una redundancia en la funcionalidad (y poder derivar en errores de difícil detección)
+Además, por la propia definición de estas interfaces, su sistema radica, primero, en una lectura linea por linea del fichero de configuración, para interpretar su contenido, plasmarlo en la interfaz cara al usuario, y luego en caso de edición por parte de este, volver a reescribir literalmente ese fichero de texto de forma automáticamente, en el formato más conveniente por el sistema interfaz. Esto supone que la introducción y configuración de nuevos parámetros por un usuario más avanzado puede suponer una interferencia e incluso una inconveniencia, aunque dado el caso, existe la posibilidad de adaptar ficheros de configuración a medida en comunión a los ``automáticos'' generados por estas interfaces, que en un peor de los casos, incluso podrían provocar una redundancia en la funcionalidad (y poder derivar en errores de difícil detección)
 
-En general este tipo de interfaces, solo son utilizadas por usuarios noveles del sistema Asterisk y el nivel de personificación de la máquina esta limitada realmente al número de posibilidades que ofrezcan estas interfaces por defecto independientemente de las posibilidades de "personalización" que puedan llegar a aportar. Algunos de los contras que he comentado, suelen ser las críticas que alegan, la mayor parte de los usuarios más experimentados en la comunidad Asterisk.
+En general este tipo de interfaces, solo son utilizadas por usuarios noveles del sistema Asterisk y el nivel de personificación de la máquina esta limitada realmente al número de posibilidades que ofrezcan estas interfaces por defecto independientemente de las posibilidades de ``personalización'' que puedan llegar a aportar. Algunos de los contras que he comentado, suelen ser las críticas que alegan, la mayor parte de los usuarios más experimentados en la comunidad Asterisk.
 
 En consecuencia a esto, la idea para poder ofrecer autonomía sería la siguiente:
 
@@ -207,7 +207,7 @@ Ahora el segundo fichero, sería res\_odbc.conf:
 
 En este caso también una estructura muy sencilla. Especificamos que el DSN del Driver ODBC será llamado asterisk, y queremos que conecte utilizando unas credenciales específicas que vamos a añadir en nuestra base de datos MySQL del paquete LAMP que instalamos al principio
 
-Ahora vamos a modificar el fichero sip.conf donde se encuentran los pares en formato "estático", para que se adapte a la nueva configuración en formato Asterisk Realtime "dinámico". Nos quedaría tan simple de la siguiente forma:
+Ahora vamos a modificar el fichero sip.conf donde se encuentran los pares en formato ``estático'', para que se adapte a la nueva configuración en formato Asterisk Realtime "dinámico". Nos quedaría tan simple de la siguiente forma:
 
 \lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf.2}
 
@@ -258,7 +258,7 @@ Ahora finalmente vamos a crear la tabla pares\_sip dentro de la base de datos ll
 mysql -u root -p asterisk < pares_sip.sql
 \end{lstlisting}
 
-Notese que existe un campo, que no es creado por defecto en este tipo de tabla de sippeers. Estamos hablando del campo \textbf{useradmin}, que nos va a servir a posteriori, cuando diseñemos una pequeña aplicación para poder ofrecer un entorno visual de edición de usuarios de esta tabla, para configurar el sistema de pares al completo. Así que le damos este privilegio (1) a la extensión 10 y 54 que serán en principio mientras no se diga lo contrario, los dos "administradores" del sistema.
+Notese que existe un campo, que no es creado por defecto en este tipo de tabla de sippeers. Estamos hablando del campo \textbf{useradmin}, que nos va a servir a posteriori, cuando diseñemos una pequeña aplicación para poder ofrecer un entorno visual de edición de usuarios de esta tabla, para configurar el sistema de pares al completo. Así que le damos este privilegio (1) a la extensión 10 y 54 que serán en principio mientras no se diga lo contrario, los dos ``administradores'' del sistema.
 
 Con toda la estructura creada, solo nos queda empezar a insertar los pares con los que veniamos trabajando anteriormente dentro de la tabla y comprobar que todo funciona correctamente. Para ello creamos otro fichero sql donde insertamos toda la información al respecto, en este caso vamos a utilizar 3 pares de ejemplo, el resto los haremos utilizando la herramienta phpMyAdmin:
 
@@ -268,7 +268,7 @@ Con toda la estructura creada, solo nos queda empezar a insertar los pares con l
 mysql -u root -p asterisk < ejemplo_pares_sip.sql
 \end{lstlisting}
 
-Ahora es el momento de diseñar una aplicación en PHP muy sencillo para poder llevar una pequeña gestión de los pares SIP de forma descentralizada por parte de nuestro usuario. La idea sería, basandonos en la tabla recién creada "pares\_sip", poder considerarla como un sistema de acceso de usuarios para ciertos usuarios, y ademas, será la tabla que realmente pretendemos que nuestros usuarios de UCA Autos puedan editar a voluntad. Este script de momento es una primera instancia para poder ofrecer lo que nuestros usuarios necesitan, pero quizá en un futuro sería mejorable, optimizando la seguridad de acceso al mismo, ya que con técnicas poco ortodoxas como la Inyección de código SQL podrían acceder al mismo sin grandes dificultades.
+Ahora es el momento de diseñar una aplicación en PHP muy sencillo para poder llevar una pequeña gestión de los pares SIP de forma descentralizada por parte de nuestro usuario. La idea sería, basandonos en la tabla recién creada ``pares\_sip'', poder considerarla como un sistema de acceso de usuarios para ciertos usuarios, y ademas, será la tabla que realmente pretendemos que nuestros usuarios de UCA Autos puedan editar a voluntad. Este script de momento es una primera instancia para poder ofrecer lo que nuestros usuarios necesitan, pero quizá en un futuro sería mejorable, optimizando la seguridad de acceso al mismo, ya que con técnicas poco ortodoxas como la Inyección de código SQL podrían acceder al mismo sin grandes dificultades.
 
 El script se irá describiendo a continuación \footnote{Montando un Sistema Asterisk Autonomo I, \\ http://10000horas.com/asterisk/2011/12/08/montando-un-sistema-asterisk-autonomo-i}, primero conectamos a la base de datos \textbf{asterisk}:
 
@@ -479,7 +479,7 @@ En este caso, sabemos que Asterisk ofrece un registro de llamadas que podemos ex
 
 En primer lugar vamos a configurar el sistema de almacenamiento del Registro de Llamadas (CDR), en la base de Datos que creamos anteriormente para nuestro sistema RealTime, solo que vamos a tener que crear una tabla nueva específica para almacenar todos los registros CDR.
 
-Por ello, la primera parte sería la de configurar el fichero cdr\_adaptive\_odbc.conf y dotarlo de una estructura genérica para que conecte a nuestro anterior "conector" para el registro DSN del Driver ODBC que especificamos en la anterior sección (el llamado "asterisk\_odbc" de res\_odbc.conf). Con esto configuramos el fichero cdr\_adaptive\_odbc.conf de la siguiente forma:
+Por ello, la primera parte sería la de configurar el fichero cdr\_adaptive\_odbc.conf y dotarlo de una estructura genérica para que conecte a nuestro anterior ``conector'' para el registro DSN del Driver ODBC que especificamos en la anterior sección (el llamado "asterisk\_odbc" de res\_odbc.conf). Con esto configuramos el fichero cdr\_adaptive\_odbc.conf de la siguiente forma:
 
 \lstinputlisting[title={/etc/asterisk(cdr\_adaptive\_odbc.conf}]{../conf/cdr_adaptive_odbc.conf}
 
@@ -487,7 +487,7 @@ En segundo lugar, vamos a crear la tabla dentro de nuestra anteriormente creada 
 
 \lstinputlisting[title={sistemacdr.sql}]{../scripts/sistemacdr.sql}
 
-Y cargamos la tabla dentro de nuestra base de datos "asterisk":
+Y cargamos la tabla dentro de nuestra base de datos ``asterisk'':
 
 \begin{lstlisting}[language=sh]
 mysql -u root -p asterisk < sistemacdr.sql
@@ -576,13 +576,13 @@ Y crearemos la estructura de tablas utilizando el siguiente script, extraído y 
 
 \lstinputlisting[title={./tablasmeetme.sql}]{../scripts/tablasmeetme.sql}
 
-Y procedemos a insertarla dentro de nuestra base de datos "asterisk":
+Y procedemos a insertarla dentro de nuestra base de datos ``asterisk'':
 
 \begin{lstlisting}[language=sh]
 mysql -u root -p meetme < tablasmeetme.sql
 \end{lstlisting}
 
-Y añadimos un usuario administrador a la tabla "user" para nuestro cliente Don Pedro:
+Añadimos un usuario administrador a la tabla ``user'' para nuestro cliente Don Pedro:
 
 \begin{lstlisting}[language=sh]
 mysql -u root -p meetme -e "INSERT INTO meetme.user (first_name, last_name, 
