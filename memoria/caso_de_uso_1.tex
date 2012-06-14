@@ -151,7 +151,7 @@ context = extensiones
 
 La primera, teléfonos, es una plantilla que engloba todos los parámetros comunes a las extensiones de la centralita. En este caso, nos interesa trabajar en exclusiva con el códec Alaw (G.711 EU), dado que tenemos una conexión bastante buena, pero nuestra máquina no es demasiado potente, además no queremos invertir en códecs licenciados.
 
-Las tres siguientes plantillas, hacen referencia al ``nivel'' de los usuarios, y en función de este, los mandaremos a un contexto u otro del Dialplan que construiremos a continuación. A priori, el señor Zutano no nos hizo referencia concreta, sobre la posibilidad de que unos usuarios pudiera hacer cosas que otros no, pero anticipándonos por nuestra experiencia, empezamos a "habilitar" esta funcionalidad.
+Las tres siguientes plantillas, hacen referencia al ``nivel'' de los usuarios, y en función de este, los mandaremos a un contexto u otro del Dialplan que construiremos a continuación. A priori, el señor Zutano no nos hizo referencia concreta, sobre la posibilidad de que unos usuarios pudiera hacer cosas que otros no, pero anticipándonos por nuestra experiencia, empezamos a ``habilitar'' esta funcionalidad.
 
 El sistema de contraseñas, teniendo a lo más básico, aun siendo una mala práctica, hemos utilizado la contraseña por defecto 1234 para todas las extensiones, pero al menos encubierto bajo contraseñas de algo mas de seguridad con un patrón MD5, para mostrar algo más de compromiso.
 
@@ -224,7 +224,7 @@ same => n,Dial(SIP/12)
 
 \end{lstlisting}
 
-En primer lugar, creamos números de marcación específicos para todas las extensinoes, he puesto las extensiones del ejemplo para continuar con la misma línea
+En primer lugar, creamos números de marcación específicos para todas las extensiones, he puesto las extensiones del ejemplo para continuar con la misma línea
 
 \begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
 
@@ -271,9 +271,9 @@ CLI> dialplan reload
 
  En este fichero vemos algunas cosas peculiares:
 
-La aplicación NoOp sirve para hacer debug en consola. Si pusiéramos mensajes dentro del paréntesis, se verían en el log del CLI. Se pueden poner incluso variables del sistema, la cuestión es que esto viene más explicando en el apartado correspondiente de la documentación.
+La aplicación NoOp sirve para hacer depuración en consola. Si pusiéramos mensajes dentro del paréntesis, se verían en el log del CLI. Se pueden poner incluso variables del sistema, la cuestión es que esto viene más explicando en el apartado correspondiente de la documentación.
 
-Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos contextos hacen referencia a los contextos a donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para "incluir" todas las extensiones de los contextos a los que apunta el mismo. En este caso, incluiría por completo el contexto [manager], que este a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene ``visibilidad'' total sobre todo el plan de marcacion del sistema, en cambio un dispositivo de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto, pero no del contexto del gerente.
+Lo verdaderamente significativo es la estructura. Como podemos ver, existen tres contextos (se encuentran dentro de corchetes). Como recordaremos, en el fichero sip.conf anterior, estos hacen referencia a los contextos del plan de marcación donde las marcaciones que realizan los dispositivos irían. En este caso, podemos ver como el contexto [gerente] tiene un parámetro \textbf{include} que sirve para `incluir'' todas las extensiones del contexto al que apunta el mismo. En este caso, incluiría concretamente por completo el contexto [manager], y este también a su vez incluye el contexto [extensiones]. Esto significa que el gerente tiene ``visibilidad'' total sobre todo el plan de marcacion del sistema, en cambio un dispositivo SIP de un empleado normal, solo podría acceder al plan de marcacion especifico dentro de su contexto ``extensiones'', pero no del contexto del gerente.
 
 Cuando se lo expliquemos al gerente, seguro que se le ocurren aplicaciones prácticas como el hecho de evitar que sus empleados llamen a números internacionales, o de tarificación especial.
 
