@@ -37,7 +37,7 @@ Vamos a empezar con la construcción de la aplicación de recogida de informaci�
 
 En primer lugar, necesitamos una función para convertir fechas de formato SQL a un formato que vamos a manejar a voluntad en este caso DDMMAAAA
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 #!/usr/bin/php -q
 <?php
@@ -55,7 +55,7 @@ function fecha_normal($fecha)
 
 En segundo lugar, otra función, calcular los días de diferencia entre dos fechas, en el formato que hemos establecido DDMMAAAA, la idea sería partiendo del formato de fecha, dividirla en un vector de tres elementos con la función ereg, convertirla a un formato de tipo marca de tiempo, en formato UNIX y los valores restarlos mutuamente y quitarle las horas, minutos y segundos, para conseguir como resultado la diferencia de días.
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 function resta_fecha($fecha_inicial, $fecha_final)
 {
@@ -72,7 +72,7 @@ function resta_fecha($fecha_inicial, $fecha_final)
 
 La siguiente función sirve para calcular la letra del DNI \cite{website:algoritmodni}:
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 function letra_nif($dni)
 {
@@ -83,7 +83,7 @@ function letra_nif($dni)
 
 A continuación, recogemos una información acerca del sistema AGI, y argumentos que recibimos, en este caso el DNI del cliente. Aparte también realizamos la conexión a la base de datos del ERP.
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 $agi = new AGI();
 $dni = $argv[1];
@@ -103,7 +103,7 @@ or die ("Error en la Conexion a BD");
 
 A partir de aquí realizamos algunas consultas, para localizar los datos que necesitamos, es decir, fecha de compra y años de garantía, para así poder calcular los días de garantía que quedan. En caso de que encontremos el cliente por el DNI, devolveremos 0 días de garantía
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 if(!mysql_num_rows($query))
 {
@@ -124,7 +124,7 @@ else
  $diasgarantia = resta_fecha($ahora,$fechacompra);
 }
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 $query = mysql_query("SELECT * FROM clientes WHERE dni = '$dni'");
 
@@ -132,7 +132,7 @@ $query = mysql_query("SELECT * FROM clientes WHERE dni = '$dni'");
 
 Finalizamos devolviendo al flujo de la llamada una variable con los días de garantía obtenidos
 
-\begin{lstlisting}[language=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
+\begin{lstlisting}[style=php,title={/var/lib/asterisk/agi-bin/fingarantia.php}]
 
 $agi->verbose($diasgarantia);
 
@@ -145,7 +145,7 @@ Por otro lado necesitamos definir algunos scripts específicos para tratar el si
 
 Ahora solo faltaría definir el IVR dentro de nuestro DialPlan. Para ello hemos creado una extensión específica especial que cumplira dicho proposito, ejecutando las aplicaciones oportunas según descrito a continuación:
 
-\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={(/etc/asterisk/extensions.conf}]
 
 / IVR de GARANTIAS
 exten => 105,1,Answer()
@@ -183,7 +183,7 @@ La secuencia sería, como tambien puede verse en la figura \ref{ejemplo_ivr}
 
 \figura{ejemplo_ivr.png}{scale=1}{Diagrama de una llamada en el sistema a IVR}{ejemplo_ivr}{!ht}
 
-\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={(/etc/asterisk/extensions.conf}]
 
 // Comprobacion de Garantia
 same => n,AGI(fingarantia.php,${TEXTOASR})
@@ -210,7 +210,7 @@ La secuencia seria:
 \end{enumerate}
 
 
-\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={(/etc/asterisk/extensions.conf}]
 
 // Salto a Extensiones Posventa
 same => n(operador),AGI(asterisk-tts.php,"Le pasamos con un operador")
@@ -221,7 +221,7 @@ same => n,Goto(extensiones,400,1)
 
 Finalmente, en caso que hubieran pasado 2 intentos de reconocer el DNI con el sistema ASR sin éxito, lanzaríamos la llamada al grupo de lineas de Posventa. Para definir el grupo de líneas de Posventa, necesitamos hacer algunas modificaciones. Por un lado vamos a crear una variable globales, que agrupe los dispositivos SIP de las extensiones actuales:
 
-\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={(/etc/asterisk/extensions.conf}]
 
 [globals]
 
@@ -231,7 +231,7 @@ GRUPOPOSVENTA=SIP/41&SIP/42&SIP/43
 
 Por otro lado, definiriamos en el contexto [extensiones] la extensión 400 a la que hacemos referencía, utilizando esta variable global declarada.
 
-\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={(/etc/asterisk/extensions.conf}]
 
 ; Extensiones Grupo Posventa
 exten => 400,1,Answer()
@@ -243,7 +243,7 @@ same => n,Hangup()
 
 Finalmente vamos a necesitar de un último DDI, que dará la opción de hablar con el grupo Posventa, o saber la garantía. Para ello vamos a crear otra pequeña Operadora Automática en el DDI número 956001161, que se desarrollará de la siguiente forma:
 
-\begin{lstlisting}[language=bash,title={(/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={(/etc/asterisk/extensions.conf}]
 
 exten => 956001161,1,NoOp()
 same => n,AGI(asterisk-tts.php,"Si quiere saber el tiempo 

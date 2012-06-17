@@ -44,7 +44,7 @@ Vamos a mejorar el anterior Plan de Marcación existente. A continuación muestr
 
 Diseccionándolo en primer lugar podemos ver el nuevo contexto [exterior]. Con este contexto especificamos siguiendo los patrones específicos del Plan de Marcación definimos las posibilidades de marcación que podemos hacer para realizar llamadas a números Nacionales (tanto aquellos que empiezan por 8 como por 9), Móviles y números de información (restringiendo exclusivamente a 900, 901 y 902). 
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 [exterior]
 ; --- Contexto Especifico para Llamadas al exterior
@@ -65,7 +65,7 @@ same => n,Hangup()
 
 Por otro lado, dentro de los contextos de Mánager y gerencia, podemos ver también los requisitos específicos a los que solo podrán acceder los mismo como vimos en el primer DialPlan, por el sistema jerárquico creado gracias a la utilización de los ``include''. Con estos específicamente, definimos marcaciones para números de información (Aquellos que empiezan por 118), y para el gerente llamadas a números internacionales de destino Alemania, que tienen como peculiaridad, que aunque tienen una marcación común de inicio, a partir del 5 dígito, la numeración es variable considerando a continuación el prefijo regional + el número local (de 3 a 9 dígitos).
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; --- Contexto especifico de los Managers
 [manager]
@@ -110,7 +110,7 @@ En siguiente lugar, dentro del contexto [entrantes], hemos añadido un nuevo nú
 
 \figura{operadora1.png}{scale=1}{Flujo de Llamada de la Operadora Automática}{operadora1}{!ht}
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; Operadora Automatica
 exten => s,1,NoOp()
@@ -141,7 +141,7 @@ exten => 0,1,Goto(extensiones,51,1)
 
 Finalmente, como podía verse anteriormente, hemos modificado todas las extensiones especificas de los Mánager, para adaptarlas al uso de Buzón de Voz. Nótese, que hemos añadido una restricción temporal en la aplicación de llamada \textbf{Dial} a 30 segundos, pasados los cuales, se ejecutaría la aplicación de grabación de mensajes de Buzones de Voz. . Por último hemos añadido extensiones especificas para el acceso a los buzones de sus respectivos usuarios, marcando primero el 9 y a continuación el número de la extensión.
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; --- Plan General de Extensiones
 [extensiones]
@@ -172,7 +172,7 @@ Dado que la mayor parte de las pistas de audio del sistema Asterisk se encuentra
 
 La configuración especifica del fichero voicemail.conf para que el sistema de Buzones de voz funcione dentro de nuestras pretensiones se detalla a continuación. Para más información podemos consultar el apartado especifico dentro del Wiki. \footnote{Buzones de Voz, Wikiasterisk, http://wikiasterisk.com/index.php?title=Buzones\_de\_Voz}:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/voicemail.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/voicemail.conf}]
 
 [general]
 format = wav49|gsm|wav
@@ -195,7 +195,7 @@ backupdeleted = 20
 
 Un dato curioso, la cabecera del fichero voicemail.conf, hace referencia a una generación automática. Esto es debido a que considerando que hemos puesto la contraseña por defecto en muchos buzones, idéntica al número de buzón, por defecto al ejecutar la aplicación VoiceMailMain, solicita el cambio de contraseña. Al realizar este cambio, la aplicación AppVoicemail, hace un cambio en este fichero de forma automática para adaptar las nuevas contraseñas prefijadas. En este caso sería conveniente volver a restablecer las contraseñas a las suyas por defecto como el resto, pero lo dejare en este estado, para que sirva a efectos informativos:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/voicemail.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/voicemail.conf}]
 
 ;!
 ;! Automatically generated configuration file
@@ -208,7 +208,7 @@ Un dato curioso, la cabecera del fichero voicemail.conf, hace referencia a una g
 
 Los datos relativos al mensaje de la zona, suelen ser datos genéricos utilizados en la mayor parte de las instalaciones, basados en las preferencias reconocidas depediendo la costumbre de la sociedad en cada región del mundo:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/voicemail.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/voicemail.conf}]
 
 ; Parametros por defecto del sistema de mensajes de Asterisk
 [zonemessages]
@@ -222,7 +222,7 @@ european = Europe/Madrid|'vm-received' a d b 'digits/at' HM
 
 Finalmente para la definición de cada uno de los buzones, hemos elegido algunos de ejemplo para mostrar el nivel de configuración al que pueden llegar a someterse:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/voicemail.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/voicemail.conf}]
 
 [admin]
 0 => 0,John Doe,jdoe@wikiasterisk.com,,tz=european|
@@ -293,7 +293,7 @@ Cara a la generalización del sistema, con vistas a una estandarización de las 
 
 Pero lo realmente interesante, fue el método de estandarización para las extensiones seguido en el fichero referente al Plan de Marcación:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; --- Macro para Extensiones
 ; --- Con Buzones de Voz Mejorados
@@ -355,7 +355,7 @@ Adicionálmente, gracias a una interfaz web que nos facilita el proveedor UCA Te
 
 Y con todo ya generado y preparado, creamos nuestro fichero iax.conf en el directorio por defecto de ficheros de configuración de Asterisk /etc/asterisk según podemos ver a continuación:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/iax.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/iax.conf}]
 
 [general]
 bindport=4569
@@ -374,7 +374,7 @@ En primer lugar, definimos algunos parámetros generales, que destacadamente, ha
 
 A continuación planteamos los dos comportamientos por separado, para definir las claves privadas y publicas RSA, de forma independiente, para conectar con el proveedor de telefonía UCA Telecom:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/iax.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/iax.conf}]
 
 [ucatelecom]
 type = user
@@ -405,7 +405,7 @@ En cuanto a la conexión IAX, ocurre exactamente lo mismo que con el proveedor I
 
 Además es posible comprobar que las claves RSA están correctamente configuradas en el servidor ejecutando el comando en la interfaz CLI:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 CLI> keys show
 Key Name           Type     Status           Sum
 ------------------ -------- ---------------- --------------------------------
@@ -446,13 +446,13 @@ En primer lugar, crearíamos dentro de la máquina Asterisk, el fichero de confi
 
 El fichero se muestra a continuación:
 
-\lstinputlisting[title={/etc/asterisk/queues.conf}]{../conf/queues.conf}
+\lstinputlisting[title={/etc/asterisk/queues.conf},style=bash]{../conf/queues.conf}
 
 La mayor parte de las opciones quedan comentadas, significativamente, hemos asociado tres agentes de la cola que hemos creado llamada ``Almacén'' con los respectivos nombres de usuario, y asociados a los tres dipositivos SIP de cada uno de ellos.
 
 Por otro lado en el Plan de Marcación necesitamos hacer algunos ajustes a petición. Ajustamos un nuevo teléfono de tipo DDI ofrecido por la operadora:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ;Numero General de UCA Autos
 exten => 956001181,1,Goto(especiales,101,1)
@@ -461,7 +461,7 @@ exten => 956001181,1,Goto(especiales,101,1)
 
 Y por otro lado, creamos la extensión 101 en el contexto [especiales] para poder acceder a la cola \textbf{almacén} recién creada.
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 [especiales]
 
@@ -475,7 +475,7 @@ same => n,Hangup()
 Finalmente queremos darle la opción a los usuarios del Call-Center para que se puedan poner en modo Pausa, por si tienen que atender otras necesidades.
 Para ello vamos a crear Macros que se ajusten a la función de poner y quitar la Pausa del Agente dentro de la cola dentro del plan de marcación de las respectivas extensiones:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 [macro-pausa]
 exten => s,1,NoOp()
@@ -504,7 +504,7 @@ En última instancia, quería preparar el sistema de Grabación de llamadas, y d
 
 Por otro lado, vamos a lanzar la aplicación de grabación Monitor, para que solo grabe cuando exista comunicación entre ambas partes de la comuniación. Aparte guardaremos los registros en ficheros individuales mezclados en formato wav, y tendran nombres distintos para poder identificarlos y que no se solapen unos con los otros:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 exten => 101,1,NoOp()
 same => n,Playback(bienvenida)
@@ -518,7 +518,7 @@ same => n,Hangup()
 
 Vamos a crear un enlace simbolico a nuestro directorio web raíz, a la carpeta de grabaciones de Asterisk para que puedan acceder a las mismas de forma directa el responsable. Asi podría acceder directamente desde el servidor web http://pfc-asterisk.local/monitor y ver todas las grabaciones:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 cd /var/www/
 ln -s /var/spool/asterisk/monitor ./
 \end{lstlisting}
@@ -527,7 +527,7 @@ Por otro lado, tenemos que informar por contrato a los empleados, que sus llamad
 
 En cuanto a la posibilidad de ofrecer escucha, simplemente tenemos que añadir una nueva extensión para realizarla, en este caso lo haremos dentro del contexto [manager]
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 exten => 201,1,NoOp()
 same => n,ChanSpy(SIP/3)

@@ -17,13 +17,13 @@ Considerando la opción Dell por la relación calidad-precio principalmente, lo 
 
 \subsection{Consideraciones Técnicas}
 
-Otro aspecto interesante, pero no imprescindible, es la capacidad de acceder a una tarjeta específica de las marcas para realizar un sistema RAID por hardware, y opcionalmente, la disponibilidad concreta, de cajas tipo enrackables para adaptarse óptimamente a nuestros respectivos CPD.
+Otro aspecto interesante, pero no imprescindible, es la capacidad de acceder a una tarjeta específica de las marcas para realizar un sistema RAID por hardware, y opcionálmente, la disponibilidad concreta, de cajas tipo enrackables para adaptarse óptimamente a nuestros respectivos CPD.
 
 Me gustaría ofrecer una opinión personal en términos generales. No merece la pena gastarse el dinero que cuesta un servidor si no vamos a tener las prestaciones especiales que ofrece una placa de servidor y todo lo que le rodea (posibilidad de fuentes redundantes, memorias registradas, dos o cuatro sockets, hotswaps, controladoras RAID de alta gama, etc.). Hoy en día por un bajo coste (entre 1000 y 2000 euros), podemos tener un equipo del nivel de un servidor en prestaciones y verdadera fiabilidad. Con el ahorro tenemos opciones a aplicar redundancia en los sistemas. Más curioso aun, los servidores en formato de caja de torre de las marcas, no aportan un precio mejorado a mayores prestaciones, si bien, no requieren de rack, en caso de poseerlo, es hasta un mayor inconveniente de espacio y desorden. De hecho hoy en día están surgiendo empresas que se dedican a ensamblar ordenadores eligiendo cuidadosamente los componentes más robustos del mercado y con ello implementar sistemas con una tasa muy baja de retorno \footnote{algunas PYME ya reportan con este sistema una reducción significativa de un 0.5\% de RMA sobre el total de equipos ensamblados a medida, basado en comentarios personales con mis contactos principales dentro del sector.}.
 
 Para entornos de producción pero con necesidades reducidas, quizá la opción más interesante, podría ser tener un servidor de bajo nivel tipo DIY y con opción de registrar todos los terminales en otro servidor paralelo redundante, a través de comunicaciones de datos, en caso de avería.
 
-\subsection{Servidor de Pruebas del Proyect}
+\subsection{Servidor de Pruebas del Proyecto}
 
 Para este PFC, me planteo un servidor cualquiera de pruebas, y hacer experimentos. Pero me gustaría ir un poco más allá. La primera “practica” va a ser montar un pequeño servidor de Producción que cumpla las funciones generales que aportan los servidores Asterisk: Servidor de FAX, Sistema IVR, un pequeño Call-Center para dar soporte a la empresa a nivel IT a través de la VoIP y las líneas analógicas que poseeremos, etc…
 
@@ -33,7 +33,7 @@ Además, conectada internamente posee una tarjeta de bajo calibre, una Digium Wi
 
 \section{Elección e instalación del Sistema Operativo en el Servidor}
 
-Como he comentado anteriormente, una de las “bondades” de Asterisk es que aun no siendo realmente multiplaforma, debido a que esta diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos más interesantes que otros en cuestiones especificas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. Pero para este apartado, el tema a tocar, sería concretamente la decisión de hacerlo, ¿sobre que distribución?
+Como he comentado anteriormente, una de las “bondades” de Asterisk es que aun no siendo realmente multiplataforma, debido a que esta diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos más interesantes que otros en cuestiones especificas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. Pero para este apartado, el tema a tocar, sería concretamente la decisión de hacerlo, ¿sobre que distribución?
 
 \subsection{Valorando Distribuciones Linux}
 
@@ -123,7 +123,7 @@ Hay que decir para terminar que KVM es de los pocos sistemas de virtualización 
 
 Concluyendo, para este PFC, se ofrecerá una máquina virtual de ejemplo, conteniendo un sistema Asterisk y toda su funcionalidad, aprovechando todo lo descrito hasta aquí, y esta será creada a partir del sistema KVM.
 
-\section{Instalación de la Máquina Virtual}
+\section{Instalación de la Máquina Virtual} \label{cap:instkvm}
 
 Como he comentado, vamos a utilizar el sistema KVM sobre nuestro Ubuntu instalado (podría instalarse en cualquier sistema de hecho, y aplicarse la MV para cualquier entorno dado). A continuación describo el proceso de configuración del mismo:
 
@@ -151,7 +151,7 @@ Y con el siguiente comando adquirimos la propiedad CAP\_NET\_ADMIN necesaria par
 
 Por otro lado, necesitamos configurar la interfaz de red para que funcione como posible puente para nuestras maquinas virtuales. Dentro del fichero de configuración, en caso de Debian /etc/network/interfaces hay que hacer algunas modificaciones para adaptar la interfaz (eth0 clásicamente) y crear el puente br0. A continuación un posible ejemplo:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[style=bash]
 auto eth0
 iface eth0 inet manual
 auto br0
@@ -179,7 +179,7 @@ Con Ubuntu-VM-Builder (vmbuilder) tenemos la posibilidad de generar una nueva ma
 Las características que voy buscando en la maquina a crear para este PFC son las siguientes:
 
 \begin{enumerate}
-\item Maquina basada en Ubuntu, versión 11.10 (Oneiric Ocelot)
+\item Maquina basada en Ubuntu, versión 11.10 (Oneiric Ocelot), en estos momentos la versión Long Term Support de Ubuntu
 \item Arquitectura AMD64
 \item Dirección IP: 192.168.1.100
 \item Puerta de Enlace: 192.168.1.1
@@ -194,13 +194,13 @@ Vamos al directorio donde queremos “instalar” la maquina virtual. Un ejemplo
 
 Para definir el particionado del disco virtual a crear, dentro de este directorio vamos a crear un fichero llamado vmbuilder.partition con la siguiente información:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[style=bash]
 root 4608
 \end{lstlisting}
 
 Y por otro lado, para asegurarnos una conexión sencilla mediante acceso SSH, vamos a crear un fichero que se ejecutara en el primer arranque de nuestro sistema, en el mismo directorio también, un fichero llamado boot.sh
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[style=bash]
 apt-get update
 apt-get install -qqy --force-yes openssh-server
 \end{lstlisting}

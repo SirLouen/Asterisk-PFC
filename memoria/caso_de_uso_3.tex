@@ -42,27 +42,27 @@ Le informamos que esto era posible, siempre y cuando el servidor para su servici
 
 Para ello en primer lugar, considerando que el servidor web ya esta funcionando con su aplicación CRM en marcha, instalamos telnet en nuestro servidor Asterisk:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 sudo aptitude install telnet
 \end{lstlisting}
 
 Y creamos un script bash que va a cumplir las función de motorización en un nivel muy básico, pero haciendo uso de nuestro sistema Asterisk como estaba previsto:
 
-\lstinputlisting[title={./apache\_monitor.sh}]{../scripts/apache_monitor.sh}
+\lstinputlisting[title={./apache\_monitor.sh},style=bash]{../scripts/apache_monitor.sh}
 
 Debemos darle privilegios de escritura:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 chmod +x apache_monitor.sh
 \end{lstlisting}
 
 Y ahora tenemos que crear el fichero que generara un Llamada Automatica \footnote{WikiAsterisk Generación Automática de Llamadas, \\ http://wikiasterisk.com/index.php?title=GeneraciC3B3n\_Autom\%C3A1tica\_de\_llamadas}, que llamaremos \textbf{apache\_warning.call}:
 
-\lstinputlisting[title={./apache\_warning.call}]{../scripts/apache_warning.call}
+\lstinputlisting[title={./apache\_warning.call},style=bash]{../scripts/apache_warning.call}
 
 Finalmente añadimos una linea en el fichero del proceso Cron, crontab, para que comprueba cada minuto, el estado de nuestro servidor gracias al script recién creado:
 
-\begin{lstlisting}[language=bash,title={/etc/crontab}]
+\begin{lstlisting}[style=bash,title={/etc/crontab}]
 */1 * * * * sh /home/asterisk/repositorio/scripts/apache_monitor.sh
 \end{lstlisting}
 
@@ -74,7 +74,7 @@ En el momento que paremos el servidor web en el servidor donde esta asociado el 
 
 Para parar el servidor web, suponiendo por ejemplo que estemos utilizando apache en el servidor remoto, deberíamos ejecutar en el mismo:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 # sudo service apache2 stop
 \end{lstlisting}
 
@@ -94,7 +94,7 @@ En primer lugar, necesitábamos definir el fichero manager.conf, encargado de to
 
 Para ello editamos el ficheros con la siguiente información:
 
-\lstinputlisting[title={/etc/asterisk/manager.conf}]{../conf/manager.conf}
+\lstinputlisting[title={/etc/asterisk/manager.conf},style=bash]{../conf/manager.conf}
 
 Viendo este fichero en detalle podemos observar por un lado, que hemos especificado un usuario concreto para Asternic Stats, y le hemos retirado todos los privilegios de escritura, dado que al ser solo una aplicación de monitoreo no le va a hacer falta. Podríamos entender por el contexto de la aplicación que tipo de permisos de lectura le harían falta (seguramente los parámetros \textbf{agent} y \textbf{call} serían suficientes).
 
@@ -114,7 +114,7 @@ Por otro lado era necesario cubrir los aspectos concretos de configuración del 
 
 Con esto supuestamente le indicamos al Sr. de los Palotes que probara a realizar las operaciones que conocía para trabajar con el sistema vTiger, pero comprobamos que no funcionaba nada. Buscando en la web, pudimos observar que vTiger requería de algunas modificaciones a nivel interno para su correcta integración con nuestro Plan de Marcación, así que revisando la página oficial de configuración \cite{website:vtigerpbx} nos dímos cuenta que era fundamental modificar un archivo propio del PBXManager (al parecer un módulo encargado de realizar toda esta gestión de interpretación de Mánager de Asterisk), y las modificaciones pertinentes las hicimos según podemos ver a continuación:
 
-\begin{lstlisting}[language=php,title={./www/vtigercrm/modules/PBXManager/utils/AsteriskClass.php}]
+\begin{lstlisting}[style=php,title={./www/vtigercrm/modules/PBXManager/utils/AsteriskClass.php}]
 switch($typeCalled){
  case "SIP":
   $context = "extensiones";
@@ -135,7 +135,7 @@ Así que tuvimos que realizar ya algunas modificaciones más intensas de codigo,
 
 La incidencia más significativa que encontramos fue, dentro de la función \textbf{asterisk\_handleResponse2} nos dimos cuenta, que no solo el condicional tampoco valía, la sintaxis de uno de los parámetros llamado AppData del comando NewExten, habia cambiado significativamente, por esto adaptamos un poco el código PHP para que sirviera para esta nueva aplicación:
 
-\begin{lstlisting}[language=php,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
+\begin{lstlisting}[style=php,title={./www/vtigercrm/cron/modules/PBXManager/AsteriskClient.php}]
 
 // if($mainresponse['Event'] == 'Newexten' && 
 //(strstr($appdata, "__DIALED_NUMBER") || 
@@ -197,35 +197,35 @@ Considerando esto, en primer lugar, tocaría realizar la configuración de los f
 
 El primer fichero de configuración sería extconfig.conf como vemos a continuación:
 
-\lstinputlisting[title={/etc/asterisk/extconfig.conf}]{../conf/extconfig.conf.1}
+\lstinputlisting[title={/etc/asterisk/extconfig.conf},style=bash]{../conf/extconfig.conf.1}
 
 Un fichero muy sencillo, indicamos que el módulo que vamos a convertir es el encargado de gestionar los pares del canal SIP, utilizando el driver ODBC, para enlazarlo con el recurso ODBC de Asterisk en el contexto \textbf{asterisk\_odbc}, y que la tabla se llamará \textbf{pares\_sip}.
 
 Ahora el segundo fichero, sería res\_odbc.conf:
 
-\lstinputlisting[title={/etc/asterisk/res\_odbc.conf}]{../conf/res_odbc.conf}
+\lstinputlisting[title={/etc/asterisk/res\_odbc.conf},style=bash]{../conf/res_odbc.conf}
 
 En este caso también una estructura muy sencilla. Especificamos que el DSN del Driver ODBC será llamado asterisk, y queremos que conecte utilizando unas credenciales específicas que vamos a añadir en nuestra base de datos MySQL del paquete LAMP que instalamos al principio
 
 Ahora vamos a modificar el fichero sip.conf donde se encuentran los pares en formato ``estático'', para que se adapte a la nueva configuración en formato Asterisk Realtime "dinámico". Nos quedaría tan simple de la siguiente forma:
 
-\lstinputlisting[title={/etc/asterisk/sip.conf}]{../conf/sip.conf.2}
+\lstinputlisting[title={/etc/asterisk/sip.conf},style=bash]{../conf/sip.conf.2}
 
 Con estos pasos tan sencillos, ya tenemos la parte Asterisk funcionando.
 
 Ahora nos toca preparar el Driver ODBC a nivel Linux. Considerando que estamos trabajando con Ubuntu, es importante, dado que las librerías ODBC para MySQL se ubican en directorios diferentes que en otras distribuciones como RedHat o CentOS. Por ello necesitamos especificar la ruta exacta utilizando el fichero de configuración ubicado en el directorio /etc/, llamado \textbf{odbcinst.ini}:
 
-\lstinputlisting[title={/etc/odbcinst.ini}]{../conf/odbcinst.ini}
+\lstinputlisting[title={/etc/odbcinst.ini},style=bash]{../conf/odbcinst.ini}
 
 Es importante considerar que tenemos los paquetes unixodbc y libmyodbc, para el correcto funcionamiento:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 sudo aptitude install unixodbc libmyodbc
 \end{lstlisting}
 
 Y finalmente configuramos el DSN en el fichero odbc.ini:
 
-\lstinputlisting[title={/etc/odbc.ini}]{../conf/odbc.ini}
+\lstinputlisting[title={/etc/odbc.ini},style=bash]{../conf/odbc.ini}
 
 En este caso, dado que las credenciales las especificamos en el recurso ODBC, vamos a realizar la conexión utilizando un socket específico para mysql que en Ubuntu server se encuentra en el directorio especificado dentro de la configuración de este fichero.
 
@@ -233,7 +233,7 @@ Ahora, necesitamos prepara la Base de Datos SQL, utilizando mySQL, concretamente
 
 En primer lugar vamos a crear la base de datos \textbf{asterisk}, especifica para el cometido que estamos buscando:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysqladmin -u root -p create asterisk
 \end{lstlisting}
 
@@ -242,19 +242,19 @@ GRANT ALL PRIVILEGES ON `asterisk` . * TO 'asterisk'@'localhost';
 
 Ahora vamos a crear un usuario llamado asterisk, para que pueda operar exclusivamente en esta base de datos:
 
-\lstinputlisting[title={usuarioasterisk.sql}]{../scripts/usuarioasterisk.sql}
+\lstinputlisting[title={usuarioasterisk.sql},style=bash]{../scripts/usuarioasterisk.sql}
 
 Y lo introducimos en nuestro sistema:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p < usuarioasterisk.sql
 \end{lstlisting}
 
 Ahora finalmente vamos a crear la tabla pares\_sip dentro de la base de datos llamada asterisk, para ello creamos un fichero y lo cargamos:
 
-\lstinputlisting[title={pares\_sip.sql}]{../scripts/pares_sip.sql}
+\lstinputlisting[title={pares\_sip.sql},style=sql]{../scripts/pares_sip.sql}
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p asterisk < pares_sip.sql
 \end{lstlisting}
 
@@ -262,9 +262,9 @@ Notese que existe un campo, que no es creado por defecto en este tipo de tabla d
 
 Con toda la estructura creada, solo nos queda empezar a insertar los pares con los que veniamos trabajando anteriormente dentro de la tabla y comprobar que todo funciona correctamente. Para ello creamos otro fichero sql donde insertamos toda la información al respecto, en este caso vamos a utilizar 3 pares de ejemplo, el resto los haremos utilizando la herramienta phpMyAdmin:
 
-\lstinputlisting[title={ejemplo\_pares\_sip.sql}]{../scripts/ejemplo_pares_sip.sql}
+\lstinputlisting[title={ejemplo\_pares\_sip.sql},style=sql]{../scripts/ejemplo_pares_sip.sql}
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p asterisk < ejemplo_pares_sip.sql
 \end{lstlisting}
 
@@ -272,7 +272,7 @@ Ahora es el momento de diseñar una aplicación en PHP muy sencillo para poder l
 
 El script se irá describiendo a continuación \footnote{Montando un Sistema Asterisk Autonomo I, \\ http://10000horas.com/asterisk/2011/12/08/montando-un-sistema-asterisk-autonomo-i}, primero conectamos a la base de datos \textbf{asterisk}:
 
-\begin{lstlisting}[language=php,title={./www/usuarios.php}]
+\begin{lstlisting}[style=php,title={./www/usuarios.php}]
 
  <?php
 
@@ -292,7 +292,7 @@ A continuación, registramos una sesión con una Cookie, y hacemos una consulta 
 
 Como vemos, en caso que no hubiesemos accedido al sistema, nos aparecería un pequeño formulario pidiendo las credenciales, que al rellenarlo, lanzaría las credenciales como variables para una consulta SQL contra nuestra Base de Datos:
 
-\begin{lstlisting}[language=php,title={./www/usuarios.php}]
+\begin{lstlisting}[style=php,title={./www/usuarios.php}]
 
 session_start();
 
@@ -341,7 +341,7 @@ En caso que ya estemos logeados, nos ofrece un pequeño menu por si queremos ava
 
 A partir de aquí, considerando, que hayamos lanzado el formulario que veremos al final de la descripción de esta aplicación, en caso que hayamos rellenado el formulario de insertar un registro, recibiríamos los parámetros, y crearíamos una consulta SQL con los mismos a medida, para insertarla en nuestra base de datos. Con esto quedaría registrado nuestro usuario y podríamos volver a nuestro panel principal.
 
-\begin{lstlisting}[language=php,title={./www/usuarios.php}]
+\begin{lstlisting}[style=php,title={./www/usuarios.php}]
 
 // Si ya estamos logeados
 
@@ -381,7 +381,7 @@ else
 
 La segunda posibilidad, es que hayamos optado por pulsar el botón del formulario principal para borrar un registro SIP. En este caso, haría el borrado lanzando la consulta SQL correspondiente, asociándolo al identificador concreto del Par SIP que hayamos decidido eliminar:
 
-\begin{lstlisting}[language=php,title={./www/usuarios.php}]
+\begin{lstlisting}[style=php,title={./www/usuarios.php}]
 
  // Borrado de un Registro
  elseif(isset($_POST['deletesubmit']))
@@ -397,7 +397,7 @@ La segunda posibilidad, es que hayamos optado por pulsar el botón del formulari
 
 Finalmente, están los dos posibles formularios, tanto el de inserción como el de borrado, los cuales recogen las variables para pasárselas a las consultas anteriormente explicadas:
 
-\begin{lstlisting}[language=php,title={./www/usuarios.php}]
+\begin{lstlisting}[style=php,title={./www/usuarios.php}]
 
  // Formularios de Insercion y Borrado
  else
@@ -451,7 +451,7 @@ Con esta aplicación somos capaces de crear todas las extensiones que creamos an
 
 Finalmente hemos de modificar el Plan de Marcación para que acepte todo tipo de extensiones dentro del rango que establecimos (de la extensión 10 a la extensión 59 hasta nuevo aviso). Para ello realizamos la siguiente pequeña modificación:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; Todas las Extensiones para Asterisk RealTime
 exten => _[1-5]X,1,Macro(telefonos)
@@ -481,15 +481,15 @@ En primer lugar vamos a configurar el sistema de almacenamiento del Registro de 
 
 Por ello, la primera parte sería la de configurar el fichero cdr\_adaptive\_odbc.conf y dotarlo de una estructura genérica para que conecte a nuestro anterior ``conector'' para el registro DSN del Driver ODBC que especificamos en la anterior sección (el llamado "asterisk\_odbc" de res\_odbc.conf). Con esto configuramos el fichero cdr\_adaptive\_odbc.conf de la siguiente forma:
 
-\lstinputlisting[title={/etc/asterisk(cdr\_adaptive\_odbc.conf}]{../conf/cdr_adaptive_odbc.conf}
+\lstinputlisting[title={/etc/asterisk(cdr\_adaptive\_odbc.conf},style=bash]{../conf/cdr_adaptive_odbc.conf}
 
 En segundo lugar, vamos a crear la tabla dentro de nuestra anteriormente creada base de datos Asterisk, con la siguiente estructura:
 
-\lstinputlisting[title={sistemacdr.sql}]{../scripts/sistemacdr.sql}
+\lstinputlisting[title={sistemacdr.sql},style=sql]{../scripts/sistemacdr.sql}
 
 Y cargamos la tabla dentro de nuestra base de datos ``asterisk'':
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p asterisk < sistemacdr.sql
 \end{lstlisting}
 
@@ -512,7 +512,7 @@ En la Figura \ref{cdrstats_grafico} y la Figura \ref{cdrstats_barras} mostramos 
 \figura{cdrstats_barras.png}{scale=1}{Histograma de Llamadas por días}{cdrstats_barras}{!ht}
 
 Es importante considerar que si las llamadas no aparecen, podríamos comprobar si el sistema CDR esta en funcionamiento. Para ello podemos ejecutar la orden en la CLI:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 
 CLI> cdr show status
 
@@ -539,7 +539,7 @@ Nuestra intención dado el potencial que nos ofrece el sistema, es crear por un 
 
 Para ello, vamos a asociar cada uno de los sistemas, a un número Direct Dial-In (DDI) cada una, y así podrán accederse a las mismas en cualquier momento. Solicitamos los respectivos números a nuestro operador UCA Telecom, y los asociamos al Plan de Marcación:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 exten => 956001171,1,Goto(especiales,102,1)
 exten => 956001172,1,Goto(especiales,103,1)
@@ -552,13 +552,13 @@ Ahora, en primer lugar vamos a crear la sala de Conferencias sencilla, basándon
 
 Para ello, vamos a configurar por un lado el fichero meetme.conf, con los parámetros suficientes para conseguir este resultado, según podemos ver a continuación:
 
-\lstinputlisting[title={/etc/asterisk/meetme.conf}]{../conf/meetme.conf}
+\lstinputlisting[title={/etc/asterisk/meetme.conf},style=bash]{../conf/meetme.conf}
 
 En este caso, hemos definido, una única sala, la número 100, con dos códigos de acceso, uno para administrador, y otro para el resto de los usuarios, además de algunos parámetros específicos del sistema MeetMe.
 
 Para poder acceder a la misma, simplemente definimos en nuestro plan de marcación la parte correspondiente:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 exten => 103,1,NoOp()
 same => n,MeetMe(100)
 same => n,Hangup()
@@ -568,23 +568,23 @@ Por otro lado vamos a configurar el sistema MeetMe en formato Realtime, para pod
 
 Así que debemos crear una base de datos específica para este contexto, que llamaremos meetme:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysqladmin -u root -p create meetme
 \end{lstlisting}
 
 Y crearemos la estructura de tablas utilizando el siguiente script, extraído y adaptado, del fichero del paquete de instalación de Web-Meetme:
 
-\lstinputlisting[title={./tablasmeetme.sql}]{../scripts/tablasmeetme.sql}
+\lstinputlisting[title={./tablasmeetme.sql},style=sql]{../scripts/tablasmeetme.sql}
 
 Y procedemos a insertarla dentro de nuestra base de datos ``asterisk'':
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p meetme < tablasmeetme.sql
 \end{lstlisting}
 
 Añadimos un usuario administrador a la tabla ``user'' para nuestro cliente Don Pedro:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p meetme -e "INSERT INTO meetme.user (first_name, last_name, 
 email, telephone, password, admin) VALUES ('Pedro', 'de los Palotes', 
 'ppalotes@wikiasterisk.com', '956001154', 'asterisk', 'Admin');"
@@ -592,20 +592,20 @@ email, telephone, password, admin) VALUES ('Pedro', 'de los Palotes',
 
 Y también permitir en la base de datos \textbf{meetme} acceso total al usuario asterisk:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 mysql -u root -p meetme -e "mysql -u root -p -e 
 "GRANT ALL PRIVILEGES ON meetme.* TO 'asterisk'@'localhost';"
 \end{lstlisting}
 
 Por otro lado añadimos la siguiente linea en el fichero \textbf{extconfig.php} donde se definen los módulos convertibles a Asterisk Realtime y las tablas que lo asocian en las bases de datos:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extconfig.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extconfig.conf}]
 meetme => odbc,meetme_odbc,booking
 \end{lstlisting}
 
 También tenemos que incorporar algunas modificaciones en nuestro fichero res\_odbc.conf para incorporar una nueva configuración, para que conecte al Driver ODBC con el DSN meetme, para la nueva base de datos con el mismo nombre:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/res\_odbc.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/res\_odbc.conf}]
 
 [meetme_odbc]
 enabled => yes
@@ -618,7 +618,7 @@ pre-connect => yes
 
 Ya por último, terminar de configurar el driver ODBC, y especificar el DSN específico meetme con el que se realizará toda la trasmisión de información entre MySQL y Asterisk:
 
-\begin{lstlisting}[language=bash,title={/etc/odbc.ini}]
+\begin{lstlisting}[style=bash,title={/etc/odbc.ini}]
 
 [meetme]
 Description = MeetMe para MySQL
@@ -631,7 +631,7 @@ Socket = /var/run/mysqld/mysqld.sock
 
 Y ya culminando esta parte, solo queda la instalación propiamente dicha, del sistema Web-Meetme siguiendo los pasos de WikiAsterisk.com, considerar que modificaríamos el fichero manager.conf de la interfaz AMI para adaptarlo a la configuración especifica de esta interfaz añadiendo lo siguiente:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/manager.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/manager.conf}]
 
 [meetme]
 secret = meetme 
@@ -645,11 +645,11 @@ Una vez permitido el acceso al Manager con un usuario y contraseña especifico e
 
 Considerando que Web-Meetme, incorpora una versión de PHP-AGI \footnote{Interfaz AGI, WIKIAsterisk, http://wikiasterisk.com/index.php?title=AGI}, solo necesitamos configurar el fichero phpagi.conf para dar la funcionalidad a la clase AGI\_AsteriskManager:
 
-\lstinputlisting[title={/etc/asterisk/phpagi.conf}]{../conf/phpagi.conf}
+\lstinputlisting[title={/etc/asterisk/phpagi.conf},style=bash]{../conf/phpagi.conf}
 
 Y tambien editar un fichero de configuración para la conexión a la base de datos de la aplicación MeetMe propia:
 
-\begin{lstlisting}[language=php,title={/var/www/web-meetme/lib/database.php}]
+\begin{lstlisting}[style=php,title={/var/www/web-meetme/lib/database.php}]
 
 include_once 'DB.php';
 $database = 'meetme';
@@ -661,7 +661,7 @@ $password = 'asterisk';
 
 Finalmente vamos a especificar algunos parámetros concretos, para que nuestro sistema Web-MeetMe funcione con plenitud \footnote{Configuración Adicional Web-MeetMe, WikiAsterisk.com, \\ http://wikiasterisk.com/index.php?title=Web-MeetMe\#Configuraci.C3.B3n\_Adicional}.
 
-\begin{lstlisting}[language=php,title={/var/www/web-meetme/lib/defines.php}]
+\begin{lstlisting}[style=php,title={/var/www/web-meetme/lib/defines.php}]
 
 define ("WEBROOT", "http://pfc-asterisk.local/web-meetme/");
 define ("FSROOT", "/var/www/web-meetme/");
@@ -683,7 +683,7 @@ Con todo esto, ya quedaría el sistema Web-Meetme completamente configurado, pod
 
 \figura{meetme_conf.png}{scale=1}{Lista de Conferencias Dínamicas Web-MeetMe}{meetme_conf}{!ht}
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 exten => 102,1,NoOp()
 same => n,MeetMe()
@@ -701,7 +701,7 @@ Podemos agregar un tercero para comprobar que la conferencia es correcta aunque 
 
 En el caso del sistema Realtime, podríamos comprobar que funciona correctamente utilizando el comando CLI, vemos que aparece\textbf{ Connected: Yes}, simboliza que la conexión esta establecida. Desde la interfaz web podríamos crear una sala de conferencias, y llamando a la extensión 102, acceder a la misma, siguiendo las instrucciones de voz que nos va indicando el sistema.
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 
 CLI> odbc show meetme_odbc
 

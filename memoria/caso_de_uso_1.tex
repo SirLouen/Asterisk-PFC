@@ -26,7 +26,7 @@ Existían 6 departamentos:
 \item Departamento Administración
 \item Departamento Comercial
 \item Departamento de Almacén y Logística
-\item Departamento de Postventa y Servicio
+\item Departamento de Posventa y Servicio
 \item Departamento de Marketing y Calidad
 
 \end{enumerate}
@@ -88,13 +88,13 @@ Se trata del paquete LAMP (Linux + Apache como servidor Web + MySQL como SGBD de
 
 Para comprobar que el sistema ha sido instalado y configurado correctamente, simplemente podríamos probar a acceder a la Interfaz en Línea de Comandos de Asterisk:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 # asterisk -r
 \end{lstlisting}
 
 Y a continuación comprobar que todo funciona bien lanzando un comando CLI para recargar toda la configuración:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 CLI> core reload
 \end{lstlisting}
 
@@ -110,7 +110,7 @@ Vamos a considerar, que todavía el presupuesto es demasiado ajustado para la em
 
 Creamos en primer lugar el fichero de configuración dentro de /etc/asterisk/ llamado sip.conf donde añadiremos la configuración especifica de cada una de las 20 extensiones solicitadas por el gerente:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/sip.conf}]
 
 [general]
 ; Nuestro idioma
@@ -127,7 +127,7 @@ En primer lugar para la creación de este fichero, hemos seguido las reglas bás
 
 Las extensiones constarán de dos dígitos. El primero se encarga de definir el departamento, y el segundo, el puesto. La extensión 10, como extensión especial para definir concrétamente la del Sr. Doe, el resto, si el número para designar el puesto es el número 1, correspondería al Responsable de Sección, y los sucesivos dígitos, corresponden al resto de los empleados. Además hemos creado cuatro plantillas para un cometido concreto: 
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/sip.conf}]
 
 [telefonos](!)
 ; Vamos a impedir el Transcoding utilizando solo el codec Alaw
@@ -159,7 +159,7 @@ Finalmente y volviéndonos a adelantar a una probable futura necesidad, hemos as
 
 Pongo un ejemplo de varias extensiones ``que cumplan estas condiciones'':
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/sip.conf}]
 
 ; Gerente
 [10](telefonos,gerencia)
@@ -179,7 +179,7 @@ mailbox = 2@admin
 
 Ahora pasamos a comprobar que todo ha ido bien. Accedemos a la CLI de Asterisk y con el comando:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 CLI> sip reload
 \end{lstlisting}
 
@@ -208,7 +208,7 @@ Así que ya podemos proceder a registrar las 20 extensiones, en los 20 equipos d
 
 Ahora los teléfonos no pueden hacer casi nada, excepto llamar a una extensión si saber la ruta exacta, y sin pasar por nuestro sistema Asterisk. Nos interesa que por lo menos puedan realizar llamadas entre ellos marcando el número de extensión según la estructura que definimos anteriormente. Para ello vamos a crear el fichero de configuración del Dial Plan según veremos a continuación:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 ; --- Plan General de Extensiones
 
 [extensiones]
@@ -226,7 +226,7 @@ same => n,Dial(SIP/12)
 
 En primer lugar, creamos números de marcación específicos para todas las extensiones, he puesto las extensiones del ejemplo para continuar con la misma línea
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; --- Contexto especifico de los Managers
 
@@ -238,7 +238,7 @@ include => extensiones
 
 Dado que de momento no existe nada especial para los Mánager, definimos un contexto que apunte al resto de las extensiones, como si fueran extensiones normales
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 ; --- Contexto especifico del Gerente
 
@@ -265,7 +265,7 @@ Es importante considerar, que no hemos creado extensiones de marcación dentro d
 
 Para recargar el Plan de Marcación y poder hacer uso de este desde la CLI de Asterisk:
 
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[style=consola]
 CLI> dialplan reload
 \end{lstlisting}
 
@@ -296,7 +296,7 @@ El último requisito que puso el gerente, es la posibilidad de tener 6 números 
 
 Como siempre, tenemos múltiples alternativas, pero si queremos evitar tener que comprar dispositivos, la más obvia es contactar con proveedores de Telefonía IP. Así que nos pusimos en contacto con una empresa muy conocida de la provincia, llamada \textbf{UCA Telecom}. Comparando los planes de precios que nos ofrecía '''FonicaTele''', el proveedor más conocido a nivel nacional, teníamos una oferta mucho más competitiva y encima, no teníamos la necesidad de andar contratando planes mensuales, ni comprando esos dispositivos que comentaba antes, para interconectar con la Red de Telefonía Conmutada clásica.
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/sip.conf}]
 [general]
 register => ucaautos:12345678@home-asterisk.local:35060
 
@@ -320,7 +320,7 @@ Lo correcto en este caso, sería convertir este par friend, en un par tipo peer.
 
 Introduciendo los siguientes cambios, obtenemos el resultado correcto de autentificación sin tener que exponer la máquina con el inseguridad de permitir mensajes INVITE sin autentificación:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/sip.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/sip.conf}]
 [proveedorip]
 defaultuser = ucaautos
 fromuser = ucaautos
@@ -345,7 +345,7 @@ Considerar que \textbf{ucatelecom}, es el usuario al que conecta, la empresa UCA
 
 Por otro lado, hemos creado un contexto nuevo en el Dialplan, llamado [entrantes] haciendo referencia al lugar donde apunta nuestro nuevo proveedor SIP. Ahí vamos a definir todos los números DDI que nos ha solicitado el gerente, y reenviarlos con la función GoTo al contexto, extensión y prioridad correspondientes de cada departamento.
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 [entrantes]
 
 exten => 956001101,1,Goto(extensiones,10,1)
@@ -364,7 +364,7 @@ En este apartado tal y como estan definidos los ficheros de configuración todav
 
 De momento, para probarlo a modo de ejemplo, podriamos establecer una ruta específica en la configuración específica del contexto del Gerente la siguiente linea:
 
-\begin{lstlisting}[language=bash,title={/etc/asterisk/extensions.conf}]
+\begin{lstlisting}[style=bash,title={/etc/asterisk/extensions.conf}]
 
 [gerencia]
 

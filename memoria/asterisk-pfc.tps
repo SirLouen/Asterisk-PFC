@@ -14,11 +14,11 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=698
 Class=LaTeXView
-Document=estilos\comandos.sty
+Document=memoria.tex
 
 [Frame0_View0,0]
-TopLine=33
-Cursor=1851
+TopLine=52
+Cursor=1927
 
 [Frame1]
 Flags=0
@@ -32,49 +32,13 @@ NormalPos.top=26
 NormalPos.right=1562
 NormalPos.bottom=698
 Class=LaTeXView
-Document=codigo.tex
+Document=caso_de_uso_1.tex
 
 [Frame1_View0,0]
-TopLine=0
-Cursor=449
-
-[Frame2]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=698
-Class=LaTeXView
-Document=estilos\estiloBase.sty
-
-[Frame2_View0,0]
-TopLine=0
-Cursor=0
-
-[Frame3]
-Flags=0
-ShowCmd=1
-MinPos.x=-1
-MinPos.y=-1
-MaxPos.x=-1
-MaxPos.y=-1
-NormalPos.left=4
-NormalPos.top=26
-NormalPos.right=1562
-NormalPos.bottom=698
-Class=LaTeXView
-Document=memoria.tex
-
-[Frame3_View0,0]
-TopLine=0
-Cursor=0
+TopLine=326
+Cursor=19558
 
 [SessionInfo]
-FrameCount=4
+FrameCount=2
 ActiveFrame=0
 
