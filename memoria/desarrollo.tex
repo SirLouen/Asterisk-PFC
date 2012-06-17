@@ -25,7 +25,7 @@ Para entornos de producción pero con necesidades reducidas, quizá la opción m
 
 \subsection{Servidor de Pruebas del Proyecto}
 
-Para este PFC, me planteo un servidor cualquiera de pruebas, y hacer experimentos. Pero me gustaría ir un poco más allá. La primera “practica” va a ser montar un pequeño servidor de Producción que cumpla las funciones generales que aportan los servidores Asterisk: Servidor de FAX, Sistema IVR, un pequeño Call-Center para dar soporte a la empresa a nivel IT a través de la VoIP y las líneas analógicas que poseeremos, etc…
+Para este PFC, me planteo un servidor cualquiera de pruebas, y hacer experimentos. Pero me gustaría ir un poco más allá. La primera ``practica'' va a ser montar un pequeño servidor de Producción que cumpla las funciones generales que aportan los servidores Asterisk: Servidor de FAX, Sistema IVR, un pequeño Call-Center para dar soporte a la empresa a nivel IT a través de la VoIP y las líneas analógicas que poseeremos, etc...
 
 Para ello cuento con un equipo dedicado a efectos de servidor, con los siguientes componentes internos, procesador con 4 núcleos, 8Gb de RAM y 2 discos duros SATA2 (para funciones de RAID), y demás componentes clásicos.
 
@@ -33,7 +33,7 @@ Además, conectada internamente posee una tarjeta de bajo calibre, una Digium Wi
 
 \section{Elección e instalación del Sistema Operativo en el Servidor}
 
-Como he comentado anteriormente, una de las “bondades” de Asterisk es que aun no siendo realmente multiplataforma, debido a que esta diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos más interesantes que otros en cuestiones especificas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. Pero para este apartado, el tema a tocar, sería concretamente la decisión de hacerlo, ¿sobre que distribución?
+Como he comentado anteriormente, una de las ``bondades'' de Asterisk es que aun no siendo realmente multiplataforma, debido a que está diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos más interesantes que otros en cuestiones específicas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. Pero para este apartado, el tema a tocar, sería concretamente la decisión de hacerlo, ¿sobre que distribución?
 
 \subsection{Valorando Distribuciones Linux}
 
@@ -95,7 +95,7 @@ El resto, volumen principal, en ext4 que es el más reciente en estos momentos, 
 
 Generalmente, siempre que sea posible evitarlo, no es una gran idea Virtualizar Asterisk, por la principal deficiencia que presentan todos los sistemas de Virtualización: la escasa optimización de los recursos por parte de los sistemas basados en esta idea. Se suele optar por sistemas “sobre el metal” (bare-metal) a la hora de diseñar plataformas Asterisk puesto que es la forma de obtener el máximo exponencial dedicado para su uso.
 
-En contrapartida, la virtualización, ofrece grandes bondades que en ciertos entornos pueden superar ampliamente, a la principal deficiencia. La característica más positiva que nos ofrecen, es la capacidad de restablecer un sistema en tiempo record y que simultáneamente, es un símbolo de protección por su efecto de back-up.
+En contrapartida, la virtualización, ofrece grandes bondades que en ciertos entornos pueden superar ampliamente, a la principal deficiencia comentada. La característica más positiva que nos ofrecen, es la capacidad de restablecer un sistema en tiempo récord y que simultáneamente, es un símbolo de protección por su efecto de back-up.
 
 \subsection{Valorando Opciones de Virtualizacion}
 
@@ -113,13 +113,13 @@ En el origen surgían varios inconvenientes, era necesario tener un procesador c
 
 Pero hoy en día todo esto quedó atrás. Por un lado, casi todos los procesadores tienen la capacidad de la virtualización basada en hardware. A lo mejor maquinas antiguas sufren esto, pero ya es realmente raro mantener un servidor de tal antigüedad con semejantes características, y ni siquiera plantearse el hecho de incorporar las maquinas virtuales en él.
 
-Es curioso como la curva de seguidores, en una balanza, lleva tiempo inclinándose a favor de KVM. Desde la lectura de estas líneas KVM ha superado ampliamente a la comunidad de XEN, de hecho XEN cada vez pierde mas ``seguidores'' a costa de KVM como puede verse en la mayoría de las estadísticas \footnote{Ejemplo, Google Trends, http://www.google.es/trends/?q=xen,+kvm,+openvz\&ctab=0\&geo=all\&date=ytd\&sort=1}.
+Es curioso como la curva de seguidores, en una balanza, lleva tiempo inclinándose a favor de KVM. Desde la lectura de estas líneas KVM ha superado ampliamente a la comunidad de XEN, de hecho está última, va perdiéndolos por causa de KVM como puede verse en la mayoría de las estadísticas \footnote{Ejemplo, Google Trends, http://www.google.es/trends/?q=xen,+kvm,+openvz\&ctab=0\&geo=all\&date=ytd\&sort=1}.
 
 Sobre los apoyos tecnológicos, económicos, y técnicos, la verdad es que KVM empezó a gozar del apoyo de uno de los principales actores en el ámbito GNU/Linux, RedHat, y desde entonces empieza a hacerle frente incluso a VMWare (aunque todavía dista años luz de hacerle frente en la cuota de mercado).
 
 Y conjunto a esto, también han surgido las interfaces gráficas para dar un apoyo definitivo e impulso al sistema KVM. También surgieron distribuciones específicas de Linux, como Proxmox, que implementan eficazmente, maquinas virtuales KVM y las dotan de complementos muy interesantes para facilitar la vida al gestor.
 
-Hay que decir para terminar que KVM es de los pocos sistemas de virtualización que soporta el mecanismo PCI Passthrough (paso directo), esto ofrece, la opción de poder soportar tarjetas PCI “exóticas”, como tarjetas de sonido, o lo que aquí nos atañe, tarjetas del sistema Asterisk, de forma nativa, sin tener que manipular la información que circula entre ellas y la máquina. Con esto, a Asterisk se le ofrece la capacidad de obtener una fuente de sincronización pura, y podrían verse las funciones que hasta la fecha eran imposibles o demasiado complejas para verse implementadas directamente en maquinas virtuales.
+Hay que decir para terminar que KVM es de los pocos sistemas de virtualización que soporta el mecanismo PCI Passthrough (paso directo PCI), esto ofrece, la opción de poder soportar tarjetas PCI “exóticas”, como tarjetas de sonido, o lo que aquí nos atañe, tarjetas del sistema Asterisk, de forma nativa, sin tener que manipular la información que circula entre ellas y la máquina. Con esto, a Asterisk se le ofrece la capacidad de obtener una fuente de sincronización pura, y podrían verse las funciones que hasta la fecha eran imposibles o demasiado complejas para verse implementadas directamente en maquinas virtuales.
 
 Concluyendo, para este PFC, se ofrecerá una máquina virtual de ejemplo, conteniendo un sistema Asterisk y toda su funcionalidad, aprovechando todo lo descrito hasta aquí, y esta será creada a partir del sistema KVM.
 
