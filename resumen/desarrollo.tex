@@ -1,0 +1,200 @@
+% -*-desarrollo.tex-*-
+% Este fichero es parte de la plantilla LaTeX para
+% la realización de Proyectos Final de Carrera, protejido
+% bajo los términos de la licencia GFDL.
+% Para más información, la licencia completa viene incluida en el
+% fichero fdl-1.3.tex
+
+% Espaciado extra
+\setlength\parskip{10px}
+
+\section{Contexto y Objetivos}
+
+Desde los inicios de la telefonía a finales del siglo XIX, el mercado ha dictado el orden en el proceso de creación y desarrollo, en un mundo sin estándares, donde las compañías emergentes impusieron su visión, establecieron el control y la oferta de servicios estaba limitada a lo que las mismas podían ofrecer exclusivamente.
+
+Justamente un siglo después, surgió el primer movimiento para empezar a crear un camino común pero a su vez, más flexible y abierto a la demanda general impuesta por la nueva forma de concebir el mundo de la comunicación a distancia. Su nombre fue Asterisk. En la última década ha ido expandiéndose por todo el mundo, pero solo en los últimos 3 años ha sufrido realmente un importante auge. Tanto los principales proveedores de telefonía, así como las compañías lideres en el sector de las telecomunicaciones han sabido adaptarse al cambio y empiezan a adoptar este sistema con vistas puestas al futuro.
+
+Aunque está visto que cada día cobra mayor relevancia, la comunidad de Asterisk en Español, ha permanecido circunscrita al contenido y desarrollo de las fuentes que provienen del ingles. Con este proyecto pretendo sentar las bases de Asterisk en nuestro idioma, abarcándolas de la siguiente forma:
+
+\begin{enumerate}
+	\item Para la documentación Teórica, la creación de una WIKI exclusiva de Asterisk, basándome en sus principales fuentes, en mi propio conocimiento y experiencia con el sistema.
+	\item Desarrollar un Caso Práctico que cubra el máximo de la teoría, basado en un sistema Asterisk, siguiendo el Método del Caso y reflejarlo en la memoria
+  \item Demostrar el caso realmente, utilizando una Máquina Virtual que se adjuntara al resto del proyecto.
+  \item Utilizar herramientas de Software Libre como es Asterisk para preservar su filosofía de uso y distribución.
+\end{enumerate}
+
+Este proyecto pretende cubrir los siguientes aspectos sobre el sistema Asterisk y lo directamente relacionado al mismo:
+
+\begin{itemize}
+	\item Estado del arte y conceptos fundamentales
+  \item Arquitectura de Asterisk
+  \item Principales Protocolos de comunicación: SIP,IAX,...
+  \item Interfaces con la telefonía clásica.
+  \item Despliegue del Plan de Marcación, Asterisk como una PBX.
+  \item Múltiples Aplicaciones específicas como:
+  \item 
+		\begin{enumerate}
+	  	\item Sistemas de Conferencias
+			\item Gestión de Call-Centers
+	  	\item Grabación y Monitorización
+	  	\item Sistemas de FAX
+	  	\item Buzones de Voz, Música en Espera, etc...
+	  \end{enumerate}
+  \item Bases de datos y Asterisk Real Time
+  \item Manejo del Call Detail Recording
+  \item Profundizar en la seguridad del sistema Asterisk
+  \item Métodos de Distribución Automática de Llamadas (p.e. Marketing)
+  \item Sistemas Automatic Speech Recognition y Text-To-Speech
+  \item Programación en Asterisk Gateway Interface con un lenguaje de programación interpretado como PHP
+  \item Introducción al CTI de Asterisk: Asterisk Manager Interface.
+  \item Breve análisis de las interfaces web más populares de terceros
+\end{itemize}
+
+\section{Motivación}
+
+Siguiendo en la línea, es curioso observar, como la mayoría de las empresas proveedoras de servicios de telecomunicaciones y en especial, proveedores de centralitas, PBX y sistemas de conmutación telefónica, preservan sistemas de protección, relativamente complejos, con difícil acceso a la documentación relativa para el manejo de las mismas, y aún peor, para el desarrollo. 
+
+Esto queda relegado a empresas de segundo y tercer nivel, que se configuran en un plano de ``Distribuidores'' y ``Partners'' y queda todo el sistema cerrado, muy parecido al panorama que había en el software hasta hace poco menos de una década donde empresas Líderes como Microsoft, Oracle, o IBM operaban con la misma estructura (y continúan prevalenciendo dichos vestigios)
+
+Considerando que las distancias que existían entre el entorno de las telecomunicaciones, concrétamente entre sistemas de Hardware y Software, y partiendo que este último factor ha cobrado mayor relevancia, consideré por mi parte viable, el hecho de realizar un acercamiento a este mundo y comprobar las posibilidades que este ofrecía al entorno de la Ingeniería Informática. Gracias a asignaturas como \textbf{Redes y Diseño e Interconexión de Redes}, de Tercer curso, surgió mi especial interés por este sector, y me propuse a desarrollarlo en los meses consecutivos, aprovechando además la figura profesional que tenía en aquellos días dentro de mi empresa.
+
+En el momento de empezar a indagar en el mundo de las PBX de algunas marcas como Alcatel, Avaya y Panasonic, observé como comentaba anteriormente, grandes dificultades para profundizar, y curiosamente en mi búsqueda de información para dichos sistemas por Internet, casualmente, encontré la alternativa de Asterisk como una plataforma de telecomunicaciones que además podía funcionar como una PBX convencional, y todo sustentado bajo una estructura Open Source. Lo curioso quedaba en la idea de pensar, como sería posible conectar un sistema Open Source, con toda la red de Telefonía, y justo al poco tiempo descubrir, como Asterisk era justo lo que esto resolvía, gracias a toda una red de Tarjetas de comunicaciones y dispositivos pasarela conectadas a Ethernet, que permitirían realizar esta conexión de forma sistemática y relativamente más simplista y aún así preservando la idea del Software Libre en el trasfondo.
+
+En contrapartida, mi primera experiencia fue observar, como la mayor parte de la documentación, era poco clara y sistemática, aún existiendo suficiente cantidad, y pensar que uno de los grandes impedimentos para muchos posibles usuarios, era que en gran medida, la mayor parte de la documentación se encontraba en Inglés. Aunque afortunadamente, esto no me afecta personalmente, fui consciente que era una barrera para muchas otras personas conocidas, y que con el tiempo esto fue una de las grandes figuras que apoyaron mi motivación, para desarrollar un proyecto basado en información relativa a este sistema, íntegramente en Español, dándole un carácter más sistemático y tras conversaciones con mi tutor, surgió la idea de canalizar este planteamiento en forma de WIKI, de ahí surgió la idea de realizar \textbf{WIKIAsterisk}.
+
+Por otro lado, gracias a mi experiencia dentro del sector de las PYMEs he podido observar la problemática que surge en estas empresas, dadas las increíbles limitaciones económicas, y de estructura, que imponen los sistemas PBX actuales. Pese a que las fichas técnicas de los productos de telefonía, ofrecen aparentemente unos niveles de calidad espectaculares, con una expectativa de infinita funcionalidad, a la hora de solucionar los problemas concretos que surgen en las empresas, se convierte en una auténtica odisea, que muchas veces resulta inconclusa, y otras veces, forzada a ser solucionada mediante la incorporación de software de terceros, que conecta con las Interfaces de Integración de la Telefonía a los Ordenadores (CTI), pero que a cambio, supone un desembolso en licencias considerable. En términos generales, dada la situación del mercado y con la filosofía que tienen las empresas del ``bootstrapping'' financiero (luchando cada céntimo), este tipo de inversiones no suelen demostrar un retorno a corto plazo demasiado claro, por tanto suele optarse por la solución manual, o menos eficiente, y suelen quedar como proyectos abandonados.
+
+En este sentido, yo he conocido las aplicaciones del sistema Asterisk, como una PBX orientada a las PYME, aunque es cierto que cada vez día están surgiendo mayores implementaciones en las grandes empresas, e incluso los principales proveedores de telefonía integran equipos especialistas en este sistema, las empresas líderes del sector, como Alcatel-Lucent, Panasonic, Avaya, Aastra, etc. siguen dominando en primera línea gracias a su fiabilidad demostrada, aunque es probable que esta estructura vaya mutando en los próximos años. Por tanto, mi conocimiento acerca del sector, me ha permitido idear un concepto práctico para demostrar en gran medida paso a paso, una buena porción de las posibilidades que puede aportar al tejido empresarial.
+
+\section{Planteamiento}
+
+El desarrollo del proyecto se ha sustentado en los tres pilares fundamentales que hemos comentado anteriormente: Desarrollo de una Wiki, de un Caso de Estudio basado en el Método del Caso y la Creación de una Máquina Virtual.
+
+\subsection{Método del Caso}
+
+El método del Caso es un sistema desarrollado para la enseñanza específicamente, y esta probado ser uno de los sistemas más eficientes de la actualidad para el aprendizaje teórico-práctico con un especial hincapié en el segundo elemento, y está más orientado al desarrollo que a la investigación. Es por esto, por lo que cada día en más programas de Postgrado se esta incorporando esta metodología satisfactóriamente.
+
+Curiosamente, esta metodología es relativamente reciente, comparado quizá a otras formas centenarias o milenarias, desarrollada por la Universidad de Harvard a principios del siglo XX, orientada inicialmente a la carrera universitaria de Derecho, en la que se ponían casos reales de temas legales, y los alumnos tenían que enfrentarse a los mismos, siguiendo conceptos aprendidos en clase, y documentándose por sus propios medios para conseguir resoluciones positivas. Esto de alguna forma, incentiva el ingenio, dado que esta demostrado, que el sistema de enseñanza magistral aunque pueda intentar resultar más interactivo y participativo según la calidad del docente, la información realmente solo se produce de forma unidireccional del docente a los alumnos y el aprendizaje nunca suele derivarse fuera del material, dado que suelen ser sistemas con orientación dirigida.
+
+Debido a que una de las motivaciones de este proyecto, era desarrollarlo siguiendo una metodología eminentemente práctica, y mi pretensión fuese, que transcendiera lo máximo posible, para personas interesadas en el sistema Asterisk en el futuro. Por ello la intención de encuadrarlo todo dentro de un marco didáctico y formativo, en vez de un marco de carácter divulgativo o investigativo.
+
+Concrétamente para el desarrollo de este proyecto, el uso del Método del Caso, se dará aplicando un único Caso de Estudio, basado en una empresa del sector de la Automoción recién entrada al negocio, la cual desea introducirse ámpliamente, en las tecnologías de la comunicación de forma eficiente, y para ello toma la colaboración de nosotros, que representamos una pequeña empresa que implanta sistemas de comunicaciones basados en Asterisk.
+
+Dentro del capítulo en cuestión, cada sección se va subdividiendo en varios subapartados. La idea conceptual es la siguiente:
+
+\begin{enumerate}
+	\item Primero se enuncia el caso de estudio, explicando los problemas, las necesidades que surgen para cubrir ese problema, y algunas ideas puntuales, sobre como orientar la solución, pero de manera solo lo suficiéntemente específica para poder ajustarla de manera efectiva.
+	\item En segundo nivel, se trabaja el caso desde una de las múltiples perspectivas posibles de resolución que existe, aportando al lector, un grupo de alumnos que comparten el mismo interés, o en grupo con un docente que dirija la sesión, una guía para orientar el camino que da lugar a una posible solución concreta
+	\item En tercer lugar, da lugar al sistema de comprobación de que la solución llevada a cabo original, o alternativa, produce los efectos deseados según la especificación del Caso de Estudio en cuestión.
+\end{enumerate}
+
+En resumen, puede verse un la Figura \ref{estructura_mdc} de ejemplo que muestra las diferentes fases de un Caso siguiendo la Metodología del Caso en cuestión.
+
+\figura{estructura_mdc.png}{scale=1}{Esquema general de una sesión siguiendo el Método del Caso}{estructura_mdc}{!ht}
+
+\subsection{Desarrollo Sistema Wiki}
+
+Para la realización del sistema WIKI se ha usado de la plataforma MediaWiki la cual esta diseñada específicamente para este propósito. Es conveniente considerar que la edición en la misma es semejante a la de otras WIKIs y concrétamente a la más popular, la de Wikipedia dado que en general todos estas aplicaciones pertenecen a la misma fuente. Realmente más allá de destacar como se ha realizado el despliegue del sistema, y las buenas prácticas, en esta sección vamos a tratar la estructura de la WIKI en sí.
+
+Desde el momento que tome la determinación de desarrollar la WIKI, mi primer planteamiento fue lanzarla públicamente a un servidor en Internet de mi propiedad y enmarcarla bajo un dominio que en un futuro pudiera facilitar su adecuación. La primera idea que rondaba en mi mente era el diseño gráfico de toda una referencia basada en el sistema Asterisk con alguna referencia a España, para dar a entender fielmente la intención asociada al idioma que se pretendía instaurar.
+
+A partir de aquí realice el registro del dominio muy significativo para el tema que pretendía cubrir, y simultáneamente, lo asocié al servidor web que comentaba anteriormente. Con esto resuelto ya solo quedaba instalar MediaWiki y configurarla con los parámetros estándar de uso. De aquí recibiría su nombre final el proyecto WIKI: \textbf{WIKIASterisk} (http://www.wikiasterisk.com) 
+
+El planteamiento original era dejar la WIKI sin acceso público hasta la finalización integral del proyecto y conclusión favorable, y tras esto, dar acceso únicamente a editores de confianza. El método para definir editores de confianza todavía no ha quedado demasiado definido, pero el concepto de dejarla libremente pública todavía no me resulta atractivo, dado que tengo constancia que existen bastantes sistemas destructivos desatendidos en Internet, y las exigencias de Moderación pueden resultar excesivas, al menos para preservar íntegramente los contenidos de calidad.
+
+Otro planteamiento sería el bloqueo de las páginas principales, y dejar libre acceso para crear otras páginas desarrollando nuevos temas. Solo los moderadores, y editores de confianza tendrían acceso a este tipo de edición y también esta alternativa es candidata a ser resolutiva tras la ``liberación del sistema''
+
+La WIKI esta dividida en 6 secciones claramente diferenciadas, como puede verse en la Figura \ref{esquema_wiki}:
+
+\begin{enumerate}
+	\item Introducción
+	\item Plan de Marcación
+	\item Protocolos e Interfaces
+	\item Módulos Principales
+	\item Conceptos Avanzados
+	\item Bibliografía y Referencias
+\end{enumerate}
+
+\figura{esquema_wiki.png}{scale=1}{Estructura general de WIKIAsterisk}{esquema_wiki}{!ht}
+
+\subsection{La Máquina Virtual}
+
+Para este PFC, me planteo un servidor cualquiera de pruebas, y hacer experimentos. Pero me gustaría ir un poco más allá. La primera ``practica'' va a ser montar un pequeño servidor de Producción que cumpla las funciones generales que aportan los servidores Asterisk: Servidor de FAX, Sistema IVR, un pequeño Call-Center para dar soporte a la empresa a nivel IT a través de la VoIP y las líneas analógicas que poseeremos, etc...
+
+Una de las ``bondades'' de Asterisk es que aun no siendo realmente multiplataforma, debido a que está diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos más interesantes que otros en cuestiones específicas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. 
+
+Generalmente, siempre que sea posible evitarlo, no es una gran idea Virtualizar Asterisk, por la principal deficiencia que presentan todos los sistemas de Virtualización: la escasa optimización de los recursos por parte de los sistemas basados en esta idea. Se suele optar por sistemas “sobre el metal” (bare-metal) a la hora de diseñar plataformas Asterisk puesto que es la forma de obtener el máximo exponencial dedicado para su uso.
+
+En contrapartida, la virtualización, ofrece gran potencial que en ciertos entornos pueden superar ampliamente, a la principal deficiencia comentada. La característica más positiva que nos ofrecen, es la capacidad de restablecer un sistema en tiempo récord y que simultáneamente, es un símbolo de protección por su efecto de back-up.
+
+Existen múltiples sistemas de virtualización, pero los mas reconocidos, en el mundo del software libre son tres: OpenVZ, Xen, y KVM. De estos tres, el proyecto pretende enfocarse en KVM. En el origen surgían varios inconvenientes, por ejemplo, era necesario tener un procesador con soporte para virtualización por hardware, como son los procesadores con tecnología AMD-V e Intel-VT, el número de seguidores evidentemente era limitado, así como el apoyo económico y tecnológico que ofrecían las grandes marcas (RH, Novell, Citrix…) y además surgió exclusivamente como un sistema basado en línea de comandos, bastante complejo, sin posibilidades de adaptarlo a interfaces gráficas de forma relativamente aceptable.
+
+Pero hoy en día todo esto quedó atrás. Por un lado, casi todos los procesadores tienen la capacidad de la virtualización basada en hardware. A lo mejor maquinas antiguas sufren esto, pero ya es realmente raro mantener un servidor de tal antigüedad con semejantes características, y ni siquiera plantearse el hecho de incorporar las maquinas virtuales en él. Es curioso como la curva de seguidores, en una balanza, lleva tiempo inclinándose a favor de KVM. Desde la lectura de estas líneas KVM ha superado ampliamente a la comunidad de XEN, de hecho está última, va perdiéndolos por causa de KVM como puede verse en la mayoría de las estadísticas.
+
+Sobre los apoyos tecnológicos, económicos, y técnicos, la verdad es que KVM empezó a gozar del apoyo de uno de los principales actores en el ámbito GNU/Linux, RedHat, y desde entonces empieza a hacerle frente incluso a VMWare (aunque todavía dista años luz de hacerle frente en la cuota de mercado). Hay que decir para terminar que KVM es de los pocos sistemas de virtualización que soporta el mecanismo PCI Passthrough (paso directo PCI), esto ofrece, la opción de poder soportar tarjetas PCI “exóticas”, como tarjetas de sonido, o lo que aquí nos atañe, tarjetas del sistema Asterisk, de forma nativa, sin tener que manipular la información que circula entre ellas y la máquina. Con esto, a Asterisk se le ofrece la capacidad de obtener una fuente de sincronización pura, y podrían verse las funciones que hasta la fecha eran imposibles o demasiado complejas para verse implementadas directamente en maquinas virtuales.
+
+Concluyendo, para este PFC, se ofrecerá una máquina virtual de ejemplo, conteniendo un sistema Asterisk y toda su funcionalidad, aprovechando todo lo descrito hasta aquí, y esta será creada a partir del sistema KVM como hemos comentado anteriormente.
+
+\section{Conclusiones}
+
+Tras mostrar a la comunidad de Asterisk el proyecto, y recibir una amplia aceptación ha resultado una gratificación en términos generales. Desde el inicio del proyecto de investigación y la puesta en marcha del Blog de Difusión, ya podían observarse múltiples atisbos de interés. Las estadísticas hablan hoy y tengo firme convicción que el proyecto no ha hecho más que empezar.
+
+Poder realizar un primer proyecto a nivel formal que integra múltiples mecanismos de desarrollo y documentación ha sido una idea interesante planteada por el tutor Manuel Palomo combinada con mis conocimientos sobre Asterisk.
+
+\subsection{Sobre WIKIAsterisk}
+
+La estructura está diseñada, para servir como una guía práctica para el lector, y que dado el caso, pudiera seguirse como un manual de referencia. Existen guías y documentos en formato papel, y no se descarta en un futuro poder editar la misma si así resultase en una difusión aún más distendida.
+
+Podríamos considerar que el desarrollo sigue un camino, iniciando al lector en los aspectos generales, pasando por aspectos prácticos como la instalación, y conceptuales generales, como el aprendizaje de la generación y creación de un plan de marcación, desde niveles básicos a niveles más sofisticados. A partir de ahí se vuelcan todas las herramientas en orden de importancia relativa en forma de artículos y bajo mi visión personal puede servir como traza para el lector pueda ir tomando los aspectos que más le interesen en función de sus necesidades.
+
+El aspecto visual me resulta impecable y a diferencia de un libro, el cual suele estar basado en un índice, y recorrer las páginas, aun intuitivo puede resultar engorroso, todo el sistema referencial que aporta un sistema WIKI aporta una potencia que hasta la fecha, no pensaba que pudiera resultar tan impactante. 
+
+Particularmente tengo que reconocer que con diferencia, lo que más me ha sorprendido ha sido la facilidad con la que podremos crear referencias de un punto a otro de la WIKI, y la facilidad con la que podemos entrelazar en consecuencia los artículos. Un caso curioso, podría decir, que el Artículo que habla sobre SIP es de lejos, el artículo más referenciado en toda la WIKI dado que como explicaba en la Introducción, realmente es el protocolo de Telefonía IP más distendido en la actualidad y prácticamente todos los aspectos de Asterisk tienen algo que ver con el mismo.
+
+\subsection{Método del Caso y Caso de Estudio}
+
+Una de las cosas que tenía clara desde el primer momento, era diseñar una metodología de explicación de los contenidos prácticos de una forma que fuera lo más apartada de lo convencional posible, que hasta la fecha, me había resultado algo escabrosa especialmente en el despliegue relacionado a sistemas informáticos.
+
+Además ha servido para mi por primera vez, en aplicarlo de manera ``formal'' y quizá me plantearía en un futuro una prueba piloto para aplicarlo con carácter docente extraoficialmente. Me ha sorprendido gratamente, que habiendo utilizado un caso, basado en una mediana empresa dentro del sector de la automoción a la cual me he sentido fuertemente asociado hasta una fecha relativamente cercana, se me han ido ocurriendo problemas de una manera prácticamente espontánea, y me veía aprovechando mis ratos libres, para idear de manera ingeniosa, como podía desarrollar un planteamiento práctico, en un supuesto caso real de implantación, para que resultara lo más creíble y realista posible.
+
+En términos generales, puedo afirmar ahora que el caso ha quedado bastante completo y cubre todos los aspectos generales como para poder integrar a un usuario en Asterisk, enfocándolo en el marco conceptual de las Comunicaciones Unificadas.
+
+La prueba de fuego puede que realmente se encuentre, en medir con terceras personas si realmente este sistema pudiera ser lo suficientemente didáctico para implementarse como un manera dinámica de implantar una metodología de enseñanza en las formaciones relativas a Asterisk y otros sistemas semejantes.
+
+\subsection{Máquina Virtual}
+
+Considerando las limitaciones de Hardware tuve que plantearme como desplegar un caso práctico completo, y funcional para demostrarme a mi mismo que era posible integrar, probar y desarrollar toda la funcionalidad de Asterisk a pequeña escala en mi domicilio particular. Al principio, pensaba que con una sola máquina virtual iba a poder cubrir toda la práctica, pero al poco tiempo surgió la necesidad de crear una segunda máquina virtual, y que afortunadamente, podía convivir sin problemas de rendimiento dentro del mismo servidor, y a la necesitábamos considerar como ``Proveedor de telefonía IP'' o ITSP (Internet Telephony Service Provider). 
+
+Con esto y en esencia, todo quedaba cubierto y la máquina del Proveedor, quedaría como una ``Caja Negra'' para demostrar como la interoperabilidad con el mismo, no era dependiente a excepción de los parámetros de configuración que un supuesto Proveedor de Telefonía IP nos proporcionase con el contrato.
+
+Este tipo de configuraciones son muy comunes en los cursos de Asterisk, donde el ordenador del docente, sirve como ``Proveedor de Telefonía'' y los equipos de alumnos son las máquinas Asterisk que operan con el mismo.
+
+En general este planteamiento ya lo tenía tan asimilado desde el primer momento, que no me resultó demasiado complejo, la implementación de sucesivas mejoras para adaptar las necesidades del proyecto a cada momento presente en la línea del tiempo.
+
+\subsection{Dificultades Técnicas Superadas}
+
+La familiarización con herramientas nuevas, suele ser una tarea ardua y compleja según el momento en el que estamos tratando de lidiar ellas.
+
+Debo reconocer que uno de los aspectos que más tiempo me costó integrar fue en el uso de las mismas, principalmente las enfocadas a la documentación, como fueron el manejo de sistemas WIKI basados en MediaWiki, y la documentación a través de \LaTeX. 
+
+Creo que esto suponía más un problema de falta de adecuación, y conceptual, en el sentido que a priori no entendía los principios básicos de estas herramientas considerando que estaba acostumbrado a utilizar otros medios más distendidos de documentación (en general hablando de sistemas WYSIWYG que a pesar que de mayor o menor medida).
+
+Pasado el primer mes de uso intensivo de estas herramientas pude observar como mis dificultades fueron quedado atrás, y acepté que realmente para escribir un documento no era necesario que resultara estéticamente vistoso en tiempo real, algo que hasta la fecha era totalmente ajeno a mi experiencia.
+
+Por otro lado en cuanto a lo que el desarrollo del proyecto hace referencia, debo reconocer, que a pesar que me costó tiempo entender el funcionamiento del sistema Asterisk, gracias a la formación específica, y el tiempo que permanecí en la primera fase en la que se desarrollo todo el proceso de aprendizaje e investigación en la materia, facilitó de una gran manera el poder diseñar el grueso del proyecto técnico en un intervalo limitado de tiempo razonable.
+
+Afortunadamente, el uso de lenguajes de programación aplicados en la materia, como PHP, durante el transcurso del desarrollo, ha sido uno de mis puntos fuertes, lo que no me supuso mayor dificultad, que aprender a integrar este conocimiento dentro de las posibilidades que me ofrecía Asterisk a nivel de Interfaz.
+
+Finalmente, también debo destacar que al final, el hecho de haber conseguido integrar todas las herramientas aquí utilizadas, me ha servido para dar un paso adelante en varios niveles, y en la actualidad ya me esta sirviendo para otros ámbitos foráneos al presente proyecto, quizá resultado de la ventaja de incorporar tecnologías eficientes en nuestro conocimiento.
+
+\subsection{Planteamientos Futuros}
+
+Durante la creación de este proyecto, iban surgiendo ideas nuevas, sobre posibles planteamientos que pudieran llevarse a corto, medio y largo plazo. De forma generalizada, podría decirse que la mayor parte de los planteamientos que surgieron a corto, decidieron llevarse adelante, aún no estando previstos dentro de la idea original, y exceptuando contados casos, tuvieron que dejarse a un lado. La mayor parte de estos conceptos a corto, están fundamentados en determinadas secciones de la WIKI, que aún comentadas por encima, deberían quedar más detalladas en profundidad, dado la repercusión que pueden suponer en ofrecer el máximo de contenidos de calidad. En realidad quizá haya sido por cuestiones de previsiones de tiempo que alguna instancia se hubiera quedado en el tintero.
+
+A medio Plazo, mis ideas se enfocan principalmente en un tema que surge levemente en varias ubicaciones de este Proyecto, y tiene que ver con una plataforma de relativa reciente creación, llamada Asterisk Communications Framework (Asterisk SCF), y esta basada en la idea de poder desplegar una arquitectura distribuida, que ofrezca la flexibilidad semejante al P2P de Skype, pero basada exclusivamente en sistemas de Servidores escalables. Esto esta más orientado a Operadoras, y al nivel Carrier-Grade ya que se observó con el tiempo, que Asterisk podía convertirse en un cuello de botella, dada su baja escalabilidad y era frecuente recurrir a SIP Proxys fuera de Asterisk específicos que si ofrecían estas posibilidades de escalabilidad de forma nativa como Kamailio.
+
+A largo Plazo, mi pretensión se encuentra focalizada, en poder desarrollar una WIKI adjunta a WIKIAsterisk.com, pero exclusivamente basada en el entorno de desarrollo de Asterisk, para ofrecer una introducción y profundización paulatina, y poder extender la comunidad de desarrollo a más ámbitos. Además al igual que la WIKI original está originalmente orientada a mostrar todo el contenido disponible para prepararse cara a la certificación \textbf{Digium Certified Asterisk Professional} (dCAP) según noticias de Digium, plantean lanzar una certificación \textbf{Digium Certified Asterisk Developer}, que irá enfocada a los desarrolladores del mismo.
+
+Otro de los aspectos obligados, es la creación de comunidad, dado que la verdadera eficiencia de un sistema de este tipo es difícilmente manejable por una única persona, dado que los sistemas se actualizan regularmente, van surgiendo novedades en varios niveles y conceptos, y esto repercute en una ``desactualización'' general, que acaba degenerando en la obsolescencia de la creación. A no ser que en este caso, yo personalmente, me encontrara exclusivamente enfocado en el entorno de Asterisk, cosa que resultase poco probable, lo más típico sería que pequeñas aportaciones de mucha gente fueran similares, a una gran aportación de una sola persona como es este proyecto.
+
+Finalmente uno de los aspectos más interesantes que que también han quedado abiertos, es el desarrollo de Asterisk para otras plataformas diferentes a Linux, y concrétamente a Ubuntu Server/Debian, al cual ha estado muy enfocado el proyecto en general. Uno de los grandes atributos de Asterisk es que se integra en todo tipo de sistemas basados en la plataforma UNIX perféctamente.

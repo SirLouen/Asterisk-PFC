@@ -13,19 +13,19 @@ A la hora de plantearse que Servidor va a ser más adecuado para nuestro sistema
 
 Entre los equipos más populares destacan las marcas Dell y HP por su extensiva y conocida fiabilidad entre la comunidad Asterisk. Es bien conocido uno de los problemas populares surgidos en general con los servidores, dificultades con el sistema de interrupciones IRQ, dado que algunos servidores de alta producción pueden llegar a contener múltiples tarjetas PCI de comunicaciones  y hacer un uso intensivo de las mismas. Pero también hay que considerar que hoy en día, gracias a las nuevas tarjetas PCI-x y también la posibilidad de realizar las comunicaciones a través de dispositivos externos al servidor (Gateways) ya no es esto tan crucial. Por eso a nivel de marcas, siguen prevaleciendo estas dos, pero solo por el soporte de calidad que ofrecen. 
 
-Considerando la opción Dell por la relación calidad-precio principalmente, lo  correcto sería plantearse aun el más bajo de gama, algo con prestaciones exclusivas de servidor. Por un lado la posibilidad de tener fuentes de alimentación redundantes, además de tener dos o cuatro sockets para múltiples procesadores, y una placa base con opción a poner memorias registradas. En otro caso hasta un equipo MIY, podría hacerle la competencia a cualquier servidor de Marca como veremos mas adelante.
+Considerando la opción Dell por la relación calidad-precio principalmente, lo correcto sería plantearse aun el más bajo de gama, algo con prestaciones exclusivas de servidor. Por un lado la posibilidad de tener fuentes de alimentación redundantes, además de tener dos o cuatro sockets para múltiples procesadores, y una placa base con opción a poner memorias registradas. En otro caso hasta un equipo DIY \cite{website:diy}, podría hacerle la competencia a cualquier servidor de Marca como veremos mas adelante.
 
 \subsection{Consideraciones Técnicas}
 
-Otro aspecto interesante, pero no imprescindible, es la capacidad de acceder a una tarjeta especifica de las marcas para realizar un sistema RAID por hardware, y opcionalmente, la disponibilidad especifica, de cajas tipo enrackables para adaptarse óptimamente a nuestros respectivos CPD.
+Otro aspecto interesante, pero no imprescindible, es la capacidad de acceder a una tarjeta específica de las marcas para realizar un sistema RAID por hardware, y opcionálmente, la disponibilidad concreta, de cajas tipo enrackables para adaptarse óptimamente a nuestros respectivos CPD.
 
-Me gustaría ofrecer una opinión personal en términos generales. No merece la pena gastarse el dinero que cuesta un servidor si no vamos a tener las prestaciones especiales que ofrece una placa de servidor y todo lo que le rodea (posibilidad de fuentes redundantes, memorias registradas, dos o cuatro sockets, hotswaps, controladoras RAID de alta gama, etc.). Hoy en día por un bajo coste (entre 1000 y 2000 euros), podemos tener un equipo del nivel de un servidor. Más curioso aun, los servidores en formato de caja de torre de las marcas, no aportan un precio mejorado a mayores prestaciones, si bien, no requieren de rack, en caso de poseerlo, es hasta un mayor inconveniente de espacio y desorden. De hecho hoy en día están surgiendo empresas que se dedican a ensamblar ordenadores eligiendo cuidadosamente los componentes más robustos del mercado y con ello implementar sistemas con una tasa muy baja de retorno \footnote{algunas PYME ya reportan con este sistema una reducción significativa de un 0.5\% de RMA sobre el total de equipos ensamblados a medida}.
+Me gustaría ofrecer una opinión personal en términos generales. No merece la pena gastarse el dinero que cuesta un servidor si no vamos a tener las prestaciones especiales que ofrece una placa de servidor y todo lo que le rodea (posibilidad de fuentes redundantes, memorias registradas, dos o cuatro sockets, hotswaps, controladoras RAID de alta gama, etc.). Hoy en día por un bajo coste (entre 1000 y 2000 euros), podemos tener un equipo del nivel de un servidor en prestaciones y verdadera fiabilidad. Con el ahorro tenemos opciones a aplicar redundancia en los sistemas. Más curioso aun, los servidores en formato de caja de torre de las marcas, no aportan un precio mejorado a mayores prestaciones, si bien, no requieren de rack, en caso de poseerlo, es hasta un mayor inconveniente de espacio y desorden. De hecho hoy en día están surgiendo empresas que se dedican a ensamblar ordenadores eligiendo cuidadosamente los componentes más robustos del mercado y con ello implementar sistemas con una tasa muy baja de retorno \footnote{algunas PYME ya reportan con este sistema una reducción significativa de un 0.5\% de RMA sobre el total de equipos ensamblados a medida, basado en comentarios personales con mis contactos principales dentro del sector.}.
 
-Para entornos de producción pero con necesidades reducidas, quizá la opción más interesante, podría ser  tener un servidor de bajo nivel tipo MIY y con opción de registrar todos los terminales en otro servidor paralelo redundante, a través de comunicaciones de datos, en caso de avería.
+Para entornos de producción pero con necesidades reducidas, quizá la opción más interesante, podría ser tener un servidor de bajo nivel tipo DIY y con opción de registrar todos los terminales en otro servidor paralelo redundante, a través de comunicaciones de datos, en caso de avería.
 
-\subsection{Servidor de Pruebas del Proyect}
+\subsection{Servidor de Pruebas del Proyecto}
 
-Para este PFC, me planteo un servidor cualquiera de pruebas, y hacer experimentos. Pero me gustaría ir un poco más allá. La primera “practica” va a ser montar un pequeño servidor de Producción que cumpla las funciones generales que aportan los servidores Asterisk: Servidor de FAX, Sistema IVR, un pequeño Call-Center para dar soporte a la empresa a nivel IT a través de la VoIP y las líneas analógicas que poseeremos, etc…
+Para este PFC, me planteo un servidor cualquiera de pruebas, y hacer experimentos. Pero me gustaría ir un poco más allá. La primera ``practica'' va a ser montar un pequeño servidor de Producción que cumpla las funciones generales que aportan los servidores Asterisk: Servidor de FAX, Sistema IVR, un pequeño Call-Center para dar soporte a la empresa a nivel IT a través de la VoIP y las líneas analógicas que poseeremos, etc...
 
 Para ello cuento con un equipo dedicado a efectos de servidor, con los siguientes componentes internos, procesador con 4 núcleos, 8Gb de RAM y 2 discos duros SATA2 (para funciones de RAID), y demás componentes clásicos.
 
@@ -33,35 +33,35 @@ Además, conectada internamente posee una tarjeta de bajo calibre, una Digium Wi
 
 \section{Elección e instalación del Sistema Operativo en el Servidor}
 
-Como he comentado anteriormente, una de las “bondades” de Asterisk es que aun no siendo realmente multiplaforma, debido a que esta diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos mas interesantes que otros en cuestiones especificas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. Pero para este apartado, el tema a tocar, seria concretamente la decisión de hacerlo, ¿sobre que distribución?
+Como he comentado anteriormente, una de las ``bondades'' de Asterisk es que aun no siendo realmente multiplataforma, debido a que está diseñado exclusivamente para sistemas *NIX, dado el basto abanico que disponemos para este tipo de sistemas, existen unos más interesantes que otros en cuestiones específicas de optimización de recursos. Hoy en día el 99\% de las instalaciones de Asterisk (y de otros tipos de sistemas servidor, como servidores ftp, web, etc.), se realizan sobre sistemas GNU/Linux. Pero para este apartado, el tema a tocar, sería concretamente la decisión de hacerlo, ¿sobre que distribución?
 
 \subsection{Valorando Distribuciones Linux}
 
-Siguiendo la línea, realmente hoy en día todas las distribuciones son validas, incluso distribuciones basadas en UNIX, desde Open Solaris, incluso distribuciones para dispositivos con un sistema operativo embebido como openWRT, y evidentemente, cualquier otra distribución GNU/Linux especifica, tipo RedHat, OpenSuse, Fedora y demás.
+Siguiendo la línea, realmente hoy en día todas las distribuciones son válidas, incluso distribuciones basadas en UNIX, desde Open Solaris, incluso distribuciones para dispositivos con un sistema operativo embebido como OpenWRT \cite{website:openwrt}, y evidentemente, cualquier otra distribución GNU/Linux especifica, tipo RedHat, OpenSuse, Fedora y demás.
 
 Pero en el mundo Asterisk las distribuciones mas destacadas por la comunidad son CentOS y Debian por igual. De todas formas esto no resulta nada nuevo ya que hoy en día, CentOS y Debian se reparten el pastel de los servidores, incluso por encima de Fedora y RedHat Enterprise.
 
-Debian es para mí personalmente, la distribución que mas he tenido la oportunidad de manejar. Y además entre la comunidad de desarrollo, Debian esta cogiendo cada vez más popularidad, aunque existen ciertas Distribuciones, especificas de Asterisk y cada vez más reconocidas como Elastix, o Asterisk NOW! basadas en CentOS. 
+Debian es para mí personalmente, la distribución que mas he tenido la oportunidad de manejar. Y además entre la comunidad de desarrollo, Debian esta cogiendo cada vez más popularidad, aunque existen ciertas Distribuciones, especificas de Asterisk y cada vez más reconocidas como Elastix \cite{website:elastix}, o Asterisk NOW! \cite{website:asterisknow} basadas en CentOS. 
 
-Pero realmente, existe una distribución dentro del mundo Debian que simplifica masivamente la vida de configuración a nivel Hardware, Ubuntu en su versión especifica para servidores, Ubuntu Server. Es cierto que a día de hoy no es una personificación del máximo rendimiento y la optimización de los recursos del sistema ya que de por si añade un consumo “cabecera” (overhead) a la CPU que no es nada positivo para un sistema con una función especifica, como cumplirá en este caso lo que aquí estamos tratando, un sistema PBX.
+Pero realmente, existe una distribución dentro del mundo Debian que simplifica masívamente la vida de configuración a nivel Hardware, Ubuntu en su versión especifica para servidores, Ubuntu Server. Es cierto que a día de hoy no es una personificación del máximo rendimiento y la optimización de los recursos del sistema ya que de por si añade un consumo ``cabecera'' (overhead) a la CPU que no es nada positiva para un sistema con una función especifica, como cumplirá en este caso lo que aquí estamos tratando, un sistema PBX.
 
 \subsection{La selección personal: Ubuntu Server. Motivos Generales}
 
-Pero ahora volviendo atrás al momento de la decisión de configuración de Hardware me encontraba con una simple cuestión: nuestra maquina de pruebas, tampoco iba a servir como un sistema de propósito específico y de alto rendimiento. A efectos prácticos de prueba, no es la intención servir como Call Center para cubrir 500 llamadas simultaneas. Además Asterisk infraescalado en prestaciones, ni aun con un sistema como Debian en su versión mas ligera, seria capaz de soportar esto. Es por esto quizá, por lo que la facilidad de autoadaptación del Hardware en el sistema fue por ultimo mi decisión final de utilizar Ubuntu Server como sistema.
+Pero ahora volviendo atrás al momento de la decisión de configuración de Hardware me encontraba con una simple cuestión: nuestra maquina de pruebas, tampoco iba a servir como un sistema de propósito específico y de alto rendimiento. A efectos prácticos de prueba, no es la intención servir como Call Center para cubrir 1000 llamadas simultáneas. Además Asterisk infraescalado en prestaciones, ni aun con un sistema como Debian en su versión mas ligera, seria capaz de soportar esto. Es por esto quizá, por lo que la facilidad de autoadaptación del Hardware en el sistema fue por ultimo mi decisión final de utilizar Ubuntu Server como sistema.
 
 El instalador, en términos generales, es relativamente sencillo de seguir, y tras instalar Ubuntu Server pude comprobar como prácticamente todo el Hardware fue reconocido, y autoconfigurado, desde la Controladora RAID, hasta la VGA en alta resolución (no es gran cosa, pero personalmente me resulta muy útil trabajar en 1920x1080 incluso en consola si el sistema ofrece esta posibilidad como es el caso. Evidentemente, solo faltaba por reconocer la tarjeta Digium B410P descrita anteriormente.
 
-La segunda parte quizá mas significativa de la configuración del sistema fue la del planteamiento de estabilidad del sistema a nivel de Disco Duro. En este ejemplo disponemos de dos discos duros de semejantes características, por lo que se veía motivada la necesidad de montar un RAID. Es determinante, que la mayoría de las placas base, a pesar de traer un controlador RAID, realmente no es un controlador puro y dedicado como podrían ser los controladores PERC de Dell. Considero un controlador dedicado, a ese controlador capaz de liberar a la CPU de la carga de realizar todas las tareas para que el RAID se viera satisfecho. En este caso mi intención era montar un RAID 1 (tipo Espejo).
+La segunda parte quizá mas significativa de la configuración del sistema fue la del planteamiento de estabilidad del sistema a nivel de Disco Duro. En este ejemplo disponemos de dos discos duros de semejantes características, por lo que se veía motivada la opción de montar un RAID. Es determinante, que la mayoría de las placas base, a pesar de traer un controlador RAID, realmente no es un controlador puro y dedicado como podrían ser los controladores PERC de Dell. Considero un controlador dedicado, a ese controlador capaz de liberar a la CPU de la carga de realizar todas las tareas para que el RAID se viera satisfecho. En este caso mi intención era montar un RAID 1 (tipo Espejo), para aportar más estabilidad al sistema.
 
-En general la mayoría de las placas base suelen traer controladores Silicon Image, ATI Nvidia, VIA, etc., pero realmente no dejan de ser controladores de tipo software, gestionados desde la BIOS con solo las características básicas para poder proveer de información suficiente de como debería trabajar (pero no capaces de trabajar autónomamente). Esto podría resultar interesante, excepto por una cuestión muy importante: Si esta controladora se averiase (o mas común, si la misma placa se averiase), necesitaríamos para recomponer ese RAID una controladora exactamente igual, o de semejantes características, capaz de recomponer eso. Hoy en día, esto puede resultar excesivamente complejo, ya que la mayoría de las piezas quedan descatalogadas en poco menos de 2 años, y pese a que continua su producción, a partir de los 4 años es prácticamente imposible conseguir una a no ser que la busquemos a través de un Bróker, o que la pidamos a la marca bajo demanda (con un coste 10 veces mas caro de lo que costó originalmente repercutiendo en definitiva sobre el TCO del sistema severamente). Esta dependencia al Hardware, para mi me resulta inviable. Si tuviéramos la opción de tener controladoras especificas como las PERC de Dell que comentaba antes, que siguen ciertos estándares al menos dentro de la misma marca, y que su producción se extiende mas allá de los 5 años, además de ofrecer un hardware dedicado y liberando a la CPU de esta carga, entonces definitivamente si podría decidir, que merece totalmente la pena.
+En general la mayoría de las placas base suelen traer controladores Silicon Image, ATI Nvidia, VIA, etc., pero realmente no dejan de ser controladores de tipo software, gestionados desde la BIOS con solo las características básicas para poder proveer de información suficiente de como debería trabajar (pero no capaces de trabajar autónomamente). Esto podría resultar interesante, excepto por una cuestión muy importante: Si esta controladora se averiase (o mas común, si la misma placa se averiase), necesitaríamos para recomponer ese RAID una controladora exactamente igual, o compatible de semejantes características, capaz de recomponer eso. Hoy en día, esto puede resultar excesivamente complejo, ya que la mayoría de las piezas quedan descatalogadas en poco menos de 2 años, y pese a que continua su producción, a partir de los 4 años es prácticamente imposible conseguir una a no ser que la busquemos a través de un Bróker, o que la pidamos a la marca bajo demanda (con un coste 10 veces mas caro de lo que costó originalmente repercutiendo en definitiva sobre el TCO del sistema severamente). Esta dependencia al Hardware, para mi me resulta inviable. Si tuviéramos la opción de tener controladoras específicas como las PERC de Dell que comentaba antes, que siguen ciertos estándares al menos dentro de la misma marca, y que su producción se extiende mas allá de los 5 años, además de ofrecer un hardware dedicado y liberando a la CPU de esta carga, entonces definitivamente si podría decidir, que merece totalmente la pena.
 
-Entonces, en este caso, teniendo dos discos duros iguales, y la intención es montar un RAID 1, la solución bajo mi criterio más fiable nos la ofrece el propio sistema operativo. GNU/Linux provee la solución, Md Raid, con mdadm. El RAID software por excelencia.
+Entonces, en este caso, teniendo dos discos duros iguales, y la intención es montar un RAID 1, la solución bajo mi criterio más fiable nos la ofrece el propio sistema operativo. GNU/Linux provee la solución, Md Raid, con \textbf{mdadm}. El RAID software por excelencia.
 
 \subsection{Primeros Pasos en el Servidor}
 
 Para configurar esto en un sistema de pequeña escala la idea es muy sencilla:
 
-Ubuntu ofrece en el propio instalador la opción de configurar esto de manera grafica y eventualmente es muy práctico ya que se establece justo desde el momento de la inserción del primer dato del sistema, pero no necesario, ya que mdraid provee de un sistema de sincronización desde el momento de la puesta en marcha. En cualquier caso, por si a alguien le interesara configurarlo en modo Consola el concepto lo describo a continuación:
+Ubuntu ofrece en el propio instalador la opción de configurar esto de manera gráfica y eventualmente es muy práctico ya que se establece justo desde el momento de la inserción del primer dato del sistema, pero no necesario, ya que mdraid provee de un sistema de sincronización desde el momento de la puesta en marcha. En cualquier caso, por si a alguien le interesara configurarlo en manualmente directamente desde la shell de Linux, el concepto lo describo a continuación:
 
 
 \begin{enumerate}
@@ -83,27 +83,27 @@ En este caso habremos llamado a nuestro recién creado RAID md0 a nivel de siste
 
 	\item Acto seguido, toca particionar nuestro recién creado RAID. En este caso, seria como si tuviéramos un solo disco duro. Podríamos directamente particionarlo con ReiserFS, Ext3 o Ext4, o podríamos elegir un formato mas avanzado como LVM2. Yo personalmente soy más partidario de utilizar LVM por la opción de hacer una copia de seguridad del sistema completo utilizando Snapshots. Un RAID 1 aunque ayuda al uptime del servidor, ya que aunque haya un error de disco, el sistema seguirá en pie, pero no asegura que la información se destruya en un momento determinado (o peor aun, se corrompa). La única forma de preservar la fiabilidad de la información es utilizar las copias de seguridad. Y los snapshots de LVM son la forma idónea de realizarlas sin tener que parar el sistema, y mantener el 100\% de tiempo de actividad en nuestro sistema.
 
-Sobre la estructura de particionado, existen muchas formulas, pero una de las posibles seria la siguiente. En primer lugar, una partición para el sistema de arranque. Esto no es estrictamente necesario pero, realmente es una buena práctica poner el sistema de arranque en un tipo de partición más sencilla como ext2 que la partición del sistema principal, que en este caso seria ext4. Yo suelo darle bastante cantidad de espacio, del orden de 10 veces más de lo que necesita. Con 50 Mb es suficiente, pero si en un momento determinado vamos cargando múltiples kernels para cualquier asunto, o actualizaciones sucesivas, y no tener la necesidad de ir borrando lo antiguo, suelo poner unos 500 Mb. Con los discos duros de hoy en día no supone un gasto indebido y nos curamos en salud
+Sobre la estructura de particionado, existen muchas fórmulas, pero una de las posibles sería la siguiente. En primer lugar, una partición para el sistema de arranque. Esto no es estrictamente necesario pero, realmente es una buena práctica poner el sistema de arranque en un tipo de partición más sencilla como ext2 que la partición del sistema principal, que en este caso sería ext4. Yo suelo darle bastante cantidad de espacio, del orden de 10 veces más de lo que necesita. Con 50 Mb es suficiente, pero si en un momento determinado vamos cargando múltiples kernels para cualquier asunto, o actualizaciones sucesivas, y no tener la necesidad de ir borrando lo antiguo, suelo poner unos 500 Mb. Con los discos duros de hoy en día no supone un gasto indebido y nos curamos en salud
 
 En segundo lugar el espacio Swap. Hay que considerar una cosa: Si tenemos que utilizar el sistema Swap en nuestra maquina Asterisk, vamos a tener serios problemas. Yo personalmente me plantearía elegir dedicar 0 Mb. Pero con mi política de reservar espacio para todo y que en un momento dado, aunque el sistema vaya mal, al menos no vaya a pique con facilidad, me gusta reservar tanta memoria Swap como memoria RAM disponible haya.
 
-El resto, volumen principal, en ext4 que es el más reciente en estos momentos, y cumple su función. Los sistemas Ubuntu lo permiten y Asterisk funciona perfectamente en este tipo de sistema.
+El resto, volumen principal, en ext4 que es el más reciente en estos momentos, y cumple su función. Los sistemas Ubuntu lo permiten y Asterisk funciona perfectamente en este tipo de sistemas.
 
 \end{enumerate}
 
 \section{Virtualización para Asterisk}
 
-Generalmente, siempre que sea posible evitarlo, no es una gran idea Virtualizar Asterisk, por la principal deficiencia que presentan todos los sistemas de Virtualización: la escasa optimización de los recursos por parte de los sistemas virtualizados. Se suele optar por sistemas “sobre el metal” (bare-metal) a la hora de diseñar plataformas Asterisk puesto que es la forma de obtener el máximo exponencial dedicado para su uso.
+Generalmente, siempre que sea posible evitarlo, no es una gran idea Virtualizar Asterisk, por la principal deficiencia que presentan todos los sistemas de Virtualización: la escasa optimización de los recursos por parte de los sistemas basados en esta idea. Se suele optar por sistemas “sobre el metal” (bare-metal) a la hora de diseñar plataformas Asterisk puesto que es la forma de obtener el máximo exponencial dedicado para su uso.
 
-En contrapartida, la virtualización, ofrece grandes bondades que en ciertos entornos pueden superar ampliamente, a la principal deficiencia. La característica más positiva que nos ofrecen, es la capacidad de restablecer un sistema en tiempo record y que simultáneamente, es un símbolo de protección por su efecto de back-up.
+En contrapartida, la virtualización, ofrece grandes bondades que en ciertos entornos pueden superar ampliamente, a la principal deficiencia comentada. La característica más positiva que nos ofrecen, es la capacidad de restablecer un sistema en tiempo récord y que simultáneamente, es un símbolo de protección por su efecto de back-up.
 
 \subsection{Valorando Opciones de Virtualizacion}
 
 Existen múltiples sistemas de virtualización, pero los mas reconocidos, en el mundo del software libre son tres: OpenVZ, Xen, y KVM. 
 
-OpenVZ surge como evolución del sistema Virtuozzo, extensamente conocido en el mundo de los Alojamientos web. La principal ventaja de OpenVZ es que se integra con el sistema host perfectamente, y una de las limitaciones es que tanto el host como el cliente han de ser sistemas GNU/Linux (esa es la principal razón de esta magnifica integración). 
+OpenVZ surge como evolución del sistema Virtuozzo, exténsamente conocido en el mundo de los Alojamientos web. La principal ventaja de OpenVZ es que se integra con el sistema host perfectamente, y una de las limitaciones es que tanto el host como el cliente han de ser sistemas GNU/Linux (esa es la principal razón de esta magnifica integración). 
 
-Por otro lado, Xen, nacido en 2003, es un sistema de virtualización basado en maquinas cuyos sistemas operativos están diseñados específicamente para trabajar sobre él. Ha habido múltiples evoluciones en lo que este requerimiento se ha flexibilizado bastante (específicamente, para sistemas operativos cuyo código no es abierto como Microsoft Windows, para poder “saltar” esta barrera original). Se convirtió en la solución de código libre mas distendida en términos de virtualización.
+Por otro lado, Xen, nacido en 2003, es un sistema de virtualización basado en máquinas cuyos sistemas operativos están diseñados específicamente para trabajar sobre él. Ha habido múltiples evoluciones en lo que este requerimiento se ha flexibilizado bastante (específicamente, para sistemas operativos cuyo código no es abierto como Microsoft Windows, para poder “saltar” esta barrera original). Se convirtió en la solución de código libre mas distendida en términos de virtualización.
 
 En última instancia surgió KVM como nuevo competidor, a raíz de que el Kernel de Linux (versión 2.6.20 año 2007) permitía por primera vez utilizar las extensiones Intel-VT y AMD-V de virtualización. Pretendía que entrar en el mercado dominado por VMWare en el mundo propietario, y Xen en el mundo Open Source. Por otro lado también emergían nuevas soluciones como Virtual Box de Sun Microsystems, que a posteriori sería absorbida por Oracle.
 
@@ -111,19 +111,19 @@ En última instancia surgió KVM como nuevo competidor, a raíz de que el Kernel
 
 En el origen surgían varios inconvenientes, era necesario tener un procesador con soporte para virtualización por hardware, como son los procesadores con tecnología AMD-V e Intel-VT, el número de seguidores evidentemente era limitado, así como el apoyo económico y tecnológico que ofrecían las grandes marcas (RH, Novell, Citrix…) y además surgió exclusivamente como un sistema basado en línea de comandos, bastante complejo, sin posibilidades de adaptarlo a interfaces gráficas de forma relativamente aceptable.
 
-Pero hoy en día todo esto quedó atrás. Por un lado, casi todos los procesadores soportan la virtualización por hardware. A lo mejor maquinas antiguas sufren esto, pero ya es realmente raro mantener un servidor de tal antigüedad con semejantes características, y ni siquiera plantearse el hecho de mandarlo a la guerra de las maquinas virtuales con semejante antigüedad.
+Pero hoy en día todo esto quedó atrás. Por un lado, casi todos los procesadores tienen la capacidad de la virtualización basada en hardware. A lo mejor maquinas antiguas sufren esto, pero ya es realmente raro mantener un servidor de tal antigüedad con semejantes características, y ni siquiera plantearse el hecho de incorporar las maquinas virtuales en él.
 
-Es curioso como la curva de seguidores, en una balanza, lleva tiempo inclinándose a favor de KVM. Desde la lectura de estas líneas KVM ha superado ampliamente a la comunidad de XEN, de hecho XEN cada vez pierde mas “seguidores” a costa de KVM como puede verse en la mayoría de las estadísticas (ejemplo, Google Trends).
+Es curioso como la curva de seguidores, en una balanza, lleva tiempo inclinándose a favor de KVM. Desde la lectura de estas líneas KVM ha superado ampliamente a la comunidad de XEN, de hecho está última, va perdiéndolos por causa de KVM como puede verse en la mayoría de las estadísticas \footnote{Ejemplo, Google Trends, http://www.google.es/trends/?q=xen,+kvm,+openvz\&ctab=0\&geo=all\&date=ytd\&sort=1}.
 
-Sobre los apoyos tecnológicos, económicos, y técnicos, la verdad es que KVM empezó a gozar del apoyo de uno de los principales actores en el ámbito GNU/Linux, RedHat, y desde entonces empieza a hacerle frente incluso a VMWare
+Sobre los apoyos tecnológicos, económicos, y técnicos, la verdad es que KVM empezó a gozar del apoyo de uno de los principales actores en el ámbito GNU/Linux, RedHat, y desde entonces empieza a hacerle frente incluso a VMWare (aunque todavía dista años luz de hacerle frente en la cuota de mercado).
 
 Y conjunto a esto, también han surgido las interfaces gráficas para dar un apoyo definitivo e impulso al sistema KVM. También surgieron distribuciones específicas de Linux, como Proxmox, que implementan eficazmente, maquinas virtuales KVM y las dotan de complementos muy interesantes para facilitar la vida al gestor.
 
-Hay que decir para terminar que KVM es de los pocos sistemas de virtualización que soporta el mecanismo PCI Passthrough (paso directo), esto ofrece, la opción de poder soportar tarjetas PCI “exóticas”, como tarjetas de sonido, o lo que aquí nos atañe, tarjetas del sistema Asterisk, de forma nativa, sin tener que manipular la información que circula entre ellas y la máquina. Con esto, a Asterisk se le ofrece la capacidad de obtener una fuente de sincronización pura, y podrían verse las funciones que hasta la fecha eran imposibles o demasiado complejas para verse implementadas directamente en maquinas virtuales.
+Hay que decir para terminar que KVM es de los pocos sistemas de virtualización que soporta el mecanismo PCI Passthrough (paso directo PCI), esto ofrece, la opción de poder soportar tarjetas PCI “exóticas”, como tarjetas de sonido, o lo que aquí nos atañe, tarjetas del sistema Asterisk, de forma nativa, sin tener que manipular la información que circula entre ellas y la máquina. Con esto, a Asterisk se le ofrece la capacidad de obtener una fuente de sincronización pura, y podrían verse las funciones que hasta la fecha eran imposibles o demasiado complejas para verse implementadas directamente en maquinas virtuales.
 
 Concluyendo, para este PFC, se ofrecerá una máquina virtual de ejemplo, conteniendo un sistema Asterisk y toda su funcionalidad, aprovechando todo lo descrito hasta aquí, y esta será creada a partir del sistema KVM.
 
-\section{Instalación de la Máquina Virtual}
+\section{Instalación de la Máquina Virtual} \label{cap:instkvm}
 
 Como he comentado, vamos a utilizar el sistema KVM sobre nuestro Ubuntu instalado (podría instalarse en cualquier sistema de hecho, y aplicarse la MV para cualquier entorno dado). A continuación describo el proceso de configuración del mismo:
 
@@ -151,7 +151,7 @@ Y con el siguiente comando adquirimos la propiedad CAP\_NET\_ADMIN necesaria par
 
 Por otro lado, necesitamos configurar la interfaz de red para que funcione como posible puente para nuestras maquinas virtuales. Dentro del fichero de configuración, en caso de Debian /etc/network/interfaces hay que hacer algunas modificaciones para adaptar la interfaz (eth0 clásicamente) y crear el puente br0. A continuación un posible ejemplo:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[style=bash]
 auto eth0
 iface eth0 inet manual
 auto br0
@@ -167,19 +167,19 @@ iface br0 inet static
         bridge_maxwait 0
 \end{lstlisting}
 
-Realmente ya no es necesario mucho más que esto a nivel de configuración, a partir de aquí ya solo queda la creación de las máquinas. Existen múltiples métodos, y con el tiempo como comentaba antes, sobre las virtudes de KVM, se han desarrollado no solo interfaces graficas, sino sistemas para la línea de comandos que facilitan la creación enormemente. A nivel command-line puedo destacar dos principales: Virt-Manager para la creación de maquinas virtuales en general, y Ubuntu-VM-Builder, que nos interesa concretamente para lo que nos atañe con este proyecto.
+Realmente ya no es necesario mucho más que esto a nivel de configuración, a partir de aquí ya solo queda la creación de las máquinas. Existen múltiples métodos, y con el tiempo como comentaba antes, sobre las virtudes de KVM, se han desarrollado no solo interfaces gráficas, sino sistemas para la línea de comandos que facilitan la creación enormemente. A nivel command-line puedo destacar dos principales: Virt-Manager para la creación de maquinas virtuales en general, y Ubuntu-VM-Builder, que nos interesa concrétamente para lo que nos atañe con este proyecto.
 
-Con Ubuntu-VM-Builder (vmbuilder) tenemos la posibilidad de generar una nueva maquina virtual, basada en una versión de Ubuntu a nuestra voluntad, y con una instalación totalmente desatendida. Es lo mas parecido a una maquina virtual con OpenVZ que nos podemos encontrar para KVM. Este “asistente” fue diseñado por Canonical específicamente para Ubuntu, he ahí su potencial. Para la creación con este sistema tenemos dos opciones:
+Con Ubuntu-VM-Builder (vmbuilder) tenemos la posibilidad de generar una nueva maquina virtual, basada en una versión de Ubuntu a nuestra voluntad, y con una instalación totalmente desatendida. Es lo mas parecido a una maquina virtual con OpenVZ que nos podemos encontrar para KVM. Este ``asistente'' fue diseñado por Canonical específicamente para Ubuntu, he ahí su potencial. Para la creación con este sistema tenemos dos opciones:
 
 \begin{enumerate}
-\item Mediante la creación de un fichero de texto, que utilizaremos en conjunto al comando para que lo tome por defecto. Esta opción es muy interesante, si tenemos intención de diseñar maquinas nuevas en un futuro, y no queremos pasar por el tedioso estado de tener que releer toda la información especifica acerca de esta aplicación. Es de alguna forma, un sistema recordatorio para que en el futuro veamos que parámetros elegimos para nuestras maquinas virtuales
-\item Hay otra opción, mas rápida, sencilla y directa, y es aplicando el comando con todas sus opciones. Y es la que voy a aplicar para este caso.
+\item Mediante la creación de un fichero de texto, que utilizaremos en conjunto al comando para que lo tome por defecto. Esta opción es muy interesante, si tenemos intención de diseñar maquinas nuevas en un futuro, y no queremos pasar por el tedioso estado de tener que releer toda la información especifica acerca de esta aplicación. Es de alguna forma, un sistema recordatorio para que en el futuro veamos que parámetros elegimos para nuestras máquinas virtuales
+\item Hay otra opción, más rápida, sencilla y directa, y es aplicando el comando con todas sus opciones. Y es la que voy a aplicar para este caso.
 \end{enumerate}
 
 Las características que voy buscando en la maquina a crear para este PFC son las siguientes:
 
 \begin{enumerate}
-\item Maquina basada en Ubuntu, versión 11.10 (Oneiric Ocelot)
+\item Maquina basada en Ubuntu, versión 11.10 (Oneiric Ocelot), en estos momentos la versión Long Term Support de Ubuntu
 \item Arquitectura AMD64
 \item Dirección IP: 192.168.1.100
 \item Puerta de Enlace: 192.168.1.1
@@ -194,13 +194,13 @@ Vamos al directorio donde queremos “instalar” la maquina virtual. Un ejemplo
 
 Para definir el particionado del disco virtual a crear, dentro de este directorio vamos a crear un fichero llamado vmbuilder.partition con la siguiente información:
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[style=bash]
 root 4608
 \end{lstlisting}
 
 Y por otro lado, para asegurarnos una conexión sencilla mediante acceso SSH, vamos a crear un fichero que se ejecutara en el primer arranque de nuestro sistema, en el mismo directorio también, un fichero llamado boot.sh
 
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[style=bash]
 apt-get update
 apt-get install -qqy --force-yes openssh-server
 \end{lstlisting}

@@ -1,0 +1,55 @@
+% -*-manual.tex-*-
+% Este fichero es parte de la plantilla LaTeX para
+% la realización de Proyectos Final de Carrera, protejido
+% bajo los términos de la licencia GFDL.
+% Para más información, la licencia completa viene incluida en el
+% fichero fdl-1.3.tex
+
+\section*{Preparación Inicial de la Instalación}
+
+Para realizar la instalación de la máquina virtual, se ofrece, adjunto a esta memoria, un DVD con los siguientes contenidos:
+
+\begin{itemize}
+	\item Disco Duro Virtual compatible con KVM en formato QCOW2 \cite{website:qcow2}: dvd-pfc-asterisk.qcow2
+	\item Fichero de configuración QEMU: dvd-pfc-asterisk.xml
+	\item Ficheros de configuración específicos de la máquina: boot.sh y vmbuilder.partition
+\end{itemize}
+
+Primero tenemos que asegurarnos que tenemos el sistema preparado para crear y ejecutar máquinas virtuales en KVM. El despliegue del sistema base podemos encontrarlo en el capítulo \ref{cap:instkvm} referente a la preparación del sistema KVM. En términos generales, en un sistema Debian de ejemplo, los paquetes generales a instalar serían:
+
+\begin{lstlisting}[style=consola]
+# sudo aptitude install kvm libvirt0 python-libvirt 
+python-virtinst bridge-utils ubuntu-vm-builder
+\end{lstlisting}
+
+Podemos ubicar ambos ficheros disponibles en el DVD en cualquier lugar de conveniencia, pero lo ideal sería meterlos en los directorios por defecto de KVM. En el caso del disco en formato QCOW podemos ubicarlo en: \textbf{/var/lib/libvirt/images/}, creamos un directorio dentro por ejemplo:
+
+\begin{lstlisting}[style=consola]
+# sudo mkdir /var/lib/libvirt/images/dvd-pfc-asterisk/
+\end{lstlisting}
+
+Y ubicamos la imagen QCOW2 dentro de este directorio. Por otro lado, los fichero de configuración boot.sh y vmbuilder.partition, podemos copiarlos también en este directorio. 
+
+\section*{Creación y Configuración de la Máquina Virtual}
+
+Considerando que en la máquina donde realizamos la instalación posee suficiente capacidad en términos específicos de Disco Duro (para soportar al menos el almacenaje del disco duro virtual), y de Memoria RAM (que según establecimos en el ejemplo, serían 2Gb dedicados). Además partiendo por la base del ejemplo de configuración de nuestra máquina, que la conexión puente la establecimos con el nombre br0, y no hemos realizado configuraciones fuera de lo comentado anteriormente, entonces no necesitaríamos modificar el fichero XML de configuración QEMU:
+
+Con todo ello, estando en el directorio donde tenemos el fichero \textbf{dvd-pfc-asterisk.xml} ejecutamos la orden:
+
+\begin{lstlisting}[style=consola]
+# sudo virsh define dvd-pfc-asterisk.xml
+\end{lstlisting}
+
+Y ya tendremos la máquina configurada en nuestro sistema KVM. Ahora con la herramienta \textbf{virsh} podremos hacer las operaciones generales de ejecución y parada de cada sistema que tengamos configurado. En este caso para arrancar nuestro dominio dvd-pfc-asterisk con el comando:
+
+\begin{lstlisting}[style=consola]
+virsh> start dvd-pfc-asterisk
+\end{lstlisting}
+
+Podemos utilizar cualquier software para conectar vía SSH a través de la dirección IP por defecto: 192.168.1.100, aunque si tenemos configurado Libvirt para conectar a través de un servidor VNC también tendríamos esa opción.
+
+Finalmente, también podemos hacer que un dominio se ejecute automáticamente en el arranque de nuestra máquina Host de KVM:
+
+\begin{lstlisting}[style=consola]
+virsh> autostart dvd-pfc-asterisk
+\end{lstlisting}
