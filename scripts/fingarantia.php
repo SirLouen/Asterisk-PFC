@@ -52,7 +52,7 @@ else
  $cliente = mysql_fetch_array($query);
  $idcliente = $cliente['id'];
 
- mysql_query("SELECT * FROM vehiculos WHERE cliente = '$idcliente'");
+ $query2 = mysql_query("SELECT * FROM vehiculos WHERE cliente = '$idcliente'");
  $vehiculo = mysql_fetch_array($query2);
  $fcompra = $vehiculo['fcompra'];
  $garantia = $vehiculo['garantia'];
