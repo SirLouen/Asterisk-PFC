@@ -68,7 +68,7 @@ Finalmente añadimos una linea en el fichero del proceso Cron, crontab, para que
 
 En el momento que el servidor web deje de atender a las peticiones entrantes por el puerto 80, el Sr. de los Palotes recibirá una llamada de emergencia en su extensión personal, cuyo CallerID será Emergencias CRM <111>, hasta que se resuelva el problema.
 
-\subsection{Resolución: Generación Automática de Eventos}
+\subsection{Comprobación: Generación Automática de Eventos}
 
 En el momento que paremos el servidor web en el servidor donde esta asociado el script deberían empezar a recibirse llamadas en la extensión 54 si la tenemos configurada en algun télefono.
 
@@ -461,7 +461,7 @@ exten => _9[1-5]X,1,Macro(buzon)
 
 Y con esto ya quedaría terminada por completo esta parte del trabajo.
 
-\subsection{Resolución: Devolviendo el Control al Cliente}
+\subsection{Comprobación: Devolviendo el Control al Cliente}
 
 En primera instancia debemos acceder al servidor web, a la url http://pfc-asterisk.local/usuarios.php para comprobar que podemos acceder a la interfaz de creación de usuarios, acceder con nuestras credenciales (en el ejemplo las de la extensión 54, contraseña 1234), y probar a crear y borrar usuarios a voluntad.
 
@@ -499,7 +499,7 @@ Por otro lado, necesitaríamos proveer de algún tipo de interfaz, para que nues
 
 La instalación de este sistema, habria que considerar que ha ido bastante rápido, debido a que la preparación del sistema Asterisk Realtime, dio lugar a que las bases ya estuvieran sentadas, para la implementación de todos tipo de servicios que involucrarán la interrelación entre nuestra máquina Asterisk, y un sistema de Bases de Datos.
 
-\subsection{Resolución: Análisis de Asterisk con Lupa}
+\subsection{Comprobación: Análisis de Asterisk con Lupa}
 
 En primer lugar, tenemos que intentar acceder al sistema CDR-Stats desde la URL \\ http://pfc-asterisk.local/cdr-stats y comprobar que no hay ningun problema al menos en el acceso aunque pueda estar todo sin datos.
 
@@ -693,7 +693,7 @@ same => n,Hangup()
 
 Con esto ya habríamos terminado todas las tareas que nos encomendó Pedro de los Palotes y podríamos proceder a la entrega según previsto.
 
-\subsection{Resolución: Conferencias Corporativas}
+\subsection{Comprobación: Conferencias Corporativas}
 
 Por un lado tenemos el sistema MeetMe estático. Su comprobación es directa. Desde dos terminales accedemos a la extensión 103, marcamos la clave 1234 y deberíamos de estar en comunicación entre estos dos teléfonos de manera inmediata. 
 

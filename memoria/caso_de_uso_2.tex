@@ -244,7 +244,7 @@ Para el envío de e-mail es necesario tener instalado algún servidor de envío 
 
 En este caso, dado que no disponemos de IP estática, hemos utilizado un servidor SMTP remoto (smarthost) para configurar nuestro servidor Postfix. Toda la configuración relativa que no atañe directamente a este proyecto podrá verse dentro de la máquina virtual en el fichero principal de configuración del servidor /etc/postfix/main.cf. \cite{website:relaysmtp}
 
-\subsection{Resolución:Preparando las Llamadas Salientes}
+\subsection{Comprobación:Preparando las Llamadas Salientes}
 
 Aunque tuvimos que hacer una modificación en el Plan de Marcación en el apartado anterior para comprobar que las extensiones especificas para llamadas a través del proveedor IP UCATelecom funcionaban, ahora si es posible hacer la prueba directamente y comprobar a través de la interfaz CLI que se efectúa la llamada saliente, y esta regresa entrando por uno de nuestros DDI. En este caso, con cualquier extensión de las creadas en apartados anteriores, probamos a llamar de nuevo al numero 956001121. En este caso, si tenemos configurado también la extensión 21, debería empezar a sonar de inmediato.
 
@@ -395,7 +395,7 @@ qualify = yes
 
 Por otro lado y para terminar, en el fichero de configuración del Plan de Marcación, solo tenemos que editar todos los puntos donde nos encontramos una comunicación a través del protocolo SIP, y pasarlo por el protocolo IAX2. 
 
-\subsection{Resolución: Acceso al protocolo IAX}
+\subsection{Comprobación: Acceso al protocolo IAX}
 
 En este caso, la comprobación es muy sencilla, dado que realmente solo hemos reformulado lo que ya teníamos hecho anteriormente, pero con un estilo más eficaz y elegante. 
 
@@ -535,7 +535,7 @@ same => n,Hangup()
 
 \end{lstlisting}
 
-\subsection{Resolución: Colas en Asterisk}
+\subsection{Comprobación: Colas en Asterisk}
 
 En primer lugar, para comprobar el funcionamiento de las colas, es muy directo. Llamamos desde cualquier teléfono a la extensión especifica de las colas 101, y si tenemos teléfonos del rango 3X (extensiones de almacén), deberíamos de poder escuchar la llamada entrante. Si tenemos varios teléfonos para probar, podríamos comprobar como el primero pasa a estar en primera posición de la cola, y además todos los teléfonos asociados a la cola suenan a la vez por la estrategia \textbf{ringall}. Además los llamantes deberían recibir mensajes de audio indicándoles la posición en la cola, si todo esta correctamente parametrizado tal y como podemos ver en el desarrollo.
 
